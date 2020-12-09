@@ -23,6 +23,7 @@ public class Login {
     @RequestMapping("/Login")
     public void login(HttpServletRequest request, HttpServletResponse response){
         try{
+
             HttpSession session = request.getSession();
             RealMe rm = (RealMe) session.getAttribute("realme");
             if(rm==null || rm.getSid()==null){

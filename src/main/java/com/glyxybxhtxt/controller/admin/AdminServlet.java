@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,30 +38,46 @@ public class AdminServlet {
 
     @RequestMapping("/AdminServlet")
     @ResponseBody
-    ResponseData adminServlet(@RequestParam("op")String op, HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+    ResponseData adminServlet(@RequestParam("op")String op, @RequestParam(value = "shyid",required = false) String shyid,
+                              @RequestParam(value = "num",required = false) String num, @RequestParam(value = "state",required = false)String state,
+                              @RequestParam(value = "qid",required = false) String qid, @RequestParam(value = "xxdd",required = false) String xxdd,
+                              @RequestParam(value = "qy",required = false) String qy, @RequestParam(value = "qylb",required = false) String qylb,
+                              @RequestParam(value = "xq",required = false) String xq, @RequestParam(value = "x",required = false) String x,
+                              @RequestParam(value = "y",required = false) String y, @RequestParam(value = "eid",required = false) String eid,
+                              @RequestParam(value = "jid",required = false) String jid, @RequestParam(value = "xm",required = false) String xm,
+                              @RequestParam(value = "del",required = false) String del, @RequestParam(value = "zw",required = false) String zw,
+                              @RequestParam(value = "sj",required = false) String sj, @RequestParam(value = "yx",required = false) String yx,
+                              @RequestParam(value = "ywfw",required = false) String ywfw, @RequestParam(value = "ybid",required = false) String ybid,
+                              @RequestParam(value = "gh",required = false) String gh, @RequestParam(value = "bid",required = false) String bid,
+                              @RequestParam(value = "shy1",required = false) String shy1, @RequestParam(value = "shy2",required = false) String shy2,
+                              @RequestParam(value = "pj",required = false) String pj, @RequestParam(value = "startime",required = false) String startime,
+                              @RequestParam(value = "endtime",required = false) String endtime, @RequestParam(value = "pjnr",required = false) String pjnr,
+                              @RequestParam(value = "hc",required = false) String hc, @RequestParam(value = "gs",required = false) String gs) throws  ParseException {
+        Map<String,Object> shymap = new HashMap<>();
+        shymap.put("slist",ss.selallqy());
         if(StringUtils.isWhitespace(op) || StringUtils.isEmpty(op) || StringUtils.isBlank(op))
             return new ResponseData("2");
         switch (op){
-            case "selbxdbyadmin" : return selbxdbyadmin(request,response);
-            case "selallqy" : return selallqy(request,response);
-            case "selalljdr" : return selalljdr(request,response);
-//            case "selallshy" : return selallshy(request,response);
-            case "selqdb" : return selqdb(request,response);
-            case "upbxdbyadmin" : return upbxdbyadmin(request,response);
-            case "newpeople" : return newpeople(request,response);
-            case "uppeople" : return uppeople(request,response);
-            case "selewm" : return selewm(request,response);
-            case "newqy" : return newqy(request,response);
-            case "newewm" : return newewm(request,response);
-            case "upqy" : return upqy(request,response);
-            case "upewm" : return upewm(request,response);
-            case "bxnum" : return bxnum(request,response);
-            case "adminindex" : return adminindex(request,response);
+            case "selbxdbyadmin" : return selbxdbyadmin(bid, startime, endtime, xq, qid, jid, state, pj);
+            case "selallqy" : return selallqy(xq);
+            case "selalljdr" : return selalljdr(state);
+            case "selallshy" : return new ResponseData(shymap);
+            case "selqdb" : return selqdb(shyid, num);
+            case "upbxdbyadmin" : return upbxdbyadmin(del, bid, jid, shy1, shy2, pj, pjnr, hc, gs);
+            case "newpeople" : return newpeople(ywfw, ybid, gh, xm, zw, sj, yx);
+            case "uppeople" : return uppeople(jid, xm, shyid, del, zw, sj, yx, ywfw, state);
+            case "selewm" : return selewm(qid);
+            case "newqy" : return newqy(qy, qylb, xq, x, y);
+            case "newewm" : return newewm(qid,xxdd);
+            case "upqy" : return upqy(qid, qy, qylb, xq, x, y);
+            case "upewm" : return upewm(eid, qid, xxdd);
+            case "bxnum" : return bxnum(state);
+            case "adminindex" : return adminindex();
             default: return new ResponseData(false);
         }
     }
 
-    private ResponseData adminindex(HttpServletRequest request, HttpServletResponse response) {
+    private ResponseData adminindex() {
         Map<String,Object> map = new HashMap<>();
         int zbxd = bs.allcount();
         int zwxd = bs.selnumforstate(2);
@@ -83,30 +96,22 @@ public class AdminServlet {
         return new ResponseData(map);
     }
 
-    private ResponseData bxnum(HttpServletRequest request, HttpServletResponse response) {
+    private ResponseData bxnum(String state) {
         Map<String,Object> map = new HashMap<>();
-        int state = Integer.parseInt(request.getParameter("state"));
-        int count = bs.selnumforstate(state);
+        int count = bs.selnumforstate(Integer.parseInt(state));
         map.put("status", "success");
         map.put("count", count);
         return new ResponseData(map);
     }
 
-    private ResponseData newewm(HttpServletRequest request, HttpServletResponse response) {
-        String qid = request.getParameter("qid");
-        String xxdd = request.getParameter("xxdd");
+    private ResponseData newewm(String qid, String xxdd) {
         Ewm e = new Ewm();
         e.setQid(Integer.parseInt(qid));
         e.setXxdd(xxdd);
         return es.newewm(e) ? new ResponseData(true) : new ResponseData(false);
     }
 
-    private ResponseData newqy(HttpServletRequest request, HttpServletResponse response) {
-        String qy = request.getParameter("qy");
-        String qylb = request.getParameter("qylb");
-        String xq = request.getParameter("xq");
-        String x = request.getParameter("x");
-        String y = request.getParameter("y");
+    private ResponseData newqy(String qy, String qylb, String xq, String x, String y) {
         if("0".equals(xq))
         {
             xq="临桂校区";
@@ -121,10 +126,8 @@ public class AdminServlet {
         q.setY(y);
         return qs.newqy(q) ? new ResponseData(true) : new ResponseData(false);
     }
-    private ResponseData upewm(HttpServletRequest request, HttpServletResponse response) {
-        String eid = request.getParameter("eid");
-        String qid = request.getParameter("qid");
-        String xxdd = request.getParameter("xxdd");
+
+    private ResponseData upewm(String eid, String qid, String xxdd) {
         Ewm e = new Ewm();
         e.setId(Integer.parseInt(eid));
         e.setQid(Integer.parseInt(qid));
@@ -132,13 +135,7 @@ public class AdminServlet {
         return es.upewm(e)? new ResponseData(true) : new ResponseData(false);
     }
 
-    private ResponseData upqy(HttpServletRequest request, HttpServletResponse response) {
-        String qid = request.getParameter("qid");
-        String qy = request.getParameter("qy");
-        String qylb = request.getParameter("qylb");
-        String xq = request.getParameter("xq");
-        String x = request.getParameter("x");
-        String y = request.getParameter("y");
+    private ResponseData upqy(String qid, String qy, String qylb, String xq, String x, String y) {
         if("0".equals(xq))
         {
             xq="临桂校区";
@@ -155,28 +152,22 @@ public class AdminServlet {
         return qs.upqy(q)? new ResponseData(true) : new ResponseData(false);
     }
 
-    private ResponseData selewm(HttpServletRequest request, HttpServletResponse response) {
+    private ResponseData selewm(String qid) {
         Map<String, Object> map = new HashMap<>();
-        int qid = Integer.parseInt(request.getParameter("qid"));
-        map.put("ewmlist", es.selewm(qid));
+        map.put("ewmlist", es.selewm(Integer.parseInt(qid)));
         return new ResponseData(map);
     }
 
-    private ResponseData uppeople(HttpServletRequest request, HttpServletResponse response) {
+    private ResponseData uppeople(String jid, String xm, String shyid, String del, String zw, String sj, String yx, String ywfw, String state) {
         ResponseData responseData = null;
-        String jid = request.getParameter("jid");
-        String xm = request.getParameter("xm");
         if(jid==null){
-            String shyid = request.getParameter("shyid");
             if(shyid==null){
                 return new ResponseData("3");
             }
-            String del = request.getParameter("del");
             if("1".equals(del)){
                 ss.del(shyid);
                 return new ResponseData("success","审核员删除成功");
             }
-            String zw = request.getParameter("zw");
             Shy s = new Shy();
             s.setYbid(shyid);
             s.setXm(xm);
@@ -184,16 +175,11 @@ public class AdminServlet {
             ss.UPshy(s);
             responseData = new ResponseData("success","审核员修改成功");
         }else{
-            String del = request.getParameter("del");
             if("1".equals(del)){
                 js.del(jid);
                 return new ResponseData("success","接单人删除成功");
             }
             Jdr j = new Jdr();
-            String sj = request.getParameter("sj");
-            String yx = request.getParameter("yx");
-            String ywfw = request.getParameter("ywfw");
-            String state = request.getParameter("state");///
             j.setXm(xm);
             j.setYbid(jid);
             j.setSj(sj);
@@ -206,17 +192,12 @@ public class AdminServlet {
         return responseData;
     }
 
-    private ResponseData newpeople(HttpServletRequest request, HttpServletResponse response) {
+    private ResponseData newpeople(String y, String ybid, String gh, String xm, String zw, String sj, String yx) {
         ResponseData responseData = null;
-        String y = request.getParameter("ywfw");
-        String ybid = request.getParameter("ybid");
-        String gh = request.getParameter("gh");
-        String xm = request.getParameter("xm");
         if(ybid==null||gh==null||xm==null){
             return new ResponseData("3");
         }
         if(y==null){
-            String zw = request.getParameter("zw");
             Shy s = new Shy();
             if(zw==null){
                 return new ResponseData("3");
@@ -232,8 +213,8 @@ public class AdminServlet {
             j.setGh(gh);
             j.setXm(xm);
             j.setYbid(ybid);
-            j.setSj(request.getParameter("sj"));
-            j.setYx(request.getParameter("yx"));
+            j.setSj(sj);
+            j.setYx(yx);
             j.setYwfw(y);
             js.newjdr(j);
             responseData = new ResponseData("success","接单人添加成功");
@@ -241,11 +222,9 @@ public class AdminServlet {
         return responseData;
     }
 
-    private ResponseData upbxdbyadmin(HttpServletRequest request, HttpServletResponse response) {
+    private ResponseData upbxdbyadmin(String del, String bid, String jid, String shy1, String shy2, String pj, String pjnr, String hc, String gs) {
         ResponseData responseData = null;
         Bxd b = new Bxd();
-        String del = request.getParameter("del");
-        String bid = request.getParameter("bid");
         if(bid==null){
             return new ResponseData("3");
         }
@@ -255,25 +234,23 @@ public class AdminServlet {
             bs.del(id);
             responseData =  new ResponseData("success","删除成功");
         }else{
-            b.setJid(request.getParameter("jid"));
-            b.setShy1(request.getParameter("shy1"));
-            b.setShy2(request.getParameter("shy2"));
-            b.setPj(request.getParameter("pj"));
-            b.setPjnr(request.getParameter("pjnr"));
-            b.setHc(request.getParameter("hc"));
-            b.setGs(request.getParameter("gs"));
+            b.setJid(jid);
+            b.setShy1(shy1);
+            b.setShy2(shy2);
+            b.setPj(pj);
+            b.setPjnr(pjnr);
+            b.setHc(hc);
+            b.setGs(gs);
             bs.upbxdbyadmin(b);
             responseData =  new ResponseData("success","修改成功");
         }
         return responseData;
     }
 
-    private ResponseData selqdb(HttpServletRequest request, HttpServletResponse response) {
-        String shyid = request.getParameter("shyid");
+    private ResponseData selqdb(String shyid,String num) {
         if(shyid==null){
             return new ResponseData("3");
         }
-        String num = request.getParameter("num");
         Qdb q = new Qdb();
         if(num!=null){
             q.setId(Integer.parseInt(num));
@@ -284,14 +261,13 @@ public class AdminServlet {
         return new ResponseData(map);
     }
 
-    private ResponseData selalljdr(HttpServletRequest request, HttpServletResponse response) {
+    private ResponseData selalljdr(String state) {
         Map<String,Object> map = new HashMap<>();
-        map.put("jlist", js.selalljdr(request.getParameter("state")));
+        map.put("jlist", js.selalljdr(state));
         return new ResponseData(map);
     }
 
-    private ResponseData selallqy(HttpServletRequest request, HttpServletResponse response) {
-        String xq = request.getParameter("xq");
+    private ResponseData selallqy(String xq) {
         if(xq==null){
             Map<String,Object> map = new HashMap<>();
             map.put("qylist", qs.selallqy());
@@ -319,15 +295,7 @@ public class AdminServlet {
         }
     }
 
-    private ResponseData selbxdbyadmin(HttpServletRequest request, HttpServletResponse response) throws ParseException {
-        String bid = request.getParameter("bid");//id
-        String startime = request.getParameter("startime");//sbsj代替
-        String endtime = request.getParameter("endtime");//wxsj代替
-        String xq = request.getParameter("xq"); //bxlb代替
-        String qy = request.getParameter("qid"); //bxnr代替
-        String jdr = request.getParameter("jid");//jid
-        String state = request.getParameter("state");//state
-        String pj = request.getParameter("pj");//pj
+    private ResponseData selbxdbyadmin(String bid, String startime, String endtime, String xq, String qy, String jdr, String state, String pj) throws ParseException {
         Bxd b = new Bxd();
         if(bid!=null)b.setId(Integer.parseInt(bid));
         Date star = null;

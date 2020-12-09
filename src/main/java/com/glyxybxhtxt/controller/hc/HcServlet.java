@@ -1,6 +1,5 @@
 package com.glyxybxhtxt.controller.hc;
 
-import com.glyxybxhtxt.dataObject.Bxd;
 import com.glyxybxhtxt.dataObject.Hc;
 import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.HcService;
@@ -11,10 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,47 +27,45 @@ public class HcServlet {
 
     @RequestMapping("/HcServlet")
     @ResponseBody
-    ResponseData hcServlet(@RequestParam("op")String op, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    ResponseData hcServlet(@RequestParam("op")String op, @RequestParam(value = "mc",required = false)String mc,
+                           @RequestParam(value = "dw",required = false)String dw, @RequestParam(value = "jg",required = false)String jg,
+                           @RequestParam(value = "id",required = false)String id){
         if(StringUtils.isWhitespace(op) || StringUtils.isEmpty(op) || StringUtils.isBlank(op))
             return new ResponseData("2");
         switch (op){
-            case "selhc" : return selhc(request,response);
-            case "delhc" : return delhc(request,response);
-            case "newhc" : return newhc(request,response);
-            case "uphc" : return uphc(request,response);
+            case "selhc" : return selhc();
+            case "delhc" : return delhc(id);
+            case "newhc" : return newhc(mc,dw,jg);
+            case "uphc" : return uphc(id,mc,dw,jg);
             default: return new ResponseData(false);
         }
     }
 
     @ResponseBody
-    private ResponseData newhc(HttpServletRequest request,
-                                      HttpServletResponse response){
+    private ResponseData newhc(String mc, String dw, String jg){
         Hc h = new Hc();
-        h.setMc(request.getParameter("mc"));
-        h.setDw(request.getParameter("dw"));
-        h.setJg(Double.parseDouble(request.getParameter("jg")));
+        h.setMc(mc);
+        h.setDw(dw);
+        h.setJg(Double.parseDouble(jg));
         return hs.newhc(h)==1 ? new ResponseData(true) :new ResponseData("db error");
 
     }
 
     @ResponseBody
-    private ResponseData uphc(HttpServletRequest request, HttpServletResponse response) {
+    private ResponseData uphc(String id, String mc, String dw, String jg) {
         Hc h = new Hc();
-        h.setId(Integer.parseInt(request.getParameter("id")));
-        String mc = request.getParameter("mc");
+        h.setId(Integer.parseInt(id));
         if(mc!=null) h.setMc(mc);
-        String dw = request.getParameter("dw");
         if(dw!=null) h.setDw(dw);
-        String jg = request.getParameter("jg");
         if(jg!=null) h.setJg(Double.parseDouble(jg));
         return hs.uphc(h)==1 ? new ResponseData(true) :new ResponseData("db error");
     }
 
-    private ResponseData delhc(HttpServletRequest request, HttpServletResponse response) {
-        return hs.delhc(Integer.parseInt(request.getParameter("id")))==1 ? new ResponseData(true) :new ResponseData("db error");
+    private ResponseData delhc(String id) {
+        return hs.delhc(Integer.parseInt(id))==1 ? new ResponseData(true) :new ResponseData("db error");
     }
 
-    private ResponseData selhc(HttpServletRequest request, HttpServletResponse response) {
+    private ResponseData selhc() {
         Map<String,List> map = new HashMap<>();
         map.put("hlist", hs.selall());
         return new ResponseData(map);

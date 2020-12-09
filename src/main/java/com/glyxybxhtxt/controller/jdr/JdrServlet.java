@@ -10,10 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,21 +27,23 @@ public class JdrServlet{
 
     @RequestMapping("/JdrServlet")
     @ResponseBody
-    ResponseData jdrServlet(@RequestParam("op")String op, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    ResponseData jdrServlet(@RequestParam("op")String op, @RequestParam(value = "jid", required = false)String jid,
+                            @RequestParam(value = "bid", required = false)String bid, @RequestParam(value = "state", required = false)String state,
+                            @RequestParam(value = "hc", required = false)String hc, @RequestParam(value = "gs", required = false)String gs,
+                            @RequestParam(value = "eid", required = false)String eid) {
         if(StringUtils.isWhitespace(op) || StringUtils.isEmpty(op) || StringUtils.isBlank(op))
             return new ResponseData("2");
         switch (op){
-            case "selbxdbyjdr" : return selbxdbyjdr(request,response);
-            case "upbxdbyjdr" : return upbxdbyjdr(request,response);
-            case "selgs" : return selgs(request,response);
+            case "selbxdbyjdr" : return selbxdbyjdr(jid, eid, state);
+            case "upbxdbyjdr" : return upbxdbyjdr(jid, bid, state, hc, gs);
+            case "selgs" : return selgs(jid);
             default: return new ResponseData(false);
         }
     }
 
     @ResponseBody
-    private ResponseData selgs(HttpServletRequest request, HttpServletResponse response) {
+    private ResponseData selgs(String jid) {
         Map<String,Object> map = new HashMap<>();
-        String jid = request.getParameter("jid");
         Double gs = bs.selgs(jid);
         if(gs==null||gs==0.0){
             map.put("gs", 0);
@@ -57,17 +55,14 @@ public class JdrServlet{
     }
 
     @ResponseBody
-    private ResponseData upbxdbyjdr(HttpServletRequest request, HttpServletResponse response) {
+    private ResponseData upbxdbyjdr(String jid, String bid, String state, String hc, String gs) {
         ResponseData responseData = null;
-        String jid = request.getParameter("jid");
-        String bid = request.getParameter("bid");
         if(jid==null||bid==null){
             return new ResponseData("3");
         }
         Bxd b = new Bxd();
         b.setJid(jid);
         b.setId(Integer.parseInt(bid));
-        String state = request.getParameter("state");
         if(state!=null){
             b.setState(Integer.parseInt(state));
             bs.upbxdbyjdr(b);
@@ -80,8 +75,8 @@ public class JdrServlet{
             if(!(0==t.getShy1state()||0==t.getShy2state())){
                 responseData = new ResponseData("耗材及工时已审核，无法修改");
             }else{
-                b.setHc(request.getParameter("hc"));
-                b.setGs(request.getParameter("gs"));
+                b.setHc(hc);
+                b.setGs(gs);
                 bs.upbxdbyjdr(b);
                 responseData = new ResponseData("success","设置耗材、工时成功");
             }
@@ -90,16 +85,13 @@ public class JdrServlet{
     }
 
     @ResponseBody
-    private ResponseData selbxdbyjdr(HttpServletRequest request, HttpServletResponse response) {
+    private ResponseData selbxdbyjdr(String jid, String eid, String state) {
         Map<String,Object> map = new HashMap<>();
-        String jid = request.getParameter("jid");
         if(jid==null){
             return new ResponseData("3");
         }
         Bxd b = new Bxd();
         b.setJid(jid);
-        String state = request.getParameter("state");
-        String eid = request.getParameter("eid");
         if(eid!=null)b.setEid(Integer.parseInt(eid));
         if(state!=null)b.setState(Integer.parseInt(state));
         List<Bxd> blist = bs.selbxdbyjdr(b);

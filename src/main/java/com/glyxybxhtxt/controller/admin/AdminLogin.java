@@ -5,11 +5,12 @@ import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Author:wangzh
@@ -24,9 +25,7 @@ public class AdminLogin {
 
     @RequestMapping("/AdminLogin")
     @ResponseBody
-    ResponseData adminLogin(HttpServletRequest request, HttpServletResponse response){
-        String account = request.getParameter("account");
-        String password	= request.getParameter("password");
+    ResponseData adminLogin(@RequestParam("account")String account, @RequestParam("password")String password, HttpSession session) throws UnsupportedEncodingException {
         Admin s = new Admin();
         s.setAccount(account);
         s.setPassword(password);
@@ -34,7 +33,7 @@ public class AdminLogin {
         if(temp==null || temp.getId()==null){
             return new ResponseData(false);
         }else{
-            request.getSession().setAttribute("admin", s);
+            session.setAttribute("admin", s);
             return new ResponseData(true);
         }
     }

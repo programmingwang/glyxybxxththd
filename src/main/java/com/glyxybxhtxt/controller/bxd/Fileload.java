@@ -39,7 +39,7 @@ public class Fileload extends HttpServlet {
         PATH_FOLDER = servletCtx.getRealPath("bxdimg");
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/Fileload")
     public void fileLoad(HttpServletRequest request, HttpServletResponse response){
         try {
             String eid = " ";

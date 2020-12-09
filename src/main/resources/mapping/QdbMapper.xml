@@ -15,7 +15,6 @@
     *
     from qdb 
     where shyid = #{shyid,jdbcType=VARCHAR}     ORDER BY qdsj desc 
-    	LIMIT #{state,jdbcType=INTEGER},#{id,jdbcType=INTEGER}
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

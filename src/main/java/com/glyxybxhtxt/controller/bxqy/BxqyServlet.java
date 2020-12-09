@@ -10,10 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,20 +26,19 @@ public class BxqyServlet {
 
     @RequestMapping("/BxqyServlet")
     @ResponseBody
-    ResponseData bxqyServlet(@RequestParam("op")String op, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    ResponseData bxqyServlet(@RequestParam("op")String op, @RequestParam(value = "qid", required = false) String qid) {
         if(StringUtils.isWhitespace(op) || StringUtils.isEmpty(op) || StringUtils.isBlank(op))
             return new ResponseData("2");
         switch (op){
-            case "selqybyid" : return selqybyid(request,response);
+            case "selqybyid" : return selqybyid(qid);
             default: return new ResponseData(false);
         }
     }
 
     @ResponseBody
-    private ResponseData selqybyid(HttpServletRequest request,
-                                      HttpServletResponse response){
+    private ResponseData selqybyid(String qid){
         Map<String,Object> map = new HashMap<>();
-        Bxqy bq = bs.selbxqy(Integer.parseInt(request.getParameter("qid")));
+        Bxqy bq = bs.selbxqy(Integer.parseInt(qid));
         map.put("bxqy", bq);
         return new ResponseData(map);
     }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,9 +21,9 @@ import java.util.Map;
 public class Info {
     private static final long serialVersionUID = 1L;
 
-    @RequestMapping("Info")
+    @RequestMapping("/Info")
     @ResponseBody
-    public ResponseData info(HttpServletRequest request){
+    public ResponseData info(HttpServletRequest request) throws UnsupportedEncodingException {
         HttpSession session = request.getSession();
         RealMe rm = (RealMe) session.getAttribute("realme");
         if(rm==null || rm.getSid()==null){

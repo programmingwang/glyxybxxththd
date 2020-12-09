@@ -19,8 +19,6 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -52,56 +50,47 @@ public class BxdServlet extends HttpServlet {
 
     @RequestMapping("/BxdServlet")
     @ResponseBody
-    ResponseData bxdServlet(@RequestParam("op")String op, HttpServletRequest request,HttpServletResponse response) throws IOException {
+    ResponseData bxdServlet(@RequestParam("op")String op, @RequestParam(value = "eid",required = false)String eid,
+                            @RequestParam(value = "xh",required = false)String xh, @RequestParam(value = "xxdd",required = false)String xxdd,
+                            @RequestParam(value = "yysj",required = false)String yysj,
+                            @RequestParam(value = "bxlb",required = false)String bxlb, @RequestParam(value = "bxnr",required = false)String bxnr,
+                            @RequestParam(value = "sbrsj",required = false)String sbrsj, @RequestParam(value = "sbrxh",required = false)String sbrxh,
+                            @RequestParam(value = "sbr",required = false)String sbr, @RequestParam(value = "tp",required = false)String tp,
+                            @RequestParam(value = "cxsy",required = false)String cxsy, @RequestParam(value = "pj",required = false)String pj,
+                            @RequestParam(value = "pjnr",required = false)String pjnr, @RequestParam(value = "pjzj",required = false)String pjzj,
+                            @RequestParam(value = "bid",required = false)String bid) throws IOException {
         if(StringUtils.isWhitespace(op) || StringUtils.isEmpty(op) || StringUtils.isBlank(op))
             return new ResponseData("2");
         switch (op){
-            case "sbrbxd" : return sbr(request,response);
-            case "upbxdbysbr" : return upbxdbysbr(request,response);
-            case "newbxdbysbr" : return filebase64(request,response);
-            case "selqybysbr" : return selqybysbr(request,response);
-            case "selbxdforeid" : return selbxdforeid(request,response);
+            case "sbrbxd" : return sbr(eid, xh);
+            case "upbxdbysbr" : return upbxdbysbr(cxsy, pj, pjnr, pjzj, xh, bid);
+            case "newbxdbysbr" : return filebase64(eid, xxdd, yysj, bxlb, bxnr, sbrsj, sbrxh, sbr, tp);
+            case "selqybysbr" : return selqybysbr(eid);
+            case "selbxdforeid" : return selbxdforeid(eid);
             default: return new ResponseData(false);
         }
     }
 
     @ResponseBody
-    private ResponseData selbxdforeid(HttpServletRequest request,
-                                      HttpServletResponse response){
+    private ResponseData selbxdforeid(String eid){
         Map<String,Object> map = new HashMap<>();
-        int eid = Integer.parseInt(request.getParameter("eid"));
-        List<Bxd> blist = bs.selbxdforeid(eid);
+        List<Bxd> blist = bs.selbxdforeid(Integer.parseInt(eid));
         map.put("blist",blist);
         return new ResponseData(map);
     }
 
     @ResponseBody
-    private ResponseData selqybysbr(HttpServletRequest request,
-                                      HttpServletResponse response){
+    private ResponseData selqybysbr(String eid){
         Map<String,Object> map = new HashMap<>();
-        Ewm e = es.selqybysbr(Integer.parseInt(request.getParameter("eid")));
+        Ewm e = es.selqybysbr(Integer.parseInt(eid));
         map.put("ewm",e);
         return new ResponseData(map);
     }
 
     @ResponseBody
-    private ResponseData filebase64(HttpServletRequest request,
-                                    HttpServletResponse response) throws IOException {
-        String eid = request.getParameter("eid");
-        String xxdd = request.getParameter("xxdd");
-        String yysj = request.getParameter("yysj");
-        String bxlb = request.getParameter("bxlb");
-        String bxnr = request.getParameter("bxnr");
-        String sbrsj = request.getParameter("sbrsj");
-        String sbrxh = request.getParameter("sbrxh");
-        String sbr = request.getParameter("sbr");
-
-
-
+    private ResponseData filebase64(String eid, String xxdd, String yysj, String bxlb, String bxnr, String sbrsj, String sbrxh, String sbr, String tp) throws IOException {
         Bxd bxd = new Bxd();
-
         String filename = "";
-        String tp = request.getParameter("tp");
         if(tp!=null&&tp.length()!=0){
             tp = "{\"tp\":"+ tp + "}";
             JSONObject jsontp = JSONObject.fromObject(tp);
@@ -152,14 +141,7 @@ public class BxdServlet extends HttpServlet {
 
 
     @ResponseBody
-    private ResponseData upbxdbysbr(HttpServletRequest request,
-                                    HttpServletResponse response){
-        String cxsy = request.getParameter("cxsy");
-        String pj = request.getParameter("pj");
-        String pjnr = request.getParameter("pjnr");
-        String pjzj = request.getParameter("pjzj");
-        String xh = request.getParameter("xh");
-        String bid = request.getParameter("bid");
+    private ResponseData upbxdbysbr(String cxsy, String pj, String pjnr, String pjzj, String xh, String bid){
         Bxd b = new Bxd();
         b.setSbrxh(xh);
         b.setId(Integer.parseInt(bid));
@@ -172,12 +154,10 @@ public class BxdServlet extends HttpServlet {
     }
 
     @ResponseBody
-    private ResponseData sbr(HttpServletRequest request,
-                                    HttpServletResponse response){
+    private ResponseData sbr(String eid, String xh){
         Map<String,Object> map = new HashMap<>();
-        String eid = request.getParameter("eid");
         Bxd b = new Bxd();
-        b.setSbrxh(request.getParameter("xh"));
+        b.setSbrxh(xh);
         if(eid!=null){
             b.setEid(Integer.parseInt(eid));
         }
