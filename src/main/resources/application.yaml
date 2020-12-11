@@ -10,16 +10,10 @@ spring:
   devtools:
     restart:
       enabled: false
-  mail:
-    username: 431999764@qq.com
-    password: qqtbxlpldwyabjjc
-    host: smtp.qq.com
-    properties:
-      mail:
-        smtp:
-          ssl:
-            enable: true
-    port: 465
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
 
 
 mybatis:
@@ -27,8 +21,6 @@ mybatis:
   type-aliases-package: com.glyxybxhtxt.dataobject
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
-
 
 
 server:

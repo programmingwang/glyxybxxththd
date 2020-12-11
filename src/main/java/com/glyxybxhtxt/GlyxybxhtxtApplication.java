@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @MapperScan("com.glyxybxhtxt.dao")
-@EnableAsync  //¿ªÆôÒì²½×¢½â¹¦ÄÜ
-@EnableScheduling //¿ªÆô»ùÓÚ×¢½âµÄ¶¨Ê±ÈÎÎñ
+@EnableAsync  //å¼€å¯å¼‚æ­¥æ³¨è§£åŠŸèƒ½
+@EnableScheduling //å¼€å¯åŸºäºæ³¨è§£çš„å®šæ—¶ä»»åŠ¡
 public class GlyxybxhtxtApplication {
     public static void main(String[] args) {
         SpringApplication.run(GlyxybxhtxtApplication.class, args);

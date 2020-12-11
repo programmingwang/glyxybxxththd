@@ -10,20 +10,20 @@ import javax.crypto.spec.SecretKeySpec;
 public class AesTra {
 	public static String encrypt(String content, String password) {
         try {
-            KeyGenerator kgen = KeyGenerator.getInstance("AES");            // ´´½¨AESµÄKeyÉú²úÕß
+            KeyGenerator kgen = KeyGenerator.getInstance("AES");            // åˆ›å»ºAESçš„Keyç”Ÿäº§è€…
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
             random.setSeed(password.getBytes());
-            kgen.init(128, random);                                         // ÀûÓÃÓÃ»§ÃÜÂë×÷ÎªËæ»úÊı³õÊ¼»¯³ö(ÃÜÂëÒ»Ñù£¬¾Í¿ÉÒÔ½âÃÜ)
+            kgen.init(128, random);                                         // åˆ©ç”¨ç”¨æˆ·å¯†ç ä½œä¸ºéšæœºæ•°åˆå§‹åŒ–å‡º(å¯†ç ä¸€æ ·ï¼Œå°±å¯ä»¥è§£å¯†)
  
-            SecretKey secretKey = kgen.generateKey();                       // ¸ù¾İÓÃ»§ÃÜÂë£¬Éú³ÉÒ»¸öÃÜÔ¿
-            byte[] enCodeFormat = secretKey.getEncoded();                   // ·µ»Ø»ù±¾±àÂë¸ñÊ½µÄÃÜÔ¿£¬Èç¹û´ËÃÜÔ¿²»Ö§³Ö±àÂë£¬Ôò·µ»Ønull
-            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");     // ×ª»»ÎªAES×¨ÓÃÃÜÔ¿
+            SecretKey secretKey = kgen.generateKey();                       // æ ¹æ®ç”¨æˆ·å¯†ç ï¼Œç”Ÿæˆä¸€ä¸ªå¯†é’¥
+            byte[] enCodeFormat = secretKey.getEncoded();                   // è¿”å›åŸºæœ¬ç¼–ç æ ¼å¼çš„å¯†é’¥ï¼Œå¦‚æœæ­¤å¯†é’¥ä¸æ”¯æŒç¼–ç ï¼Œåˆ™è¿”å›null
+            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");     // è½¬æ¢ä¸ºAESä¸“ç”¨å¯†é’¥
  
-            Cipher cipher = Cipher.getInstance("AES");                      // ´´½¨ÃÜÂëÆ÷
-            byte[] byteContent = content.getBytes("utf-8");                 // ÉèÖÃ×ª»»¸ñÊ½
-            cipher.init(Cipher.ENCRYPT_MODE, key);                          // ³õÊ¼»¯Îª¼ÓÃÜÄ£Ê½µÄÃÜÂëÆ÷
-            byte[] encrypt = cipher.doFinal(byteContent);                   // ¼ÓÃÜ
-            String result = parseByte2HexStr(encrypt);                      // ·ÀÖ¹ÂÒÂë£¬×ª»»½øÖÆ
+            Cipher cipher = Cipher.getInstance("AES");                      // åˆ›å»ºå¯†ç å™¨
+            byte[] byteContent = content.getBytes("utf-8");                 // è®¾ç½®è½¬æ¢æ ¼å¼
+            cipher.init(Cipher.ENCRYPT_MODE, key);                          // åˆå§‹åŒ–ä¸ºåŠ å¯†æ¨¡å¼çš„å¯†ç å™¨
+            byte[] encrypt = cipher.doFinal(byteContent);                   // åŠ å¯†
+            String result = parseByte2HexStr(encrypt);                      // é˜²æ­¢ä¹±ç ï¼Œè½¬æ¢è¿›åˆ¶
  
             return result;
  
@@ -35,18 +35,18 @@ public class AesTra {
 	
 	public static String decrypt(String content, String password) {
         try {
-            KeyGenerator kgen = KeyGenerator.getInstance("AES");            // ´´½¨AESµÄKeyÉú²úÕß
+            KeyGenerator kgen = KeyGenerator.getInstance("AES");            // åˆ›å»ºAESçš„Keyç”Ÿäº§è€…
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
             random.setSeed(password.getBytes());
-            kgen.init(128, random);                                         // ÀûÓÃÓÃ»§ÃÜÂë×÷ÎªËæ»úÊı³õÊ¼»¯³ö(ÃÜÂëÒ»Ñù£¬¾Í¿ÉÒÔ½âÃÜ)
+            kgen.init(128, random);                                         // åˆ©ç”¨ç”¨æˆ·å¯†ç ä½œä¸ºéšæœºæ•°åˆå§‹åŒ–å‡º(å¯†ç ä¸€æ ·ï¼Œå°±å¯ä»¥è§£å¯†)
  
-            SecretKey secretKey = kgen.generateKey();                       // ¸ù¾İÓÃ»§ÃÜÂë£¬Éú³ÉÒ»¸öÃÜÔ¿
-            byte[] enCodeFormat = secretKey.getEncoded();                   // ·µ»Ø»ù±¾±àÂë¸ñÊ½µÄÃÜÔ¿£¬Èç¹û´ËÃÜÔ¿²»Ö§³Ö±àÂë£¬Ôò·µ»Ønull
-            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");     // ×ª»»ÎªAES×¨ÓÃÃÜÔ¿
+            SecretKey secretKey = kgen.generateKey();                       // æ ¹æ®ç”¨æˆ·å¯†ç ï¼Œç”Ÿæˆä¸€ä¸ªå¯†é’¥
+            byte[] enCodeFormat = secretKey.getEncoded();                   // è¿”å›åŸºæœ¬ç¼–ç æ ¼å¼çš„å¯†é’¥ï¼Œå¦‚æœæ­¤å¯†é’¥ä¸æ”¯æŒç¼–ç ï¼Œåˆ™è¿”å›null
+            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");     // è½¬æ¢ä¸ºAESä¸“ç”¨å¯†é’¥
  
-            Cipher cipher = Cipher.getInstance("AES");                      // ´´½¨ÃÜÂëÆ÷
-            cipher.init(Cipher.DECRYPT_MODE, key);                          // ³õÊ¼»¯Îª½âÃÜÄ£Ê½µÄÃÜÂëÆ÷
-            byte[] results = cipher.doFinal(parseHexStr2Byte(content));     // ½âÃÜ
+            Cipher cipher = Cipher.getInstance("AES");                      // åˆ›å»ºå¯†ç å™¨
+            cipher.init(Cipher.DECRYPT_MODE, key);                          // åˆå§‹åŒ–ä¸ºè§£å¯†æ¨¡å¼çš„å¯†ç å™¨
+            byte[] results = cipher.doFinal(parseHexStr2Byte(content));     // è§£å¯†
             return new String(results);
  
         } catch (Exception e) {

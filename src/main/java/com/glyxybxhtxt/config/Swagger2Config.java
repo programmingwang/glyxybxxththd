@@ -26,8 +26,8 @@ public class Swagger2Config {
     private ApiInfo apiInfo(){
         Contact contact = new Contact("admin","admin","admin");
         return new ApiInfo(
-                "¹ğÁÖÒ½Ñ§Ôº±¨ĞŞÏµÍ³",
-                "½Ó¿ÚÃèÊö",
+                "æ¡‚æ—åŒ»å­¦é™¢æŠ¥ä¿®ç³»ç»Ÿ",
+                "æ¥å£æè¿°",
                 "v0.1",
                 "null",
                 contact,

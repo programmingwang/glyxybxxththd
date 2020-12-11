@@ -17,18 +17,19 @@
 	Object o = session.getAttribute("realme");
 	if(o==null)
 	{ 
-//		GetInfo getinfo = new GetInfo("3fe1ac4f66fe7bbc","3ba03e09d703867644388a54e90f4c6a","http://f.yiban.cn/iapp645713");
-//		getinfo.getRealMe(request, response);
-		RealMe rm = new RealMe();
-		Me m = new Me();
-		m.setId("6615683");m.setHead("http://img02.fs.yiban.cn/5000209/avatar/user/200");
-		rm.setM(m);
-		rm.setRealName("田七");
-		rm.setSid("20179085");
-		session.setAttribute("realme", rm);
+		GetInfo getinfo = new GetInfo("3fe1ac4f66fe7bbc","3ba03e09d703867644388a54e90f4c6a","http://f.yiban.cn/iapp645713");
+		getinfo.getRealMe(request, response);
+//		RealMe rm = new RealMe();
+//		Me m = new Me();
+//		m.setId("6615683");m.setHead("http://img02.fs.yiban.cn/5000209/avatar/user/200");
+//		rm.setM(m);
+//		rm.setRealName("田七");
+//		rm.setSid("20179085");
+//		session.setAttribute("realme", rm);
+		response.sendRedirect("Login");
 	}
 	Object o2 = session.getAttribute("realme");
-	if(o2!=null){   
+	if(o2!=null){
 		response.sendRedirect("Login");
 	}
 	

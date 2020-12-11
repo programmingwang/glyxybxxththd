@@ -66,19 +66,19 @@ public class JdrServlet{
         if(state!=null){
             b.setState(Integer.parseInt(state));
             bs.upbxdbyjdr(b);
-            responseData =new ResponseData("success","ĞŞ¸ÄÎ¬ĞŞ×´Ì¬³É¹¦");
+            responseData =new ResponseData("success","ä¿®æ”¹ç»´ä¿®çŠ¶æ€æˆåŠŸ");
         }else{
             Bxd t = bs.selbxdforshyid(b.getId());
             if(t==null||t.getId()==null){
                 responseData = new ResponseData("bidfalse");
             }
             if(!(0==t.getShy1state()||0==t.getShy2state())){
-                responseData = new ResponseData("ºÄ²Ä¼°¹¤Ê±ÒÑÉóºË£¬ÎŞ·¨ĞŞ¸Ä");
+                responseData = new ResponseData("è€—æåŠå·¥æ—¶å·²å®¡æ ¸ï¼Œæ— æ³•ä¿®æ”¹");
             }else{
                 b.setHc(hc);
                 b.setGs(gs);
                 bs.upbxdbyjdr(b);
-                responseData = new ResponseData("success","ÉèÖÃºÄ²Ä¡¢¹¤Ê±³É¹¦");
+                responseData = new ResponseData("success","è®¾ç½®è€—æã€å·¥æ—¶æˆåŠŸ");
             }
         }
         return responseData;

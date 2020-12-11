@@ -15,11 +15,11 @@ import cn.yiban.util.AESDecoder;
 public class GetInfo {
 	private String appkey;//appID
 	private String appsecret;//appSecret
-	private String redirect_uri;//»Øµ÷µØÖ·
+	private String redirect_uri;//å›è°ƒåœ°å€
 	private User u = null;
 	
 	/**
-	 * ³õÊ¼»¯
+	 * åˆå§‹åŒ–
 	 * @param appkey
 	 * @param appsecret
 	 * @param redirect_uri
@@ -32,7 +32,7 @@ public class GetInfo {
 	}
 	
 	/**
-	 * ÊÚÈ¨»ñµÃtoken
+	 * æˆæƒè·å¾—token
 	 * @param request
 	 * @param response
 	 * @throws IOException
@@ -68,7 +68,7 @@ public class GetInfo {
 	}
 	
 	/**
-	 * »ñµÃÆÕÍ¨ĞÅÏ¢
+	 * è·å¾—æ™®é€šä¿¡æ¯
 	 * @param request
 	 * @param response
 	 * @throws IOException
@@ -78,7 +78,7 @@ public class GetInfo {
 		int b = this.init(request, response);
 		if(b==0)
 		{
-			response.sendRedirect("index.jsp");
+			response.sendRedirect("/WEB-INF/jsp/index.jsp");
 			return;
 		}else if(b==2){
 			return;
@@ -108,7 +108,7 @@ public class GetInfo {
 	}
 	
 	/**
-	 * »ñµÃÕæÊµĞÅÏ¢
+	 * è·å¾—çœŸå®ä¿¡æ¯
 	 * @param request
 	 * @param response
 	 * @throws IOException
@@ -118,7 +118,7 @@ public class GetInfo {
 		int b = this.init(request, response);
 		if(b==0)
 		{
-			response.sendRedirect("index.jsp");
+			response.sendRedirect("/WEB-INF/jsp/index.jsp");
 			return;
 		}else if(b==2){
 			return;
@@ -152,15 +152,15 @@ public class GetInfo {
 	}
 	
 	/**
-	 * Êä³ö±¨´íĞÅÏ¢
+	 * è¾“å‡ºæŠ¥é”™ä¿¡æ¯
 	 */
 	public void printError(JSONObject info,HttpServletRequest request)
 	{
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("´íÎó±àÂë");
+		buffer.append("é”™è¯¯ç¼–ç ");
 		buffer.append(info.getString("code"));
 		buffer.append("**<br>**");
-		buffer.append("ÖĞÎÄĞÅÏ¢");
+		buffer.append("ä¸­æ–‡ä¿¡æ¯");
 		buffer.append(info.getString("msgCN"));
 		String message = buffer.toString();
 		request.getSession().setAttribute("message", message);

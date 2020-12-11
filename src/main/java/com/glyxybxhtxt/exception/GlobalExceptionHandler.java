@@ -21,27 +21,27 @@ public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
-     * 处理其他异常
+     * 澶勭悊鍏朵粬寮傚父
      * @param e
      * @return
      */
     @ExceptionHandler(value =Exception.class)
     @ResponseBody
     public ResponseData exceptionHandler(Exception e){
-        logger.error("未知异常！原因是:",e);
+        logger.error("鏈煡寮傚父锛佸師鍥犳槸:",e);
         return new ResponseData("1");
     }
 
     /**
-     * 处理转换异常
+     * 澶勭悊杞崲寮傚父
      * @param e
      * @return
      */
     @ExceptionHandler(value = ParseException.class)
     @ResponseBody
     public ResponseData parseExceptionHandler(ParseException e){
-        logger.error("类型转换异常！原因是:",e);
-        return new ResponseData("日期格式出错了！");
+        logger.error("绫诲瀷杞崲寮傚父锛佸師鍥犳槸:",e);
+        return new ResponseData("鏃ユ湡鏍煎紡鍑洪敊浜嗭紒");
     }
 
 

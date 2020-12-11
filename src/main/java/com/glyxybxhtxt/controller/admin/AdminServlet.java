@@ -114,9 +114,9 @@ public class AdminServlet {
     private ResponseData newqy(String qy, String qylb, String xq, String x, String y) {
         if("0".equals(xq))
         {
-            xq="ÁÙ¹ğĞ£Çø";
+            xq="ä¸´æ¡‚æ ¡åŒº";
         }else if("1".equals(xq)){
-            xq="¶«³ÇĞ£Çø";
+            xq="ä¸œåŸæ ¡åŒº";
         }
         Bxqy q = new Bxqy();
         q.setQy(qy);
@@ -138,9 +138,9 @@ public class AdminServlet {
     private ResponseData upqy(String qid, String qy, String qylb, String xq, String x, String y) {
         if("0".equals(xq))
         {
-            xq="ÁÙ¹ğĞ£Çø";
+            xq="ä¸´æ¡‚æ ¡åŒº";
         }else if("1".equals(xq)){
-            xq="¶«³ÇĞ£Çø";
+            xq="ä¸œåŸæ ¡åŒº";
         }
         Bxqy q = new Bxqy();
         q.setId(Integer.parseInt(qid));
@@ -166,18 +166,18 @@ public class AdminServlet {
             }
             if("1".equals(del)){
                 ss.del(shyid);
-                return new ResponseData("success","ÉóºËÔ±É¾³ı³É¹¦");
+                return new ResponseData("success","å®¡æ ¸å‘˜åˆ é™¤æˆåŠŸ");
             }
             Shy s = new Shy();
             s.setYbid(shyid);
             s.setXm(xm);
             if(zw!=null)s.setZw(Integer.parseInt(zw));
             ss.UPshy(s);
-            responseData = new ResponseData("success","ÉóºËÔ±ĞŞ¸Ä³É¹¦");
+            responseData = new ResponseData("success","å®¡æ ¸å‘˜ä¿®æ”¹æˆåŠŸ");
         }else{
             if("1".equals(del)){
                 js.del(jid);
-                return new ResponseData("success","½Óµ¥ÈËÉ¾³ı³É¹¦");
+                return new ResponseData("success","æ¥å•äººåˆ é™¤æˆåŠŸ");
             }
             Jdr j = new Jdr();
             j.setXm(xm);
@@ -187,7 +187,7 @@ public class AdminServlet {
             j.setState(state);
             j.setYwfw(ywfw);
             js.upjdr(j);
-            responseData = new ResponseData("success","½Óµ¥ÈËĞŞ¸Ä³É¹¦");
+            responseData = new ResponseData("success","æ¥å•äººä¿®æ”¹æˆåŠŸ");
         }
         return responseData;
     }
@@ -207,7 +207,7 @@ public class AdminServlet {
             s.setXm(xm);
             s.setYbid(ybid);
             ss.newshy(s);
-            responseData = new ResponseData("success","ÉóºËÔ±Ìí¼Ó³É¹¦");
+            responseData = new ResponseData("success","å®¡æ ¸å‘˜æ·»åŠ æˆåŠŸ");
         }else{
             Jdr j = new Jdr();
             j.setGh(gh);
@@ -217,7 +217,7 @@ public class AdminServlet {
             j.setYx(yx);
             j.setYwfw(y);
             js.newjdr(j);
-            responseData = new ResponseData("success","½Óµ¥ÈËÌí¼Ó³É¹¦");
+            responseData = new ResponseData("success","æ¥å•äººæ·»åŠ æˆåŠŸ");
         }
         return responseData;
     }
@@ -232,7 +232,7 @@ public class AdminServlet {
         b.setId(id);
         if("1".equals(del)){
             bs.del(id);
-            responseData =  new ResponseData("success","É¾³ı³É¹¦");
+            responseData =  new ResponseData("success","åˆ é™¤æˆåŠŸ");
         }else{
             b.setJid(jid);
             b.setShy1(shy1);
@@ -242,7 +242,7 @@ public class AdminServlet {
             b.setHc(hc);
             b.setGs(gs);
             bs.upbxdbyadmin(b);
-            responseData =  new ResponseData("success","ĞŞ¸Ä³É¹¦");
+            responseData =  new ResponseData("success","ä¿®æ”¹æˆåŠŸ");
         }
         return responseData;
     }
@@ -277,9 +277,9 @@ public class AdminServlet {
             Map<String,Object> map = new HashMap<>();
             if("0".equals(xq))
             {
-                xq="ÁÙ¹ğĞ£Çø";
+                xq="ä¸´æ¡‚æ ¡åŒº";
             }else if("1".equals(xq)){
-                xq="¶«³ÇĞ£Çø";
+                xq="ä¸œåŸæ ¡åŒº";
             }
             List<Bxqy> qylist = qs.ditu(xq);
             for(int i=0;i<qylist.size();i++){
