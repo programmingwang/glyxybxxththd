@@ -1,8 +1,10 @@
 package com.glyxybxhtxt.dataObject;
 
+import lombok.ToString;
+
 import java.util.Date;
 
-
+@ToString
 public class Bxd {
     private Integer id;
 

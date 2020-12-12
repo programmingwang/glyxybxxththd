@@ -5,6 +5,8 @@ import com.glyxybxhtxt.dataObject.Ewm;
 import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.BxdService;
 import com.glyxybxhtxt.service.EwmService;
+import com.glyxybxhtxt.service.JdrService;
+import com.glyxybxhtxt.util.AutoOrder;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.codec.binary.Base64;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -22,10 +25,7 @@ import javax.servlet.http.HttpServlet;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Author:wangzh
@@ -40,6 +40,10 @@ public class BxdServlet extends HttpServlet {
     private BxdService bs;
     @Autowired
     private EwmService es;
+    @Autowired
+    private JdrService js;
+    @Resource
+    private AutoOrder zdpd;
 
 
     @Override
@@ -124,14 +128,20 @@ public class BxdServlet extends HttpServlet {
             }
             bxd.setTp(filename);
         }
+        //eid 二维码的id
         bxd.setEid(Integer.parseInt(eid));
+        //详细地点
         bxd.setXxdd(xxdd);
+        //预约时间
         bxd.setYysj(yysj);
+        //保修类别
         bxd.setBxlb(bxlb);
         bxd.setBxnr(bxnr);
         bxd.setSbr(sbr);
         bxd.setSbrsj(sbrsj);
         bxd.setSbrxh(sbrxh);
+        //自动派单
+        bxd.setJid(zdpd.zdpd(eid));
 
         return bs.newbxdbysbr(bxd) == 1
                 ? new ResponseData(true)
@@ -165,4 +175,8 @@ public class BxdServlet extends HttpServlet {
         return new ResponseData(map);
     }
 
+
+
 }
+
+
