@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-request-size: 200MB
+      max-file-size: 200MB
   application:
     name: glyxybxxt
   datasource:
@@ -16,6 +20,7 @@ spring:
       suffix: .jsp
 
 
+
 mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: com.glyxybxhtxt.dataobject
@@ -25,3 +30,5 @@ mybatis:
 
 server:
   port: 8089
+  tomcat:
+    max-http-form-post-size: 80000000

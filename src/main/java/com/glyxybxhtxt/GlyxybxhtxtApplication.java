@@ -3,6 +3,8 @@ package com.glyxybxhtxt;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -14,4 +16,16 @@ public class GlyxybxhtxtApplication {
     public static void main(String[] args) {
         SpringApplication.run(GlyxybxhtxtApplication.class, args);
     }
+
+    @Bean
+    public TomcatServletWebServerFactory mbeddedServletContainerFactory() {
+        TomcatServletWebServerFactory tomcatEmbeddedServletContainerFactory = new TomcatServletWebServerFactory();
+
+        tomcatEmbeddedServletContainerFactory.addConnectorCustomizers(connector -> {
+            connector.setMaxParameterCount(Integer.MAX_VALUE);
+        });
+
+        return tomcatEmbeddedServletContainerFactory;
+    }
+
 }

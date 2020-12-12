@@ -26,7 +26,6 @@
 //		rm.setRealName("田七");
 //		rm.setSid("20179085");
 //		session.setAttribute("realme", rm);
-		response.sendRedirect("Login");
 	}
 	Object o2 = session.getAttribute("realme");
 	if(o2!=null){
