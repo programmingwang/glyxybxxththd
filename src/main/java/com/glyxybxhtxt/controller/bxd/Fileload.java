@@ -2,6 +2,7 @@ package com.glyxybxhtxt.controller.bxd;
 
 import com.glyxybxhtxt.dataObject.Bxd;
 import com.glyxybxhtxt.service.BxdService;
+import com.glyxybxhtxt.util.PathUtil;
 import net.sf.json.JSONObject;
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
@@ -30,14 +31,10 @@ import java.util.List;
 @Controller
 public class Fileload extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static String PATH_FOLDER = "/";
+    private static String PATH_FOLDER = PathUtil.getUploadPath();
     @Autowired
     private BxdService bs;
 
-    public void init(ServletConfig config) throws ServletException {
-        ServletContext servletCtx = config.getServletContext();
-        PATH_FOLDER = servletCtx.getRealPath("bxdimg");
-    }
 
     @RequestMapping("/Fileload")
     public void fileLoad(HttpServletRequest request, HttpServletResponse response){

@@ -5,6 +5,7 @@ import com.glyxybxhtxt.dataObject.Ewm;
 import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.BxdService;
 import com.glyxybxhtxt.service.EwmService;
+import com.glyxybxhtxt.util.PathUtil;
 import com.glyxybxhtxt.service.JdrService;
 import com.glyxybxhtxt.util.AutoOrder;
 import net.sf.json.JSONArray;
@@ -18,9 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,8 +32,9 @@ import java.util.*;
  */
 @RestController
 public class BxdServlet extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
-    private static String PATH_FOLDER = "/";
+    private static String PATH_FOLDER = PathUtil.getUploadPath();
     @Autowired
     private BxdService bs;
     @Autowired
@@ -46,61 +45,69 @@ public class BxdServlet extends HttpServlet {
     private AutoOrder zdpd;
 
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        ServletContext servletCtx = config.getServletContext();
-        PATH_FOLDER = servletCtx.getRealPath("/bxdimg");
-    }
+//    @Override
+//    public void init(ServletConfig config) throws ServletException {
+//        ServletContext servletCtx = config.getServletContext();
+//        PATH_FOLDER = servletCtx.getRealPath("/bxdimg");
+//    }
 
     @RequestMapping("/BxdServlet")
     @ResponseBody
-    ResponseData bxdServlet(@RequestParam("op")String op, @RequestParam(value = "eid",required = false)String eid,
-                            @RequestParam(value = "xh",required = false)String xh, @RequestParam(value = "xxdd",required = false)String xxdd,
-                            @RequestParam(value = "yysj",required = false)String yysj,
-                            @RequestParam(value = "bxlb",required = false)String bxlb, @RequestParam(value = "bxnr",required = false)String bxnr,
-                            @RequestParam(value = "sbrsj",required = false)String sbrsj, @RequestParam(value = "sbrxh",required = false)String sbrxh,
-                            @RequestParam(value = "sbr",required = false)String sbr, @RequestParam(value = "tp",required = false)String tp,
-                            @RequestParam(value = "cxsy",required = false)String cxsy, @RequestParam(value = "pj",required = false)String pj,
-                            @RequestParam(value = "pjnr",required = false)String pjnr, @RequestParam(value = "pjzj",required = false)String pjzj,
-                            @RequestParam(value = "bid",required = false)String bid) throws IOException {
-        if(StringUtils.isWhitespace(op) || StringUtils.isEmpty(op) || StringUtils.isBlank(op))
+    ResponseData bxdServlet(@RequestParam("op") String op, @RequestParam(value = "eid", required = false) String eid,
+                            @RequestParam(value = "xh", required = false) String xh, @RequestParam(value = "xxdd", required = false) String xxdd,
+                            @RequestParam(value = "yysj", required = false) String yysj,
+                            @RequestParam(value = "bxlb", required = false) String bxlb, @RequestParam(value = "bxnr", required = false) String bxnr,
+                            @RequestParam(value = "sbrsj", required = false) String sbrsj, @RequestParam(value = "sbrxh", required = false) String sbrxh,
+                            @RequestParam(value = "sbr", required = false) String sbr, @RequestParam(value = "tp", required = false) String tp,
+                            @RequestParam(value = "sp", required = false) String sp,
+                            @RequestParam(value = "cxsy", required = false) String cxsy, @RequestParam(value = "pj", required = false) String pj,
+                            @RequestParam(value = "pjnr", required = false) String pjnr, @RequestParam(value = "pjzj", required = false) String pjzj,
+                            @RequestParam(value = "bid", required = false) String bid) throws IOException {
+        System.out.println(sp);
+        if (StringUtils.isWhitespace(op) || StringUtils.isEmpty(op) || StringUtils.isBlank(op))
             return new ResponseData("2");
-        switch (op){
-            case "sbrbxd" : return sbr(eid, xh);
-            case "upbxdbysbr" : return upbxdbysbr(cxsy, pj, pjnr, pjzj, xh, bid);
-            case "newbxdbysbr" : return filebase64(eid, xxdd, yysj, bxlb, bxnr, sbrsj, sbrxh, sbr, tp);
-            case "selqybysbr" : return selqybysbr(eid);
-            case "selbxdforeid" : return selbxdforeid(eid);
-            default: return new ResponseData(false);
+        switch (op) {
+            case "sbrbxd":
+                return sbr(eid, xh);
+            case "upbxdbysbr":
+                return upbxdbysbr(cxsy, pj, pjnr, pjzj, xh, bid);
+            case "newbxdbysbr":
+                return filebase64(eid, xxdd, yysj, bxlb, bxnr, sbrsj, sbrxh, sbr, tp, sp);
+            case "selqybysbr":
+                return selqybysbr(eid);
+            case "selbxdforeid":
+                return selbxdforeid(eid);
+            default:
+                return new ResponseData(false);
         }
     }
 
     @ResponseBody
-    private ResponseData selbxdforeid(String eid){
-        Map<String,Object> map = new HashMap<>();
+    private ResponseData selbxdforeid(String eid) {
+        Map<String, Object> map = new HashMap<>();
         List<Bxd> blist = bs.selbxdforeid(Integer.parseInt(eid));
-        map.put("blist",blist);
+        map.put("blist", blist);
         return new ResponseData(map);
     }
 
     @ResponseBody
-    private ResponseData selqybysbr(String eid){
-        Map<String,Object> map = new HashMap<>();
+    private ResponseData selqybysbr(String eid) {
+        Map<String, Object> map = new HashMap<>();
         Ewm e = es.selqybysbr(Integer.parseInt(eid));
-        map.put("ewm",e);
+        map.put("ewm", e);
         return new ResponseData(map);
     }
 
     @ResponseBody
-    private ResponseData filebase64(String eid, String xxdd, String yysj, String bxlb, String bxnr, String sbrsj, String sbrxh, String sbr, String tp) throws IOException {
+    private ResponseData filebase64(String eid, String xxdd, String yysj, String bxlb, String bxnr, String sbrsj, String sbrxh, String sbr, String tp, String sp) throws IOException {
         Bxd bxd = new Bxd();
         String filename = "";
-        if(tp!=null&&tp.length()!=0){
-            tp = "{\"tp\":"+ tp + "}";
+        if (tp != null && tp.length() != 0) {
+            tp = "{\"tp\":" + tp + "}";
             JSONObject jsontp = JSONObject.fromObject(tp);
             JSONArray array = jsontp.getJSONArray("tp");
             int j = array.size();
-            for(int k = 0;k<j;k++){
+            for (int k = 0; k < j; k++) {
                 JSONObject temp = array.getJSONObject(k);
 
                 String base64 = temp.getString("base64");
@@ -109,18 +116,16 @@ public class BxdServlet extends HttpServlet {
 
                 Base64 decoder = new Base64();
                 byte[] b = decoder.decode(img64);
-                for(int i=0;i<b.length;++i)
-                {
-                    if(b[i]<0)
-                    {
-                        b[i]+=256;
+                for (int i = 0; i < b.length; ++i) {
+                    if (b[i] < 0) {
+                        b[i] += 256;
                     }
                 }
 
                 Date d = new Date();
-                String time = String.valueOf(d.getTime())+k;
-                String fname = PATH_FOLDER+"/"+time+"."+temp.getString("hz");
-                filename = filename + "|" + time+"."+temp.getString("hz");
+                String time = String.valueOf(d.getTime()) + k;
+                String fname = PATH_FOLDER + "/" + time + "." + temp.getString("hz");
+                filename = filename + "|" + time + "." + temp.getString("hz");
                 OutputStream out = new FileOutputStream(fname);
                 out.write(b);
                 out.flush();
@@ -132,6 +137,7 @@ public class BxdServlet extends HttpServlet {
         bxd.setEid(Integer.parseInt(eid));
         //详细地点
         bxd.setXxdd(xxdd);
+        bxd.setSp(sp);
         //预约时间
         bxd.setYysj(yysj);
         //保修类别
@@ -145,13 +151,13 @@ public class BxdServlet extends HttpServlet {
 
         return bs.newbxdbysbr(bxd) == 1
                 ? new ResponseData(true)
-                    : new ResponseData(false);
+                : new ResponseData(false);
 
     }
 
 
     @ResponseBody
-    private ResponseData upbxdbysbr(String cxsy, String pj, String pjnr, String pjzj, String xh, String bid){
+    private ResponseData upbxdbysbr(String cxsy, String pj, String pjnr, String pjzj, String xh, String bid) {
         Bxd b = new Bxd();
         b.setSbrxh(xh);
         b.setId(Integer.parseInt(bid));
@@ -164,14 +170,14 @@ public class BxdServlet extends HttpServlet {
     }
 
     @ResponseBody
-    private ResponseData sbr(String eid, String xh){
-        Map<String,Object> map = new HashMap<>();
+    private ResponseData sbr(String eid, String xh) {
+        Map<String, Object> map = new HashMap<>();
         Bxd b = new Bxd();
         b.setSbrxh(xh);
-        if(eid!=null){
+        if (eid != null) {
             b.setEid(Integer.parseInt(eid));
         }
-        map.put("blist",bs.selforsbr(b));
+        map.put("blist", bs.selforsbr(b));
         return new ResponseData(map);
     }
 

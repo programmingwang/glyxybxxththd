@@ -22,6 +22,8 @@ public class Bxd {
 
     private String tp;
 
+    private String sp;
+
     private String sbr;
 
     private String sbrsj;
@@ -306,5 +308,13 @@ public class Bxd {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getSp() {
+        return sp;
+    }
+
+    public void setSp(String sp) {
+        this.sp = sp;
     }
 }
