@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Author:wangzh
@@ -87,6 +88,12 @@ public class BxdServiceImpl implements BxdService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    public void fg(Bxd b) {
+        bxdMapper.fg(b);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void upbxdbyjdr(Bxd b) {
         bxdMapper.upbxdbyjdr(b);
     }
@@ -98,7 +105,6 @@ public class BxdServiceImpl implements BxdService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public int newbxdbysbr(Bxd b) {
         return bxdMapper.insert(b);
     }

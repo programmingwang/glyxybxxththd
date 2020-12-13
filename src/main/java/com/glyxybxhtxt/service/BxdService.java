@@ -22,6 +22,7 @@ public interface BxdService {
     void upbxd2byshy(Bxd b);
     int upbxdhcbyshy(Bxd b);
     void upbxdbyadmin(Bxd b);
+    void fg(Bxd b);
     void upbxdbyjdr(Bxd b);
     void del(Integer id);
     int newbxdbysbr(Bxd b);

@@ -93,4 +93,20 @@
       xq = #{xq,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectOptimalXq" parameterType="java.lang.String" resultType="java.lang.String">
+    select xq
+    from qdb
+    where shyid = #{shyid,jdbcType=VARCHAR}
+    and state = 1
+    order by qdsj desc
+    limit 1
+  </select>
+
+  <select id="selectOptimalXqForShy" parameterType="java.lang.String" resultType="java.lang.String">
+    select xq
+    from qdb
+    where shyid = #{shyid,jdbcType=VARCHAR}
+    order by qdsj desc
+    limit 1
+  </select>
 </mapper>

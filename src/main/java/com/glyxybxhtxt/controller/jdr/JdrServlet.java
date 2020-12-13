@@ -3,6 +3,7 @@ package com.glyxybxhtxt.controller.jdr;
 import com.glyxybxhtxt.dataObject.Bxd;
 import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.BxdService;
+import com.glyxybxhtxt.util.ParseBxlb;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,8 @@ public class JdrServlet{
     private static final long serialVersionUID = 1L;
     @Autowired
     private BxdService bs;
+    @Autowired
+    private ParseBxlb parse;
 
     @RequestMapping("/JdrServlet")
     @ResponseBody
@@ -95,6 +98,9 @@ public class JdrServlet{
         if(eid!=null)b.setEid(Integer.parseInt(eid));
         if(state!=null)b.setState(Integer.parseInt(state));
         List<Bxd> blist = bs.selbxdbyjdr(b);
+        for (Bxd bxd : blist) {
+            bxd.setBxlb(parse.paraseBxlb(bxd.getBxlb()));
+        }
         map.put("blist",blist);
         return new ResponseData(map);
     }

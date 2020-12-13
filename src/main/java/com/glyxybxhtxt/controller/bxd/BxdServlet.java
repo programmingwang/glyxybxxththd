@@ -2,16 +2,19 @@ package com.glyxybxhtxt.controller.bxd;
 
 import com.glyxybxhtxt.dataObject.Bxd;
 import com.glyxybxhtxt.dataObject.Ewm;
+import com.glyxybxhtxt.dataObject.Shy;
 import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.BxdService;
 import com.glyxybxhtxt.service.EwmService;
+import com.glyxybxhtxt.service.QdbService;
+import com.glyxybxhtxt.service.ShyService;
+import com.glyxybxhtxt.util.ParseBxlb;
 import com.glyxybxhtxt.util.PathUtil;
-import com.glyxybxhtxt.service.JdrService;
 import com.glyxybxhtxt.util.AutoOrder;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServlet;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -31,7 +33,7 @@ import java.util.*;
  * Version: 1.0
  */
 @RestController
-public class BxdServlet extends HttpServlet {
+public class BxdServlet {
 
     private static final long serialVersionUID = 1L;
     private static String PATH_FOLDER = PathUtil.getUploadPath();
@@ -39,10 +41,14 @@ public class BxdServlet extends HttpServlet {
     private BxdService bs;
     @Autowired
     private EwmService es;
-    @Autowired
-    private JdrService js;
     @Resource
     private AutoOrder zdpd;
+    @Resource
+    private ShyService ss;
+    @Resource
+    private QdbService qs;
+    @Resource
+    private ParseBxlb parse;
 
 
 //    @Override
@@ -62,7 +68,8 @@ public class BxdServlet extends HttpServlet {
                             @RequestParam(value = "sp", required = false) String sp,
                             @RequestParam(value = "cxsy", required = false) String cxsy, @RequestParam(value = "pj", required = false) String pj,
                             @RequestParam(value = "pjnr", required = false) String pjnr, @RequestParam(value = "pjzj", required = false) String pjzj,
-                            @RequestParam(value = "bid", required = false) String bid) throws IOException {
+                            @RequestParam(value = "bid", required = false) String bid, @RequestParam(value = "jid", required = false) String jid,
+                            @RequestParam(value = "hc", required = false) String hc) throws IOException {
         System.out.println(sp);
         if (StringUtils.isWhitespace(op) || StringUtils.isEmpty(op) || StringUtils.isBlank(op))
             return new ResponseData("2");
@@ -72,7 +79,7 @@ public class BxdServlet extends HttpServlet {
             case "upbxdbysbr":
                 return upbxdbysbr(cxsy, pj, pjnr, pjzj, xh, bid);
             case "newbxdbysbr":
-                return filebase64(eid, xxdd, yysj, bxlb, bxnr, sbrsj, sbrxh, sbr, tp, sp);
+                return filebase64(eid, xxdd, yysj, bxlb, bxnr, sbrsj, sbrxh, sbr, tp, sp, jid, bid, hc);
             case "selqybysbr":
                 return selqybysbr(eid);
             case "selbxdforeid":
@@ -86,6 +93,9 @@ public class BxdServlet extends HttpServlet {
     private ResponseData selbxdforeid(String eid) {
         Map<String, Object> map = new HashMap<>();
         List<Bxd> blist = bs.selbxdforeid(Integer.parseInt(eid));
+        for (Bxd bxd : blist) {
+            bxd.setBxlb(parse.paraseBxlb(bxd.getBxlb()));
+        }
         map.put("blist", blist);
         return new ResponseData(map);
     }
@@ -99,7 +109,8 @@ public class BxdServlet extends HttpServlet {
     }
 
     @ResponseBody
-    private ResponseData filebase64(String eid, String xxdd, String yysj, String bxlb, String bxnr, String sbrsj, String sbrxh, String sbr, String tp, String sp) throws IOException {
+    //整合返工和新增工单，返工要传jdr的jid和本单的id
+    private ResponseData filebase64(String eid, String xxdd, String yysj, String bxlb, String bxnr, String sbrsj, String sbrxh, String sbr, String tp, String sp, String jid, String bid, String hc) throws IOException {
         Bxd bxd = new Bxd();
         String filename = "";
         if (tp != null && tp.length() != 0) {
@@ -140,19 +151,71 @@ public class BxdServlet extends HttpServlet {
         bxd.setSp(sp);
         //预约时间
         bxd.setYysj(yysj);
-        //保修类别
+        //报修类别
         bxd.setBxlb(bxlb);
         bxd.setBxnr(bxnr);
         bxd.setSbr(sbr);
         bxd.setSbrsj(sbrsj);
         bxd.setSbrxh(sbrxh);
-        //自动派单
-        bxd.setJid(zdpd.zdpd(eid));
+        //如果是返工，就不自动派单，否则则自动派单
+        if(StringUtils.isAllBlank(jid, bid, hc)){
+            //自动分配审核员
+//            -------------------------------------------------------------------------
+            //1、先查出所有审核员
+            List<Shy> allshy = ss.selallqy();
+            //2、通过eid查询当前订单的所属校区
+            String bxdxq = es.selqybysbr(Integer.parseInt(eid)).getQy().getXq();
+            int setShy = 0;
+            for (Shy shy : allshy) {
+                //3、查看签到表里不同的审核员最近一次签到的校区 签到状态1或者2都行，并筛选出与当前订单区域匹配的
+                if( StringUtils.equals(bxdxq, qs.selectOptimalXqForShy(shy.getYbid()))){
+                    if (setShy == 0){
+                        bxd.setShy1(shy.getXm());
+                        setShy++;
+                    }else if (setShy == 1){
+                        bxd.setShy2(shy.getXm());
+                        break;
+                    }
+                }
+            }
+//            -------------------------------------------------------------------------
 
-        return bs.newbxdbysbr(bxd) == 1
-                ? new ResponseData(true)
-                : new ResponseData(false);
+            //自动派单
+            String zdpdResult = this.zdpd.zdpd(eid, bxlb);
+            if(StringUtils.startsWith(zdpdResult, "6U@U6WX2^&nb6YIILV")){
+                bs.newbxdbysbr(bxd);
+                return new ResponseData(StringUtils.substringAfter(zdpdResult, "6U@U6WX2^&nb6YIILV"));
+            }
+            bxd.setJid(zdpdResult);
 
+            return bs.newbxdbysbr(bxd) == 1
+                    ? new ResponseData(true)
+                    : new ResponseData(false);
+        }else{
+            //返工
+            Bxd fgbxd = new Bxd();
+            fgbxd.setId(Integer.parseInt(bid));
+            fgbxd.setTp(tp);
+            fgbxd.setSp(sp);
+            //预约时间
+            fgbxd.setYysj(yysj);
+            //返工天数重算
+            fgbxd.setFgts("15");
+            //新的报修内容
+            fgbxd.setBxnr(bxnr);
+//            //申报时间重算
+//            fgbxd.setSbsj(new Date());
+            //将单状态改为1
+            fgbxd.setState(1);
+            //工时清零
+            fgbxd.setGs("0");
+            //耗材清零
+            fgbxd.setHc(hc);
+            fgbxd.setShy1state(0);
+            fgbxd.setShy2state(0);
+            bs.fg(fgbxd);
+            return new ResponseData(true);
+        }
     }
 
 
@@ -180,8 +243,6 @@ public class BxdServlet extends HttpServlet {
         map.put("blist", bs.selforsbr(b));
         return new ResponseData(map);
     }
-
-
 
 }
 

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author lrt
@@ -25,6 +27,8 @@ public class DictController {
 
     @RequestMapping(value = "/getDictByCode",method = RequestMethod.POST)
     public ResponseData getDictByCode(@ApiParam(value = "字典代码，对应dict表中的dict.DICT_CODE") @RequestParam String code){
-        return new ResponseData(dictService.getDictListByCode(code));
+        Map<String, Object> map = new HashMap<>();
+        map.put("dictitem",dictService.getDictListByCode(code));
+        return new ResponseData(map);
     }
 }

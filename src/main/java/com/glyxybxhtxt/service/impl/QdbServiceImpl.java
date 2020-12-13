@@ -29,4 +29,14 @@ public class QdbServiceImpl implements QdbService {
     public boolean qd(Qdb q) {
         return qdbMapper.qd(q) == 1;
     }
+
+    @Override
+    public String selectOptimalXq(String shyid) {
+        return qdbMapper.selectOptimalXq(shyid);
+    }
+
+    @Override
+    public String selectOptimalXqForShy(String shyid) {
+        return qdbMapper.selectOptimalXqForShy(shyid);
+    }
 }
