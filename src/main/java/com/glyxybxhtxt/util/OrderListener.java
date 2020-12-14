@@ -39,16 +39,15 @@ public class OrderListener implements Job {
         //查找工时超过2的接单人的订单
         //1、查找状态为1，2的接单人
         List<Jdr> allJdr1and2 = new ArrayList<>();
-        js.selalljdr("1").forEach(System.out::println);
-        js.selalljdr("2").forEach(System.out::println);
         allJdr1and2.addAll(js.selalljdr("1"));
         allJdr1and2.addAll(js.selalljdr("2"));
+        allJdr1and2.addAll(js.selalljdr("3"));
         //今天工时>=2的接单人
         List<Jdr> gsgt2 = new ArrayList<>();
-        //当前接单人工时超过2的且状态为已派单的工单
+        //当前接单人工时超过2的且状态为已派单（state=1）的工单
         List<Bxd> state1gd = new ArrayList<>();
 
-        //查找此时总工时已经>=2的接单人
+        //查找今天总工时已经>=2的接单人
         for (Jdr jdr : allJdr1and2) {
             Double gs = bs.selgs(jdr.getYbid());
             gs = ObjectUtils.isEmpty(gs) ? 0 : gs ;
@@ -64,7 +63,7 @@ public class OrderListener implements Job {
 
         //给这些单重新派单
         for (Bxd bxd : state1gd) {
-            bxd.setJid(zdpd.zdpd(String.valueOf(bxd.getEid())));
+            bxd.setJid(zdpd.zdpd(String.valueOf(bxd.getEid()), bxd.getBxlb()));
             bs.upbxdbyadmin(bxd);
         }
 

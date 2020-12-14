@@ -20,4 +20,6 @@ public interface QdbMapper {
     
     List<Qdb> selqdb(Qdb q);
     int qd(Qdb q);
+    String selectOptimalXq(String shyid);
+    String selectOptimalXqForShy(String shyid);
 }

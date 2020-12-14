@@ -25,6 +25,7 @@ public interface BxdMapper {
     List<Bxd> selbxdbyjdr(Bxd b);
     List<Bxd> selbxdforeid(Integer eid);
     int upbxdbyadmin(Bxd b);
+    int fg(Bxd b);
     int upbxdbyjdr(Bxd b);
     int upbxd1byshy(Bxd b);
     int upbxd2byshy(Bxd b);

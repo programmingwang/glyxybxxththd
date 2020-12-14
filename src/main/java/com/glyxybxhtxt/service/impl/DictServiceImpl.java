@@ -22,7 +22,6 @@ public class DictServiceImpl implements IDictService {
 
     @Override
     public List<DictItem> getDictListByCode(String dictCode) {
-
         return dictMapper.selectDictItemByCode(dictCode);
     }
 

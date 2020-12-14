@@ -12,5 +12,6 @@ import java.util.List;
 public interface QdbService {
     List<Qdb> selallqy(Qdb q);
     boolean qd(Qdb q);
-
+    String selectOptimalXq(String shyid);
+    String selectOptimalXqForShy(String shyid);
 }

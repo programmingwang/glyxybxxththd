@@ -62,7 +62,8 @@
   </select>
     <select id="selgs" resultType="Double" parameterType="String">
   	<!--select round(sum(gs),2) from bxd where sbsj &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59') and sbsj &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:00') and jid = #{jid,jdbcType=VARCHAR} -->
-  	select round(sum(gs),2) from bxd where sbsj &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59') and jid = #{jid,jdbcType=VARCHAR}
+  	select round(sum(gs),2) from bxd where sbsj &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59') and sbsj &gt;= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),'%Y-%m-%d 23:59:59') and jid = #{jid,jdbcType=VARCHAR}
+  	<!--select round(sum(gs),2) from bxd where sbsj &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59') and jid = #{jid,jdbcType=VARCHAR}-->
   </select>
     <select id="daybx" resultType="Integer">
   	select
@@ -157,8 +158,8 @@
         select  b.*,q.qy,q.qylb,q.xq,e.xxdd ewmdd,j.xm,j.sj,j.yx,j.state jstate,j.gh jgh,j.ywfw,s1.gh s1gh,s1.xm s1xm,s2.gh s2gh,s2.xm s2xm
         from bxqy q,ewm e,bxd b
         left join jdr j on b.jid = j.ybid
-        LEFT JOIN shy s1 on s1.ybid = b.shy1
-        LEFT JOIN shy s2 on s2.ybid = b.shy2
+        LEFT JOIN shy s1 on s1.xm = b.shy1
+        LEFT JOIN shy s2 on s2.xm = b.shy2
         where e.id = b.eid and q.id=e.qid
         <if test="id != null" >
             and b.id = #{id,jdbcType=INTEGER}
@@ -496,6 +497,18 @@
             <if test="gs != null" >
                 gs = #{gs,jdbcType=VARCHAR},
             </if>
+            <if test="fgts != null" >
+                fgts = #{fgts,jdbcType=VARCHAR},
+            </if>
+            <if test="sbsj != null" >
+                sbsj = CURRENT_TIMESTAMP ,
+            </if>
+            <if test="bxnr != null" >
+                bxnr = #{bxnr,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null" >
+                state = #{state,jdbcType=INTEGER},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -578,4 +591,43 @@
   set state = #{state,jdbcType=INTEGER}
   where id = #{id,jdbcType=INTEGER}
 </update>
+    <update id="fg" parameterType="com.glyxybxhtxt.dataObject.Bxd" >
+        update bxd
+        <set >
+            <if test="jid != null" >
+                jid = #{jid,jdbcType=VARCHAR},state=1,
+            </if>
+            <if test="shy1 != null" >
+                shy1 = #{shy1,jdbcType=VARCHAR},
+            </if>
+            <if test="shy2 != null" >
+                shy2 = #{shy2,jdbcType=VARCHAR},
+            </if>
+            <if test="pj != null" >
+                pj = #{pj,jdbcType=VARCHAR},
+            </if>
+            <if test="pjnr != null" >
+                pjnr = #{pjnr,jdbcType=VARCHAR},
+            </if>
+            <if test="hc != null" >
+                hc = CONCAT(hc, '|返工耗材:'+#{hc,jdbcType=VARCHAR}) ,
+            </if>
+            <if test="gs != null" >
+                gs = #{gs,jdbcType=VARCHAR},
+            </if>
+            <if test="fgts != null" >
+                fgts = #{fgts,jdbcType=VARCHAR},
+            </if>
+            <if test="sbsj != null" >
+                sbsj = CURRENT_TIMESTAMP ,
+            </if>
+            <if test="bxnr != null" >
+                bxnr = #{bxnr,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null" >
+                state = #{state,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>
