@@ -33,4 +33,5 @@ public interface BxdService {
     String tj();
     int getsbrbxdnewid(String xh);
     List<Jdr> seljdrforpd();
+    int upbxdbyysr(Bxd b);
 }

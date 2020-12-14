@@ -152,4 +152,9 @@ public class BxdServiceImpl implements BxdService {
     public List<Jdr> seljdrforpd() {
         return jdrMapper.seljdrforpd();
     }
+
+    @Override
+    public int upbxdbyysr(Bxd b) {
+        return bxdMapper.upbxdbyysr(b);
+    }
 }

@@ -41,4 +41,5 @@ public interface BxdMapper {
     int monthwx();
     int yearwx();
     Double selgs(String jid);
+    int upbxdbyysr(Bxd b);
 }

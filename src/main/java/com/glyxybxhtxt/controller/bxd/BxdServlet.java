@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServlet;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
