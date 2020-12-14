@@ -45,6 +45,7 @@ public class ShyServlet {
             case "qd" : return qd(ybid, xq, state);
             case "selqdb" : return selqdb(num, page, ybid);
             case "upbxdhcbyshy" : return upbxdhcbyshy(bid,hc,gs,ybid);
+            case "upbxdbyysr" : return upbxdbyysr(shyid,bid,state);
             default: return new ResponseData(false);
         }
     }
@@ -118,6 +119,29 @@ public class ShyServlet {
             bs.upbxd2byshy(b);
         }else{
             return new ResponseData("审核员id无效");
+        }
+        return new ResponseData(true);
+    }
+
+    private ResponseData upbxdbyysr(String shyid, String bid, String tstate) {
+        if(shyid==null||bid==null||tstate==null){
+            return new ResponseData("3");
+        }
+        int id = Integer.parseInt(bid);
+        int state = Integer.parseInt(tstate);
+        if (state != 4){
+            if (state != 5){
+                return new ResponseData("3");
+            }
+        }
+        Bxd t = bs.selbxdforshyid(id);
+        Bxd b = new Bxd();
+        b.setId(id);
+        if(shyid.equals(t.getShy1())){
+            b.setState(state);
+            bs.upbxdbyysr(b);
+        }else{
+            return new ResponseData("验收员id无效");
         }
         return new ResponseData(true);
     }

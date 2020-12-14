@@ -573,4 +573,9 @@
        shy1 = #{shy1,jdbcType=VARCHAR}
     where shy1 = #{shy1,jdbcType=VARCHAR}
   </update>
+  <update id="upbxdbyysr" parameterType="com.glyxybxhtxt.dataObject.Bxd">
+  update bxd
+  set state = #{state,jdbcType=INTEGER}
+  where id = #{id,jdbcType=INTEGER}
+</update>
 </mapper>
