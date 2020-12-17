@@ -1,34 +1,49 @@
 package com.glyxybxhtxt.controller.dict;
 
+import com.glyxybxhtxt.dataObject.DictItem;
 import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.IDictService;
+import com.glyxybxhtxt.util.DictItemTree;
+import com.glyxybxhtxt.util.ParseBxlb;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author lrt
  * @Date 2020/11/2 16:25
  * @Version 1.0
  **/
-@Api(tags = "获取字典值")
+@Api(tags = "获取wxlb")
 @RestController
 @RequestMapping(value = "dict")
 public class DictController {
     @Resource
     IDictService dictService;
 
-    @RequestMapping(value = "/getDictByCode",method = RequestMethod.POST)
-    public ResponseData getDictByCode(@ApiParam(value = "字典代码，对应dict表中的dict.DICT_CODE") @RequestParam String code){
-        Map<String, Object> map = new HashMap<>();
-        map.put("dictitem",dictService.getDictListByCode(code));
-        return new ResponseData(map);
+    @RequestMapping(value = "/getAllWxlb",method = RequestMethod.GET)
+    public ResponseData getAllWxlb(){
+        //所有的大类别 dict表中
+        List<String> wylb = Arrays.asList("wywx","sdwx","rswx","jdwx","ktwx","qt");
+        List<DictItemTree> option = new ArrayList<>();
+        for (int i = 0; i < wylb.size(); i++) {
+            DictItem dictItem = new DictItem();
+            DictItemTree dictItemTree = new DictItemTree();
+            //设置大类别的value
+            dictItemTree.setValue(String.valueOf(i+1));
+            //设置大类别的label
+            dictItemTree.setLabel(ParseBxlb.getzlb(wylb.get(i)));
+            //设置小类别
+            List<DictItem> children = new ArrayList<>(dictService.getDictListByCode(wylb.get(i)));
+            dictItemTree.setChildren(children);
+            option.add(dictItemTree);
+        }
+
+
+        return new ResponseData(option);
     }
 }

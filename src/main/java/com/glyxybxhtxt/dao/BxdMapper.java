@@ -42,4 +42,5 @@ public interface BxdMapper {
     int yearwx();
     Double selgs(String jid);
     int upbxdbyysr(Bxd b);
+    String selishc(Integer id);
 }

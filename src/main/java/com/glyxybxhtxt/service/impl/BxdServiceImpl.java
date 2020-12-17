@@ -157,4 +157,9 @@ public class BxdServiceImpl implements BxdService {
     public int upbxdbyysr(Bxd b) {
         return bxdMapper.upbxdbyysr(b);
     }
+
+    @Override
+    public String selishc(Integer id) {
+        return bxdMapper.selishc(id);
+    }
 }

@@ -204,6 +204,12 @@
         from bxd
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="selishc" resultType="java.lang.String" parameterType="java.lang.Integer" >
+        select
+        hc
+        from bxd
+        where id = #{id,jdbcType=INTEGER}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from bxd
     where id = #{id,jdbcType=INTEGER}
@@ -516,8 +522,11 @@
         update bxd
         <set >
             <if test="hc != null" >
-                hc = #{hc,jdbcType=VARCHAR},
+                hc = CONCAT(hc, #{hc,jdbcType=VARCHAR}) ,
             </if>
+            <!--<if test="hc != null" >
+                hc = #{hc,jdbcType=VARCHAR},
+            </if> -->
             <if test="gs != null" >
                 gs = #{gs,jdbcType=VARCHAR},
             </if>
@@ -608,9 +617,6 @@
             </if>
             <if test="pjnr != null" >
                 pjnr = #{pjnr,jdbcType=VARCHAR},
-            </if>
-            <if test="hc != null" >
-                hc = CONCAT(hc, '|返工耗材:'+#{hc,jdbcType=VARCHAR}) ,
             </if>
             <if test="gs != null" >
                 gs = #{gs,jdbcType=VARCHAR},

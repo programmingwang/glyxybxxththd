@@ -31,7 +31,7 @@ public class DictServiceImpl implements IDictService {
         List<DictItem> list = dictMapper.selectDictItemByCode(dictCode);
         for (DictItem item: list)
         {
-            map.put(item.getCode(),item.getValue());
+            map.put(item.getValue(),item.getLabel());
         }
         return map;
     }

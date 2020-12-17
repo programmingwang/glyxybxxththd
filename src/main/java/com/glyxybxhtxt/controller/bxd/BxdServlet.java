@@ -159,7 +159,7 @@ public class BxdServlet {
         bxd.setSbrsj(sbrsj);
         bxd.setSbrxh(sbrxh);
         //如果是返工，就不自动派单，否则则自动派单
-        if(StringUtils.isAllBlank(jid, bid, hc)){
+        if(StringUtils.isAllBlank(jid, bid)){
             //自动分配审核员
 //            -------------------------------------------------------------------------
             //1、先查出所有审核员
@@ -210,8 +210,6 @@ public class BxdServlet {
             fgbxd.setState(1);
             //工时清零
             fgbxd.setGs("0");
-            //耗材清零
-            fgbxd.setHc(hc);
             fgbxd.setShy1state(0);
             fgbxd.setShy2state(0);
             bs.fg(fgbxd);

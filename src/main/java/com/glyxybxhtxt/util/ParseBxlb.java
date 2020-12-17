@@ -34,14 +34,14 @@ public class ParseBxlb {
         }
         List<DictItem> xxbxlb = dict.getDictListByCode(bxlb1);
         for (DictItem dictItem : xxbxlb) {
-            if(dictItem.getCode().equals(bxlb2)){
+            if(dictItem.getValue().equals(bxlb2)){
                 return getzlb(bxlb1)+"-"+dictItem.getValue();
             }
         }
         return "未找到的报修类别";
     }
 
-    private String getzlb(String bxlb1){
+    public static String getzlb(String bxlb1){
         switch (bxlb1){
             case "wywx" : bxlb1 = "物业维修"; break;
             case "sdwx" : bxlb1 = "水电维修"; break;

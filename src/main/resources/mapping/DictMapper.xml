@@ -3,7 +3,7 @@
 <mapper namespace="com.glyxybxhtxt.dao.DictMapper">
 
     <select id="selectDictItemByCode" resultType="com.glyxybxhtxt.dataObject.DictItem">
-        select dictitem.DITEM_CODE as code, dictitem.DITEM_VALUE as value
+        select dictitem.DITEM_CODE as value, dictitem.DITEM_VALUE as label
         from dict,
              dictitem
         where dict.itemCode = dictitem.DICT_CODE

@@ -2,6 +2,7 @@ package com.glyxybxhtxt.dataObject;
 
 import lombok.Data;
 
+
 /**
  * @Author lrt
  * @Date 2020/11/2 17:12
@@ -9,6 +10,6 @@ import lombok.Data;
  **/
 @Data
 public class DictItem {
-    private String code;
     private String value;
+    private String label;
 }

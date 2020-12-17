@@ -4,7 +4,7 @@ import com.glyxybxhtxt.dataObject.Bxd;
 import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.BxdService;
 import com.glyxybxhtxt.util.ParseBxlb;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,6 +63,7 @@ public class JdrServlet{
         if(jid==null||bid==null){
             return new ResponseData("3");
         }
+        hc = StringUtils.isBlank(bs.selishc(Integer.parseInt(bid))) ? hc : ",返工耗材:"+hc ;
         Bxd b = new Bxd();
         b.setJid(jid);
         b.setId(Integer.parseInt(bid));
@@ -104,4 +105,5 @@ public class JdrServlet{
         map.put("blist",blist);
         return new ResponseData(map);
     }
+
 }
