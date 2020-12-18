@@ -29,35 +29,40 @@ public class HcServlet {
     @ResponseBody
     ResponseData hcServlet(@RequestParam("op")String op, @RequestParam(value = "mc",required = false)String mc,
                            @RequestParam(value = "dw",required = false)String dw, @RequestParam(value = "jg",required = false)String jg,
-                           @RequestParam(value = "id",required = false)String id){
+                           @RequestParam(value = "id",required = false)String id, @RequestParam(value = "lb", required = false)String lb,
+                           @RequestParam(value = "xh",required = false)String xh){
         if(StringUtils.isWhitespace(op) || StringUtils.isEmpty(op) || StringUtils.isBlank(op))
             return new ResponseData("2");
         switch (op){
             case "selhc" : return selhc();
             case "delhc" : return delhc(id);
-            case "newhc" : return newhc(mc,dw,jg);
-            case "uphc" : return uphc(id,mc,dw,jg);
+            case "newhc" : return newhc(mc,dw,jg,lb,xh);
+            case "uphc" : return uphc(id,mc,dw,jg,lb,xh);
             default: return new ResponseData(false);
         }
     }
 
     @ResponseBody
-    private ResponseData newhc(String mc, String dw, String jg){
+    private ResponseData newhc(String mc, String dw, String jg,String lb,String xh){
         Hc h = new Hc();
         h.setMc(mc);
         h.setDw(dw);
         h.setJg(Double.parseDouble(jg));
+        h.setLb(lb);
+        h.setXh(xh);
         return hs.newhc(h)==1 ? new ResponseData(true) :new ResponseData("db error");
 
     }
 
     @ResponseBody
-    private ResponseData uphc(String id, String mc, String dw, String jg) {
+    private ResponseData uphc(String id, String mc, String dw, String jg,String lb,String xh) {
         Hc h = new Hc();
         h.setId(Integer.parseInt(id));
         if(mc!=null) h.setMc(mc);
         if(dw!=null) h.setDw(dw);
         if(jg!=null) h.setJg(Double.parseDouble(jg));
+        if (lb != null) h.setLb(lb);
+        if (xh != null) h.setXh(xh);
         return hs.uphc(h)==1 ? new ResponseData(true) :new ResponseData("db error");
     }
 

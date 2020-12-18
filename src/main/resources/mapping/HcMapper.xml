@@ -7,9 +7,11 @@
     <result column="jg" property="jg" jdbcType="DOUBLE" />
     <result column="dw" property="dw" jdbcType="VARCHAR" />
     <result column="kc" property="kc" jdbcType="INTEGER" />
+    <result column="lb" property="lb" jdbcType="VARCHAR" />
+    <result column="xh" property="xh" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, mc, jg, dw, kc
+    id, mc, jg, dw, kc, lb, xh
   </sql>
 
   <select id="selall" resultMap="BaseResultMap">
@@ -29,8 +31,8 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.glyxybxhtxt.dataObject.Hc" >
-    insert into hc (mc, jg, dw)
-    values (#{mc,jdbcType=VARCHAR}, #{jg,jdbcType=DOUBLE}, #{dw,jdbcType=VARCHAR}
+    insert into hc (mc, jg, dw,lb,xh)
+    values (#{mc,jdbcType=VARCHAR}, #{jg,jdbcType=DOUBLE}, #{dw,jdbcType=VARCHAR},#{lb,jdbcType=VARCHAR},#{xh,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.glyxybxhtxt.dataObject.Hc" >
@@ -84,6 +86,12 @@
       </if>
       <if test="kc != null" >
         kc = #{kc,jdbcType=INTEGER},
+      </if>
+      <if test="lb != null" >
+        lb = #{lb,jdbcType=VARCHAR},
+      </if>
+      <if test="xh != null" >
+        xh = #{xh,jdbcType=VARCHAR}
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
