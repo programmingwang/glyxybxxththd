@@ -239,7 +239,11 @@ public class BxdServlet {
         if (eid != null) {
             b.setEid(Integer.parseInt(eid));
         }
-        map.put("blist", bs.selforsbr(b));
+        List<Bxd> blist = bs.selforsbr(b);
+        for (Bxd bxd : blist) {
+            bxd.setBxlb(parse.paraseBxlb(bxd.getBxlb()));
+        }
+        map.put("blist",blist);
         return new ResponseData(map);
     }
 

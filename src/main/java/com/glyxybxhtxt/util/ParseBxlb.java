@@ -35,7 +35,7 @@ public class ParseBxlb {
         List<DictItem> xxbxlb = dict.getDictListByCode(bxlb1);
         for (DictItem dictItem : xxbxlb) {
             if(dictItem.getValue().equals(bxlb2)){
-                return getzlb(bxlb1)+"-"+dictItem.getValue();
+                return getzlb(bxlb1)+"-"+dictItem.getLabel();
             }
         }
         return "未找到的报修类别";
