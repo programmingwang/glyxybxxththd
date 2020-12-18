@@ -11,6 +11,26 @@ public class Hc {
 
     private Integer kc;
 
+    private String lb;
+
+    private String xh;
+
+    public String getLb() {
+        return lb;
+    }
+
+    public void setLb(String lb) {
+        this.lb = lb;
+    }
+
+    public String getXh() {
+        return xh;
+    }
+
+    public void setXh(String xh) {
+        this.xh = xh;
+    }
+
     public Integer getId() {
         return id;
     }
