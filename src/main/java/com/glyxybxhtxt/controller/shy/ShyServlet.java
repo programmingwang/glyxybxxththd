@@ -162,6 +162,7 @@ public class ShyServlet {
         List<Bxd> blist = bs.selbxdbyshy(b);
         for (Bxd bxd : blist) {
             bxd.setBxlb(parse.paraseBxlb(bxd.getBxlb()));
+            bxd.setHc(parse.paraseHc(bxd.getHc()));
         }
         Map<String,Object> map = new HashMap<>();
         map.put("blist", blist);

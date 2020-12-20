@@ -1,10 +1,14 @@
 package com.glyxybxhtxt.util;
 
 import com.glyxybxhtxt.dataObject.DictItem;
+import com.glyxybxhtxt.dataObject.Hc;
+import com.glyxybxhtxt.service.HcService;
 import com.glyxybxhtxt.service.IDictService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,6 +20,9 @@ import java.util.List;
 public class ParseUtil {
     @Resource
     private IDictService dict;
+
+    @Resource
+    private HcService hs;
 
     //解析bxlb参数为正常显示给前端用户的值
     public String paraseBxlb(String beforeBxlb){
@@ -41,9 +48,31 @@ public class ParseUtil {
         return "未找到的报修类别";
     }
 
-    //解析hc为显示给用户的正常值
+    /**
+     *
+     * @param beforeHc 是数据库里的耗材表达
+     * @return 解析hc为显示给用户的正常值
+     */
     public String paraseHc(String beforeHc){
-        return "";
+        //需要给用户展示的字符串
+        StringBuffer afterHc = new StringBuffer();
+        if(StringUtils.isBlank(beforeHc)){
+            return "";
+        }
+        //hc分类，hcfl[0]是正常订单的耗材
+        //hcfl[0]之后的都是返工的耗材
+        List<String> hcfl = Arrays.asList(beforeHc.split("\\|返工耗材:"));
+        for (String allhc : hcfl) {
+            //将多个耗材分割出来，例如2-1|3-2 分割成 2-1，3-2；做hc表的查询
+            List<String> hcs = Arrays.asList(allhc.split("\\|"));
+            for (String hc : hcs) {
+                //提取第一个做查询例如1-2，提取1，这个1是hc表的id,查询到的是具体的耗材类
+                Hc xxhc = hs.selOneHc(Integer.parseInt(hc.split("-")[0]));
+                afterHc.append(xxhc.getMc()).append("(型号:").append(xxhc.getXh())
+                        .append(")").append(",");
+            }
+        }
+        return afterHc.substring(0,afterHc.length()-1);
     }
 
     public static String getzlb(String bxlb1){
@@ -57,4 +86,5 @@ public class ParseUtil {
         }
         return bxlb1;
     }
+
 }

@@ -96,6 +96,7 @@ public class BxdServlet {
         List<Bxd> blist = bs.selbxdforeid(Integer.parseInt(eid));
         for (Bxd bxd : blist) {
             bxd.setBxlb(parse.paraseBxlb(bxd.getBxlb()));
+            bxd.setHc(parse.paraseHc(bxd.getHc()));
         }
         map.put("blist", blist);
         return new ResponseData(map);
@@ -242,6 +243,7 @@ public class BxdServlet {
         List<Bxd> blist = bs.selforsbr(b);
         for (Bxd bxd : blist) {
             bxd.setBxlb(parse.paraseBxlb(bxd.getBxlb()));
+            bxd.setHc(parse.paraseHc(bxd.getHc()));
         }
         map.put("blist",blist);
         return new ResponseData(map);

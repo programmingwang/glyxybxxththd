@@ -25,6 +25,11 @@ public class HcServiceImpl implements HcService {
     }
 
     @Override
+    public Hc selOneHc(Integer id) {
+        return hcMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public int delhc(int id) {
         return hcMapper.deleteByPrimaryKey(id);

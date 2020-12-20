@@ -103,6 +103,7 @@ public class JdrServlet{
         List<Bxd> blist = bs.selbxdbyjdr(b);
         for (Bxd bxd : blist) {
             bxd.setBxlb(parse.paraseBxlb(bxd.getBxlb()));
+            bxd.setHc(parse.paraseHc(bxd.getHc()));
         }
         map.put("blist",blist);
         return new ResponseData(map);
