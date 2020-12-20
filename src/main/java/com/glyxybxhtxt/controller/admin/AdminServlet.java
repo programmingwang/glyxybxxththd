@@ -3,9 +3,8 @@ package com.glyxybxhtxt.controller.admin;
 import com.glyxybxhtxt.dataObject.*;
 import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.*;
-import com.glyxybxhtxt.util.ParseBxlb;
+import com.glyxybxhtxt.util.ParseUtil;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +15,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Author:wangzh
@@ -39,7 +37,7 @@ public class AdminServlet {
     @Autowired
     private EwmService es;
     @Autowired
-    private ParseBxlb parse;
+    private ParseUtil parse;
 
 
     @RequestMapping("/AdminServlet")
@@ -331,6 +329,7 @@ public class AdminServlet {
         List<Bxd> blist = bs.selbxdbyadmin(b);
         for (Bxd bxd : blist) {
             bxd.setBxlb(parse.paraseBxlb(bxd.getBxlb()));
+            bxd.setHc(parse.paraseHc(bxd.getHc()));
         }
         Map<String,Object> map = new HashMap<>();
         map.put("blist", blist);

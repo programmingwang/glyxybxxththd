@@ -522,7 +522,7 @@
         update bxd
         <set >
             <if test="hc != null" >
-                hc = CONCAT(hc, #{hc,jdbcType=VARCHAR}) ,
+                hc = #{hc,jdbcType=VARCHAR},
             </if>
             <!--<if test="hc != null" >
                 hc = #{hc,jdbcType=VARCHAR},

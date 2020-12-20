@@ -3,7 +3,7 @@ package com.glyxybxhtxt.controller.jdr;
 import com.glyxybxhtxt.dataObject.Bxd;
 import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.BxdService;
-import com.glyxybxhtxt.util.ParseBxlb;
+import com.glyxybxhtxt.util.ParseUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,7 @@ public class JdrServlet{
     @Autowired
     private BxdService bs;
     @Autowired
-    private ParseBxlb parse;
+    private ParseUtil parse;
 
     @RequestMapping("/JdrServlet")
     @ResponseBody
@@ -63,7 +63,9 @@ public class JdrServlet{
         if(jid==null||bid==null){
             return new ResponseData("3");
         }
-        hc = StringUtils.isBlank(bs.selishc(Integer.parseInt(bid))) ? hc : ",返工耗材:"+hc ;
+        //查看bxd是否有hc信息了，如果有耗材信息，证明当前就是一个返工订单
+        String originHc = bs.selishc(Integer.parseInt(bid));
+        hc = StringUtils.isBlank(originHc) ? hc : originHc+"|返工耗材:"+hc ;
         Bxd b = new Bxd();
         b.setJid(jid);
         b.setId(Integer.parseInt(bid));

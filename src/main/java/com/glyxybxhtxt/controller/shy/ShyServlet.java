@@ -5,7 +5,7 @@ import com.glyxybxhtxt.dataObject.Qdb;
 import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.BxdService;
 import com.glyxybxhtxt.service.QdbService;
-import com.glyxybxhtxt.util.ParseBxlb;
+import com.glyxybxhtxt.util.ParseUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +30,7 @@ public class ShyServlet {
     @Autowired
     private QdbService qs;
     @Autowired
-    private ParseBxlb parse;
+    private ParseUtil parse;
 
     @RequestMapping("/ShyServlet")
     @ResponseBody

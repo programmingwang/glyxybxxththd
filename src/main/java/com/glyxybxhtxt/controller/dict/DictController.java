@@ -4,7 +4,7 @@ import com.glyxybxhtxt.dataObject.DictItem;
 import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.IDictService;
 import com.glyxybxhtxt.util.DictItemTree;
-import com.glyxybxhtxt.util.ParseBxlb;
+import com.glyxybxhtxt.util.ParseUtil;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,7 +36,7 @@ public class DictController {
             //设置大类别的value
             dictItemTree.setValue(String.valueOf(i+1));
             //设置大类别的label
-            dictItemTree.setLabel(ParseBxlb.getzlb(wylb.get(i)));
+            dictItemTree.setLabel(ParseUtil.getzlb(wylb.get(i)));
             //设置小类别
             List<DictItem> children = new ArrayList<>(dictService.getDictListByCode(wylb.get(i)));
             dictItemTree.setChildren(children);

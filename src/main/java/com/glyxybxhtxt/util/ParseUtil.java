@@ -13,7 +13,7 @@ import java.util.List;
  * Version: 1.0
  */
 @Component
-public class ParseBxlb {
+public class ParseUtil {
     @Resource
     private IDictService dict;
 
@@ -39,6 +39,11 @@ public class ParseBxlb {
             }
         }
         return "未找到的报修类别";
+    }
+
+    //解析hc为显示给用户的正常值
+    public String paraseHc(String beforeHc){
+        return "";
     }
 
     public static String getzlb(String bxlb1){

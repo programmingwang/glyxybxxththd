@@ -8,7 +8,7 @@ import com.glyxybxhtxt.service.BxdService;
 import com.glyxybxhtxt.service.EwmService;
 import com.glyxybxhtxt.service.QdbService;
 import com.glyxybxhtxt.service.ShyService;
-import com.glyxybxhtxt.util.ParseBxlb;
+import com.glyxybxhtxt.util.ParseUtil;
 import com.glyxybxhtxt.util.PathUtil;
 import com.glyxybxhtxt.util.AutoOrder;
 import net.sf.json.JSONArray;
@@ -49,7 +49,7 @@ public class BxdServlet {
     @Resource
     private QdbService qs;
     @Resource
-    private ParseBxlb parse;
+    private ParseUtil parse;
 
 
 //    @Override
