@@ -11,7 +11,6 @@ import com.glyxybxhtxt.service.ShyService;
 import com.glyxybxhtxt.util.ParseUtil;
 import com.glyxybxhtxt.util.PathUtil;
 import com.glyxybxhtxt.util.AutoOrder;
-import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.codec.binary.Base64;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServlet;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -35,7 +33,7 @@ import java.util.*;
  * Version: 1.0
  */
 @RestController
-@Slf4j
+
 public class BxdServlet {
 
     private static final long serialVersionUID = 1L;
