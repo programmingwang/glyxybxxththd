@@ -7,7 +7,7 @@ spring:
     name: glyxybxxt
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.115.177.141:3306/glmc?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://47.115.177.141:3306/glmc?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
     username: root
     password: 6aZvnDG!nwI1xxUP
     type: com.alibaba.druid.pool.DruidDataSource
