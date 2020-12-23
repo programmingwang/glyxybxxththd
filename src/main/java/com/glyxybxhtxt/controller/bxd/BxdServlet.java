@@ -172,10 +172,10 @@ public class BxdServlet {
                 //3、查看签到表里不同的审核员最近一次签到的校区 签到状态1或者2都行，并筛选出与当前订单区域匹配的
                 if( StringUtils.equals(bxdxq, qs.selectOptimalXqForShy(shy.getYbid()))){
                     if (setShy == 0){
-                        bxd.setShy1(shy.getXm());
+                        bxd.setShy1(shy.getYbid());
                         setShy++;
                     }else if (setShy == 1){
-                        bxd.setShy2(shy.getXm());
+                        bxd.setShy2(shy.getYbid());
                         break;
                     }
                 }

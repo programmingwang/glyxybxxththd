@@ -39,7 +39,6 @@ public class AutoOrder {
          * 3、查到符合条件(业务范围符合，在bxd区域内的)的接单人的ybid,jdrybid
          * 4、bxd.setJid(jdrybid)
          */
-        synchronized (AutoOrder.class){
             //获得当前的修改地点的二维码，实质上是为了查询到二维码的校区
             Ewm ewm = es.selqybysbr(Integer.parseInt(eid));
             //当前二维码所属的校区
@@ -74,4 +73,3 @@ public class AutoOrder {
             return jdr.getYbid();
         }
     }
-}
