@@ -31,6 +31,7 @@
         <result column="ewmdd" property="ewmdd" jdbcType="VARCHAR" />
         <result column="state" property="state" jdbcType="INTEGER" />
         <result column="sp" property="sp" jdbcType="VARCHAR" />
+        <result column="fgts" property="fgts" jdbcType="INTEGER" />
         <association property="j" javaType="com.glyxybxhtxt.dataObject.Jdr">
             <result column="jgh" property="gh" jdbcType="VARCHAR" />
             <result column="xm" property="xm" jdbcType="VARCHAR" />
@@ -50,11 +51,11 @@
     </resultMap>
     <sql id="Base_Column_List" >
     id, sbsj, eid, xxdd, yysj, bxlb, bxnr, tp, sbr, sbrsj, sbrxh, hc, gs, jid, shy1,
-    shy1state, shy2, shy2state, wxsj, cxsy, pj, pjnr, pjzj, state, sp
+    shy1state, shy2, shy2state, wxsj, cxsy, pj, pjnr, pjzj, state, sp, fgts
   </sql>
     <sql id="Jdr_Column_List" >
     b.id, b.sbsj, b.eid, b.xxdd, b.yysj, b.bxlb, b.bxnr, b.tp, b.sbr, b.sbrsj, b.hc, b.gs, b.jid,
-    b.shy1state,  b.shy2state, b.wxsj, b.cxsy, b.pj, b.pjnr, b.pjzj, b.state, b.sbrxh
+    b.shy1state,  b.shy2state, b.wxsj, b.cxsy, b.pj, b.pjnr, b.pjzj, b.state, b.sbrxh, b.fgts
   </sql>
 
     <select id="allcount" resultType="Integer">
@@ -111,7 +112,7 @@
   </select>
 
     <select id="selforsbr" resultMap="BaseResultMap" parameterType="com.glyxybxhtxt.dataObject.Bxd" >
-        select b.*,e.id eid,e.xxdd ewmdd,q.qy,q.qylb,q.xq,j.sj,j.xm from bxqy q,ewm e,bxd b
+        select b.*,e.id eid,e.xxdd ewmdd,q.qy,q.qylb,q.xq,j.sj,j.xm,b.fgts from bxqy q,ewm e,bxd b
         left join jdr j
         on b.jid = j.ybid
         where 1=1 and e.id = b.eid and e.qid=q.id and b.sbrxh = #{sbrxh,jdbcType=VARCHAR}
@@ -143,7 +144,7 @@
         </if>
     </select>
     <select id="selbxdbyjdr" resultMap="BaseResultMap" parameterType="com.glyxybxhtxt.dataObject.Bxd">
-        select <include refid="Jdr_Column_List" />,q.qy,q.qylb,q.xq,e.xxdd ewmdd,s1.xm s1xm,s2.xm s2xm  from jdr j,bxqy q,ewm e,bxd b
+        select <include refid="Jdr_Column_List" />,q.qy,q.qylb,q.xq,e.xxdd ewmdd,s1.xm s1xm,s2.xm s2xm,b.fgts  from jdr j,bxqy q,ewm e,bxd b
         LEFT JOIN shy s1 on s1.ybid = b.shy1
         LEFT JOIN shy s2 on s2.ybid = b.shy2
         where j.ybid = b.jid and e.id = b.eid and j.ybid=#{jid,jdbcType=VARCHAR} and e.qid = q.id
@@ -155,7 +156,7 @@
         </if>
     </select>
     <select id="selbxdbyadmin" resultMap="BaseResultMap" parameterType="com.glyxybxhtxt.dataObject.Bxd">
-        select  b.*,q.qy,q.qylb,q.xq,e.xxdd ewmdd,j.xm,j.sj,j.yx,j.state jstate,j.gh jgh,j.ywfw,s1.gh s1gh,s1.xm s1xm,s2.gh s2gh,s2.xm s2xm
+        select  b.*,q.qy,q.qylb,q.xq,e.xxdd ewmdd,j.xm,j.sj,j.yx,j.state jstate,j.gh jgh,j.ywfw,s1.gh s1gh,s1.xm s1xm,s2.gh s2gh,s2.xm s2xm,b.fgts
         from bxqy q,ewm e,bxd b
         left join jdr j on b.jid = j.ybid
         LEFT JOIN shy s1 on s1.xm = b.shy1
@@ -620,13 +621,13 @@
         update bxd
         <set >
             <if test="jid != null" >
-                jid = #{jid,jdbcType=VARCHAR},state=1,
+                jid = #{jid,jdbcType=VARCHAR},
             </if>
-            <if test="shy1 != null" >
-                shy1 = #{shy1,jdbcType=VARCHAR},
+            <if test="shy1state != null" >
+                shy1state = #{shy1state,jdbcType=INTEGER},
             </if>
-            <if test="shy2 != null" >
-                shy2 = #{shy2,jdbcType=VARCHAR},
+            <if test="shy2state != null" >
+                shy2state = #{shy2state,jdbcType=INTEGER},
             </if>
             <if test="pj != null" >
                 pj = #{pj,jdbcType=VARCHAR},

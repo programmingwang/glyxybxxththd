@@ -186,7 +186,7 @@ public class BxdServlet {
             //预约时间
             fgbxd.setYysj(yysj);
             //返工天数重算
-            fgbxd.setFgts("15");
+            fgbxd.setFgts(15);
             //新的报修内容
             fgbxd.setBxnr(bxnr);
 //            //申报时间重算
@@ -194,7 +194,7 @@ public class BxdServlet {
             //将单状态改为1
             fgbxd.setState(1);
             //工时清零
-            fgbxd.setGs("0");
+            fgbxd.setGs("");
             fgbxd.setShy1state(0);
             fgbxd.setShy2state(0);
             bs.fg(fgbxd);

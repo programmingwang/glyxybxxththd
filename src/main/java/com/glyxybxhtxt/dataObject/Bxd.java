@@ -59,7 +59,7 @@ public class Bxd {
     private String qylb;
     private String xq;
     private String ewmdd;
-    private String fgts;
+    private Integer fgts;
     public String getEwmdd() {
 		return ewmdd;
 	}
@@ -151,12 +151,12 @@ public class Bxd {
         this.xxdd = xxdd == null ? null : xxdd.trim();
     }
 
-    public String getFgts() {
+    public Integer getFgts() {
         return fgts;
     }
 
-    public void setFgts(String fgts) {
-        this.fgts = fgts == null ? null : fgts.trim();
+    public void setFgts(Integer fgts) {
+        this.fgts = fgts;
     }
 
     public String getYysj() {
