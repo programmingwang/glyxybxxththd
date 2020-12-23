@@ -20,7 +20,7 @@
   </select>
   <select id="selOptimalshy" resultMap="BaseResultMap">
  	select
-    <include refid="Base_Column_List" />
+    s.ybid as ybid, gh, xm, zw,s.xq as xq, s.x, s.y
     from  bxqy qy, ewm e, qdb qd, shy s
     where e.qid = qy.id
     and qd.shyid = s.ybid

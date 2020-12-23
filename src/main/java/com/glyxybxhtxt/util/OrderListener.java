@@ -92,8 +92,8 @@ public class OrderListener implements Job {
                     //立即生效
                     .startNow()
                     .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                            //每隔30s执行一次
-                            .withIntervalInSeconds(30)
+                            //每隔30分钟执行一次
+                            .withIntervalInMinutes(30)
                             //一直执行
                             .repeatForever())
                     .build();
