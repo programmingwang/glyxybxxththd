@@ -22,6 +22,7 @@ import java.util.*;
  * Version: 1.0
  */
 @RestController
+@SuppressWarnings("all")
 public class AdminServlet {
     private static final long serialVersionUID = 1L;
     @Autowired
@@ -77,6 +78,7 @@ public class AdminServlet {
             case "upewm" : return upewm(eid, qid, xxdd);
             case "bxnum" : return bxnum(state);
             case "adminindex" : return adminindex();
+            case "selbxdbyadminpc" : return selbxdbyadminpc(bid, startime, endtime, xq, qid, jid, state, pj);
             default: return new ResponseData(false);
         }
     }
@@ -329,6 +331,43 @@ public class AdminServlet {
         List<Bxd> blist = bs.selbxdbyadmin(b);
         for (Bxd bxd : blist) {
             bxd.setBxlb(parse.paraseBxlb(bxd.getBxlb()));
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("blist", blist);
+        return new ResponseData(map);
+    }
+
+    private ResponseData selbxdbyadminpc(String bid, String startime, String endtime, String xq, String qy, String jdr, String state, String pj) throws ParseException {
+        Bxd b = new Bxd();
+        if(bid!=null)b.setId(Integer.parseInt(bid));
+        Date star = null;
+        Date end = null;
+        if(startime!=null) {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            star = format.parse(startime);
+            Calendar cal = new GregorianCalendar();
+            cal.setTime(star);
+            star = cal.getTime();
+        }
+        if(endtime!=null) {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            end = format.parse(endtime);
+            Calendar cal = new GregorianCalendar();
+            cal.setTime(end);
+            cal.add(cal.DATE, 1);
+            end = cal.getTime();
+        }
+        b.setSbsj(star);
+        b.setWxsj(end);
+        b.setBxlb(xq);
+        b.setBxnr(qy);
+        b.setJid(jdr);
+        if(state!=null)b.setState(Integer.parseInt(state));
+        b.setPj(pj);
+        List<Bxd> blist = bs.selbxdbyadmin(b);
+        for (Bxd bxd : blist) {
+            bxd.setBxlb(parse.paraseBxlb(bxd.getBxlb()));
+            bxd.setHc(parse.paraseHc(bxd.getHc()));
             bxd.setS1(ss.selOneShy(bxd.getShy1()));
             bxd.setS2(ss.selOneShy(bxd.getShy2()));
         }
@@ -336,5 +375,4 @@ public class AdminServlet {
         map.put("blist", blist);
         return new ResponseData(map);
     }
-
 }
