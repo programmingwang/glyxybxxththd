@@ -329,7 +329,8 @@ public class AdminServlet {
         List<Bxd> blist = bs.selbxdbyadmin(b);
         for (Bxd bxd : blist) {
             bxd.setBxlb(parse.paraseBxlb(bxd.getBxlb()));
-            bxd.setHc(parse.paraseHc(bxd.getHc()));
+            bxd.setS1(ss.selOneShy(bxd.getShy1()));
+            bxd.setS2(ss.selOneShy(bxd.getShy2()));
         }
         Map<String,Object> map = new HashMap<>();
         map.put("blist", blist);

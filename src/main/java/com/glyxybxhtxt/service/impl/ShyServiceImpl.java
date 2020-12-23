@@ -47,4 +47,9 @@ public class ShyServiceImpl implements ShyService{
     public List<Shy> selOptimalShy(Integer eid) {
         return shyMapper.selOptimalshy(eid);
     }
+
+    @Override
+    public Shy selOneShy(String ybid) {
+        return shyMapper.selectByPrimaryKey(ybid);
+    }
 }

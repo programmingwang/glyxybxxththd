@@ -16,4 +16,5 @@ public interface ShyService {
     void newshy(Shy s);
     void UPshy(Shy s);
     List<Shy> selOptimalShy(Integer eid);
+    Shy selOneShy(String ybid);
 }
