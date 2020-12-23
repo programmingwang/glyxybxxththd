@@ -6,7 +6,7 @@ import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.BxdService;
 import com.glyxybxhtxt.service.QdbService;
 import com.glyxybxhtxt.util.ParseUtil;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -114,6 +114,10 @@ public class ShyServlet {
         Bxd t = bs.selbxdforshyid(id);
         Bxd b = new Bxd();
         b.setId(id);
+        if(StringUtils.equals(shystate,"2")){
+            b.setHc("");
+            b.setGs("");
+        }
         if(shyid.equals(t.getShy1())){
             b.setShy1state(state);
             bs.upbxd1byshy(b);
