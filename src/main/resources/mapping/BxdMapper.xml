@@ -541,12 +541,28 @@
   </select>
     <update id="upbxd1byshy" parameterType="com.glyxybxhtxt.dataObject.Bxd" >
   	 update bxd
-    set shy1state = #{shy1state,jdbcType=INTEGER}
+        <set >
+            <if test="hc != null" >
+                hc = #{hc,jdbcType=VARCHAR},
+            </if>
+            <if test="gs != null" >
+                gs = #{gs,jdbcType=VARCHAR},
+            </if>
+            shy1state = #{shy1state,jdbcType=INTEGER}
+        </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
     <update id="upbxd2byshy" parameterType="com.glyxybxhtxt.dataObject.Bxd" >
   	 update bxd
-    set shy2state = #{shy2state,jdbcType=INTEGER}
+        <set >
+            <if test="hc != null" >
+                hc = #{hc,jdbcType=VARCHAR},
+            </if>
+            <if test="gs != null" >
+                gs = #{gs,jdbcType=VARCHAR},
+            </if>
+            shy2state = #{shy2state,jdbcType=INTEGER}
+        </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
     <update id="upbxdhcbyshy" parameterType="com.glyxybxhtxt.dataObject.Bxd" >
