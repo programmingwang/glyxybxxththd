@@ -41,4 +41,9 @@ public class JdrServiceImpl implements JdrService {
     public void upjdr(Jdr j) {
         jdrMapper.updateByPrimaryKeySelective(j);
     }
+
+    @Override
+    public List<Jdr> selOptimaljdr(String bxlb, Integer eid) {
+        return jdrMapper.selOptimalJdr(bxlb,eid);
+    }
 }

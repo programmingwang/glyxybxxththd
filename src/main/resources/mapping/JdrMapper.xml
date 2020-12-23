@@ -37,8 +37,13 @@
       where j.state = #{state,jdbcType=VARCHAR}
     </if>
   </select>
-
-
+  <select id="selOptimalJdr" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from  bxqy qy, ewm e, qdb qd, jdr j
+          where e.qid = qy.id and qd.shyid = j.ybid and qd.state = 1 and qd.xq = qy.xq
+          and j.state = 1 and j.ywfw like '%'+#{bxlb}+'%' and e.id = #{eid}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />

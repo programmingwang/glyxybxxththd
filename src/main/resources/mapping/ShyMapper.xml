@@ -18,8 +18,17 @@
     <include refid="Base_Column_List" />
     from shy
   </select>
-  
-  
+  <select id="selOptimalshy" resultMap="BaseResultMap">
+ 	select
+    <include refid="Base_Column_List" />
+    from  bxqy qy, ewm e, qdb qd, shy s
+    where e.qid = qy.id
+    and qd.shyid = s.ybid
+    and qd.xq = qy.xq
+    and e.id = #{eid}
+    order by qd.qdsj DESC
+    limit 2
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

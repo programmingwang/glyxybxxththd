@@ -2,6 +2,7 @@ package com.glyxybxhtxt.dao;
 
 
 import com.glyxybxhtxt.dataObject.Jdr;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,5 @@ public interface JdrMapper {
 
     List<Jdr> seljdrforpd();
     List<Jdr> selallJdr(String state);
+    List<Jdr> selOptimalJdr(@Param("bxlb") String bxlb, @Param("eid")Integer eid);
 }

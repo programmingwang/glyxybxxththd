@@ -1,5 +1,8 @@
 package com.glyxybxhtxt.dataObject;
 
+import lombok.ToString;
+
+@ToString
 public class Shy {
     private String ybid;
 

@@ -1,6 +1,7 @@
 package com.glyxybxhtxt.service;
 
 import com.glyxybxhtxt.dataObject.Shy;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface ShyService {
     void del(String ybid);
     void newshy(Shy s);
     void UPshy(Shy s);
+    List<Shy> selOptimalShy(Integer eid);
 }

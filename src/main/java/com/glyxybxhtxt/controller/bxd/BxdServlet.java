@@ -11,6 +11,7 @@ import com.glyxybxhtxt.service.ShyService;
 import com.glyxybxhtxt.util.ParseUtil;
 import com.glyxybxhtxt.util.PathUtil;
 import com.glyxybxhtxt.util.AutoOrder;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.codec.binary.Base64;
@@ -34,6 +35,7 @@ import java.util.*;
  * Version: 1.0
  */
 @RestController
+@Slf4j
 public class BxdServlet {
 
     private static final long serialVersionUID = 1L;
@@ -163,27 +165,11 @@ public class BxdServlet {
         if(StringUtils.isAllBlank(jid, bid)){
             //自动分配审核员
 //            -------------------------------------------------------------------------
-            //1、先查出所有审核员
-            List<Shy> allshy = ss.selallqy();
-            //2、通过eid查询当前订单的所属校区
-            String bxdxq = es.selqybysbr(Integer.parseInt(eid)).getQy().getXq();
-            int setShy = 0;
-            for (Shy shy : allshy) {
-                //3、查看签到表里不同的审核员最近一次签到的校区 签到状态1或者2都行，并筛选出与当前订单区域匹配的
-                if( StringUtils.equals(bxdxq, qs.selectOptimalXqForShy(shy.getYbid()))){
-                    if (setShy == 0){
-                        bxd.setShy1(shy.getYbid());
-                        setShy++;
-                    }else if (setShy == 1){
-                        bxd.setShy2(shy.getYbid());
-                        break;
-                    }
-                }
-            }
-//            -------------------------------------------------------------------------
-
-            //自动派单
-            String zdpdResult = this.zdpd.zdpd(eid, bxlb);
+            //1、先查出所有符合当前校区的审核员
+            List<Shy> optimalShy = ss.selOptimalShy(Integer.parseInt(eid));
+            bxd.setShy1(optimalShy.get(0).getYbid());
+            bxd.setShy2(optimalShy.get(1).getYbid());
+            String zdpdResult = zdpd.zdpd(eid, bxlb);
             if(StringUtils.startsWith(zdpdResult, "6U@U6WX2^&nb6YIILV")){
                 bs.newbxdbysbr(bxd);
                 return new ResponseData(StringUtils.substringAfter(zdpdResult, "6U@U6WX2^&nb6YIILV"));

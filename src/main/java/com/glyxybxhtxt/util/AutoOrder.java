@@ -40,32 +40,26 @@ public class AutoOrder {
          * 4、bxd.setJid(jdrybid)
          */
             //获得当前的修改地点的二维码，实质上是为了查询到二维码的校区
-            Ewm ewm = es.selqybysbr(Integer.parseInt(eid));
             //当前二维码所属的校区
-            String bxdxq = ewm.getQy().getXq();
             //获得所有状态为1(state只是第三方工作人员的在职状态，并不是是否在线，是否在线要查签到表，
             //查看最近一次签到是否为‘签到’（‘签到’就派单)的接单人,当然state=1也需要），
             //还有就是签到地点得与当前二维码所在校区一样
-            List<Jdr> canjd = js.selalljdr("1");
+            List<Jdr> canjd = js.selOptimaljdr(bxlb,Integer.parseInt(eid));
             //工时满足要求的接单人，只有这些接单人才能被自动派单
             List<Jdr> gscanjd = new ArrayList<>();
             for (Jdr jdr : canjd) {
-                //接单人总工时小于2 并且 接单人的业务范围包括报修类别 并且 bxd的xq和最近一次签到在次xq的（！！！业务范围改成具体能干啥了！！！）
+                //接单人总工时小于2 并且 接单人的业务范围包括报修类别 并且 bxd的xq和最近一次签到在一个xq的（！！！业务范围改成具体能干啥了！！！）
                 Double gs = bs.selgs(jdr.getYbid());
                 gs = ObjectUtils.isEmpty(gs) ? 0 : gs ;
-//            && StringUtils.contains(jdr.getYwfw(),String.valueOf(ewm.getQid()))
-                if( gs < Double.parseDouble("2") &&
-                    StringUtils.equals(bxdxq,qs.selectOptimalXq(jdr.getYbid())) &&
-                    StringUtils.contains(jdr.getYwfw(),bxlb)){
+                if( gs < Double.parseDouble("2")){
                     gscanjd.add(jdr);
                 }
             }
-            if(gscanjd.size() < 1){
+
+            if(gscanjd.size() == 0){
                 return "6U@U6WX2^&nb6YIILV当前没有可以接单的接单人了！请尽快电话联系后勤处为您安排接单人！";
             }
             //gscanjd里就是符合要求的接单人  可以理解成热点数据，
-            // 但是这个访问量不大，考虑是否引入guava生态(不能引人，这个数据随时在变)
-            //最好应该是加锁，保证当前情况找接单人排着队找就行了
             //随机派单
             Random random = new Random();
             //随机出来的接单人，可以进行派单了

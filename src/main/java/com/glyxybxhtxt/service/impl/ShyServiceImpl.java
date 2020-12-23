@@ -42,4 +42,9 @@ public class ShyServiceImpl implements ShyService{
     public void UPshy(Shy s) {
         shyMapper.updateByPrimaryKeySelective(s);
     }
+
+    @Override
+    public List<Shy> selOptimalShy(Integer eid) {
+        return shyMapper.selOptimalshy(eid);
+    }
 }

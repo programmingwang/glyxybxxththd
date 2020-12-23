@@ -37,7 +37,7 @@ public class OrderListener implements Job {
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         log.info("正在监听接口。。。。。");
         //查找工时超过2的接单人的订单
-        //1、查找状态为1，2的接单人
+        //1、查找状态为1，2,3的接单人
         List<Jdr> allJdr1and2 = new ArrayList<>();
         allJdr1and2.addAll(js.selalljdr("1"));
         allJdr1and2.addAll(js.selalljdr("2"));

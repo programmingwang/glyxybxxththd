@@ -19,4 +19,7 @@ public interface ShyMapper {
     int updateByPrimaryKey(Shy record);
     
     List<Shy> selallshy();
+    List<Shy> selOptimalshy(Integer eid);
+
+
 }

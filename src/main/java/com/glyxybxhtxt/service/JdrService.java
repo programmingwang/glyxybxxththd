@@ -1,6 +1,7 @@
 package com.glyxybxhtxt.service;
 
 import com.glyxybxhtxt.dataObject.Jdr;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface JdrService {
     void del(String ybid);
     void newjdr(Jdr j);
     void upjdr(Jdr j);
+    List<Jdr> selOptimaljdr(String bxlb, Integer eid);
 }
