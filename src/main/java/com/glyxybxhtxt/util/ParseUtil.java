@@ -107,10 +107,10 @@ public class ParseUtil {
                 Hc xxhc = hs.selOneHc(Integer.parseInt(hc.split("-")[0]));
                 if(i == 0){
                     afterHc.append(xxhc.getMc()).append("(型号:")
-                            .append(xxhc.getXh()).append(hc.split("-")[1]).append(")").append(",");
+                            .append(xxhc.getXh()).append(";数量:").append(hc.split("-")[1]).append(xxhc.getDw()).append(")").append(",");
                 }else{
                     afterHc.append(fghczd).append(xxhc.getMc()).append("(型号:")
-                            .append(xxhc.getXh()).append(")").append(",");
+                            .append(xxhc.getXh()).append(";数量:").append(hc.split("-")[1]).append(xxhc.getDw()).append(")").append(",");
                 }
 
             }
