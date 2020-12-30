@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Author:wangzh
@@ -165,8 +166,10 @@ public class BxdServlet {
 //            -------------------------------------------------------------------------
             //1、先查出所有符合当前校区的审核员
             List<Shy> optimalShy = ss.selOptimalShy(Integer.parseInt(eid));
-            bxd.setShy1(optimalShy.get(0).getYbid());
-            bxd.setShy2(optimalShy.get(1).getYbid());
+            //做筛选，防止重复打卡而引发的只有一个合适的审核员
+            List<Shy> collect = optimalShy.stream().distinct().collect(Collectors.toList());
+            bxd.setShy1(collect.get(0).getYbid());
+            bxd.setShy2(collect.get(1).getYbid());
             String zdpdResult = zdpd.zdpd(eid, bxlb);
             if(StringUtils.startsWith(zdpdResult, "6U@U6WX2^&nb6YIILV")){
                 bs.newbxdbysbr(bxd);

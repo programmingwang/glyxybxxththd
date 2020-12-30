@@ -27,7 +27,6 @@
     and qd.xq = qy.xq
     and e.id = #{eid}
     order by qd.qdsj DESC
-    limit 2
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

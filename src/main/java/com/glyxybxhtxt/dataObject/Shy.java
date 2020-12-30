@@ -1,6 +1,8 @@
 package com.glyxybxhtxt.dataObject;
 
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public class Shy {
     private String ybid;
 
