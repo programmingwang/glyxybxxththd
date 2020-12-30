@@ -120,16 +120,16 @@ public class ShyServlet {
         }
         if(shyid.equals(t.getShy1())){
             if (StringUtils.equals(shystate, "2")) {
-                b.setShy1state(0);
-                b.setShy2state(0);
+                b.setShy1state(state);
+                b.setShy2state(state);
             } else {
                 b.setShy1state(state);
             }
             bs.upbxd1byshy(b);
         }else if(shyid.equals(t.getShy2())){
             if (StringUtils.equals(shystate, "2")) {
-                b.setShy1state(0);
-                b.setShy2state(0);
+                b.setShy1state(state);
+                b.setShy2state(state);
             } else {
                 b.setShy2state(state);
             }
