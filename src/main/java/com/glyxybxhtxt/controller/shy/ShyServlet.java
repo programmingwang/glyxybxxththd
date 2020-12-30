@@ -119,10 +119,20 @@ public class ShyServlet {
             b.setGs("");
         }
         if(shyid.equals(t.getShy1())){
-            b.setShy1state(state);
+            if (StringUtils.equals(shystate, "2")) {
+                b.setShy1state(0);
+                b.setShy2state(0);
+            } else {
+                b.setShy1state(state);
+            }
             bs.upbxd1byshy(b);
         }else if(shyid.equals(t.getShy2())){
-            b.setShy2state(state);
+            if (StringUtils.equals(shystate, "2")) {
+                b.setShy1state(0);
+                b.setShy2state(0);
+            } else {
+                b.setShy2state(state);
+            }
             bs.upbxd2byshy(b);
         }else{
             return new ResponseData("审核员id无效");
