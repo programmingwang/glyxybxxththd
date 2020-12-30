@@ -370,7 +370,7 @@ public class AdminServlet {
         List<Bxd> blist = bs.selbxdbyadmin(b);
         for (Bxd bxd : blist) {
             bxd.setBxlb(parse.paraseBxlb(bxd.getBxlb()));
-            bxd.setHc(parse.paraseHc(bxd.getHc()));
+            bxd.setHc(parse.paraseHc1(bxd.getHc()));
             bxd.setS1(ss.selOneShy(bxd.getShy1()));
             bxd.setS2(ss.selOneShy(bxd.getShy2()));
         }

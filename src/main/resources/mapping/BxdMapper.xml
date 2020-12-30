@@ -549,6 +549,9 @@
             <if test="gs != null" >
                 gs = #{gs,jdbcType=VARCHAR},
             </if>
+            <if test="shy2state != null" >
+                shy2state = #{shy2state,jdbcType=INTEGER},
+            </if>
             shy1state = #{shy1state,jdbcType=INTEGER}
         </set>
     where id = #{id,jdbcType=INTEGER}
@@ -561,6 +564,9 @@
             </if>
             <if test="gs != null" >
                 gs = #{gs,jdbcType=VARCHAR},
+            </if>
+            <if test="shy1state != null" >
+                shy1state = #{shy1state,jdbcType=INTEGER},
             </if>
             shy2state = #{shy2state,jdbcType=INTEGER}
         </set>
