@@ -4,7 +4,7 @@ import com.glyxybxhtxt.dataObject.*;
 import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.*;
 import com.glyxybxhtxt.util.ParseUtil;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,6 +39,8 @@ public class AdminServlet {
     private EwmService es;
     @Autowired
     private ParseUtil parse;
+    @Autowired
+    private MsgPushService ybmsg;
 
 
     @RequestMapping("/AdminServlet")
@@ -238,17 +240,21 @@ public class AdminServlet {
             return new ResponseData("3");
         }
         Integer id = Integer.parseInt(bid);
+        //查询当前的报修单
+        Bxd currentBxd = bs.selonebxd(id);
         b.setId(id);
         if("1".equals(del)){
             bs.del(id);
             responseData =  new ResponseData("success","删除成功");
         }else{
             b.setJid(jid);
+            if(!StringUtils.equals(jid,currentBxd.getJid())) ybmsg.msgpush(jid,
+                    "您有新的维修订单了，请及时处理！详细地点："+es.selxxwz(currentBxd.getEid()));
             b.setShy1(shy1);
             b.setShy2(shy2);
             b.setPj(pj);
             b.setPjnr(pjnr);
-            b.setHc(hc);
+//            b.setHc(hc);
             b.setGs(gs);
             bs.upbxdbyadmin(b);
             responseData =  new ResponseData("success","修改成功");

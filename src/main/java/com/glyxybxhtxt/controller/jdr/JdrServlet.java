@@ -3,6 +3,7 @@ package com.glyxybxhtxt.controller.jdr;
 import com.glyxybxhtxt.dataObject.Bxd;
 import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.BxdService;
+import com.glyxybxhtxt.service.MsgPushService;
 import com.glyxybxhtxt.util.ParseUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class JdrServlet{
     private BxdService bs;
     @Autowired
     private ParseUtil parse;
+    @Autowired
+    private MsgPushService ybmsg;
 
     @RequestMapping("/JdrServlet")
     @ResponseBody
@@ -85,6 +88,8 @@ public class JdrServlet{
                 b.setGs(gs);
                 bs.upbxdbyjdr(b);
                 responseData = new ResponseData("success","设置耗材、工时成功");
+                ybmsg.msgpush(t.getShy1(),"您有订单需要审核，请及时处理！单号："+t.getId());
+                ybmsg.msgpush(t.getShy2(),"您有订单需要审核，请及时处理！单号："+t.getId());
             }
         }
         return responseData;

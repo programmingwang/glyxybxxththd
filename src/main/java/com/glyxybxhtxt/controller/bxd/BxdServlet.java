@@ -4,10 +4,7 @@ import com.glyxybxhtxt.dataObject.Bxd;
 import com.glyxybxhtxt.dataObject.Ewm;
 import com.glyxybxhtxt.dataObject.Shy;
 import com.glyxybxhtxt.response.ResponseData;
-import com.glyxybxhtxt.service.BxdService;
-import com.glyxybxhtxt.service.EwmService;
-import com.glyxybxhtxt.service.QdbService;
-import com.glyxybxhtxt.service.ShyService;
+import com.glyxybxhtxt.service.*;
 import com.glyxybxhtxt.util.ParseUtil;
 import com.glyxybxhtxt.util.PathUtil;
 import com.glyxybxhtxt.util.AutoOrder;
@@ -51,6 +48,8 @@ public class BxdServlet {
     private QdbService qs;
     @Resource
     private ParseUtil parse;
+    @Autowired
+    private MsgPushService ybmsg;
 
 
 //    @Override
@@ -72,7 +71,6 @@ public class BxdServlet {
                             @RequestParam(value = "pjnr", required = false) String pjnr, @RequestParam(value = "pjzj", required = false) String pjzj,
                             @RequestParam(value = "bid", required = false) String bid, @RequestParam(value = "jid", required = false) String jid,
                             @RequestParam(value = "hc", required = false) String hc) throws IOException {
-        System.out.println(sp);
         if (StringUtils.isWhitespace(op) || StringUtils.isEmpty(op) || StringUtils.isBlank(op))
             return new ResponseData("2");
         switch (op) {
@@ -169,6 +167,7 @@ public class BxdServlet {
             //做筛选，防止重复打卡而引发的只有一个合适的审核员
             List<Shy> collect = optimalShy.stream().distinct().collect(Collectors.toList());
             bxd.setShy1(collect.get(0).getYbid());
+            ybmsg.msgpush(collect.get(0).getYbid(),"您有新的保修单需要审核，请注意！");
             bxd.setShy2(collect.get(1).getYbid());
             String zdpdResult = zdpd.zdpd(eid, bxlb);
             if(StringUtils.startsWith(zdpdResult, "6U@U6WX2^&nb6YIILV")){
@@ -201,6 +200,7 @@ public class BxdServlet {
             fgbxd.setShy1state(0);
             fgbxd.setShy2state(0);
             bs.fg(fgbxd);
+            ybmsg.msgpush(jid,"您有报修单需要返工，请及时处理！详细地点："+es.selxxwz(Integer.parseInt(eid)));
             return new ResponseData(true);
         }
     }

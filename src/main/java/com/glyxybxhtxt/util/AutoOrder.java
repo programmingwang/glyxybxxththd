@@ -2,10 +2,7 @@ package com.glyxybxhtxt.util;
 
 import com.glyxybxhtxt.dataObject.Ewm;
 import com.glyxybxhtxt.dataObject.Jdr;
-import com.glyxybxhtxt.service.BxdService;
-import com.glyxybxhtxt.service.EwmService;
-import com.glyxybxhtxt.service.JdrService;
-import com.glyxybxhtxt.service.QdbService;
+import com.glyxybxhtxt.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -29,7 +26,7 @@ public class AutoOrder {
     @Resource
     private JdrService js;
     @Resource
-    private QdbService qs;
+    private MsgPushService ybmsg;
 
     public String zdpd(String eid, String bxlb){
         /**
@@ -64,6 +61,7 @@ public class AutoOrder {
             Random random = new Random();
             //随机出来的接单人，可以进行派单了
             Jdr jdr = gscanjd.get(random.nextInt(gscanjd.size()));
+            ybmsg.msgpush(jdr.getYbid(),"您有新的维修订单了，请及时处理！详细地点："+es.selxxwz(Integer.parseInt(eid)));
             return jdr.getYbid();
         }
     }

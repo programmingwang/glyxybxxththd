@@ -35,4 +35,5 @@ public interface BxdService {
     List<Jdr> seljdrforpd();
     int upbxdbyysr(Bxd b);
     String selishc(Integer id);
+    Bxd selonebxd(Integer id);
 }

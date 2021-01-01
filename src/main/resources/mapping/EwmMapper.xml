@@ -14,6 +14,13 @@
   <sql id="Base_Column_List" >
     id, qid, xxdd
   </sql>
+
+  <select id="selxxwz" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select qy.xq, qy.qy, e.xxdd
+      from ewm e,bxqy qy
+      where qy.id = e.qid
+      and e.id = #{id,jdbcType=INTEGER};
+  </select>
   
   <select id="selewm" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
   	 select 

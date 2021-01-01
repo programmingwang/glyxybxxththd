@@ -162,4 +162,9 @@ public class BxdServiceImpl implements BxdService {
     public String selishc(Integer id) {
         return bxdMapper.selishc(id);
     }
+
+    @Override
+    public Bxd selonebxd(Integer id) {
+        return bxdMapper.selectByPrimaryKey(id);
+    }
 }

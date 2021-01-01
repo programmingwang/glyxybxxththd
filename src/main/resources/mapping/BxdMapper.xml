@@ -538,7 +538,7 @@
         where id = #{id,jdbcType=INTEGER} and jid = #{jid,jdbcType=VARCHAR}
     </update>
     <select id="selbxdforshyid" resultMap="BaseResultMap"  parameterType="java.lang.Integer" >
-  	select id,shy1,shy2,shy1state,shy2state from bxd where id = #{id,jdbcType=INTEGER}
+  	select id,shy1,shy2,shy1state,shy2state,jid,eid from bxd where id = #{id,jdbcType=INTEGER}
   </select>
     <update id="upbxd1byshy" parameterType="com.glyxybxhtxt.dataObject.Bxd" >
   	 update bxd

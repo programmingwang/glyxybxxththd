@@ -13,6 +13,8 @@ public interface EwmMapper {
     int insertSelective(Ewm record);
 
     Ewm selectByPrimaryKey(Integer id);
+    //查询二维码详细位置
+    Ewm selxxwz(Integer id);
 
     int updateByPrimaryKeySelective(Ewm record);
 
