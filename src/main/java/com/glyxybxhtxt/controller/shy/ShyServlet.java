@@ -144,6 +144,11 @@ public class ShyServlet {
         }else{
             return new ResponseData("审核员id无效");
         }
+        //这里应该再查询一次数据库报修单
+        Bxd checkShyState = bs.selbxdforshyid(id);
+        if(StringUtils.equals("1",checkShyState.getShy1()) && StringUtils.equals("1",checkShyState.getShy2())){
+            ybmsg.msgpush(checkShyState.getJid(),"审核员审核通过，请尽快前往维修！详细地点："+es.selxxwz(checkShyState.getEid()));
+        }
         return new ResponseData(true);
     }
 

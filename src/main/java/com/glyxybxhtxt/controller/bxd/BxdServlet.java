@@ -167,7 +167,6 @@ public class BxdServlet {
             //做筛选，防止重复打卡而引发的只有一个合适的审核员
             List<Shy> collect = optimalShy.stream().distinct().collect(Collectors.toList());
             bxd.setShy1(collect.get(0).getYbid());
-            ybmsg.msgpush(collect.get(0).getYbid(),"您有新的保修单需要审核，请注意！");
             bxd.setShy2(collect.get(1).getYbid());
             String zdpdResult = zdpd.zdpd(eid, bxlb);
             if(StringUtils.startsWith(zdpdResult, "6U@U6WX2^&nb6YIILV")){
