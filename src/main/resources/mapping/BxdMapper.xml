@@ -632,6 +632,18 @@
     <update id="fg" parameterType="com.glyxybxhtxt.dataObject.Bxd" >
         update bxd
         <set >
+            <if test="tp != null" >
+                tp = #{tp,jdbcType=VARCHAR},
+            </if>
+            <if test="tp == null" >
+                tp = "",
+            </if>
+            <if test="sp != null">
+                sp = #{sp,jdbcType=VARCHAR},
+            </if>
+            <if test="sp == null">
+                sp = "",
+            </if>
             <if test="jid != null" >
                 jid = #{jid,jdbcType=VARCHAR},
             </if>
@@ -662,6 +674,7 @@
             <if test="state != null" >
                 state = #{state,jdbcType=INTEGER},
             </if>
+
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
