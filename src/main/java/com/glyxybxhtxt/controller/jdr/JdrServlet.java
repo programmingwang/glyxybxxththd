@@ -90,12 +90,13 @@ public class JdrServlet{
             if((2==t.getShy1state()||2==t.getShy2state())){
                 b.setHc(hc);
                 b.setGs(gs);
+                b.setShy1state(0);
+                b.setShy2state(0);
                 bs.upbxdbyjdr(b);
                 responseData = new ResponseData("success","重填耗材、工时成功");
                 ybmsg.msgpush(t.getShy1(),"接单人已重新填写的耗材工时，请及时审核！链接：http://yiban.glmc.edu.cn/bx?eid="+t.getEid()+"\n单号"+t.getId());
                 ybmsg.msgpush(t.getShy2(),"接单人已重新填写的耗材工时，请及时审核！链接：http://yiban.glmc.edu.cn/bx?eid="+t.getEid()+"\n单号"+t.getId());
-            }
-            if(!(0==t.getShy1state()||0==t.getShy2state())){
+            }else if(!(0==t.getShy1state()||0==t.getShy2state())){
                 responseData = new ResponseData("耗材及工时已审核，无法修改");
             }else{
                 b.setHc(hc);

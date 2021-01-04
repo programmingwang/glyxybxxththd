@@ -534,6 +534,12 @@
             <if test="state != null" >
                 state = #{state,jdbcType=INTEGER},wxsj=CURRENT_TIMESTAMP,
             </if>
+            <if test="shy2state != null" >
+                shy2state = #{shy2state,jdbcType=INTEGER},
+            </if>
+            <if test="shy1state != null" >
+                shy1state = #{shy1state,jdbcType=INTEGER},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER} and jid = #{jid,jdbcType=VARCHAR}
     </update>
