@@ -16,4 +16,5 @@ public interface JdrService {
     void newjdr(Jdr j);
     void upjdr(Jdr j);
     List<Jdr> selOptimaljdr(String bxlb, Integer eid);
+    List<Jdr> selOptimaljdrPC(String bxlb);
 }

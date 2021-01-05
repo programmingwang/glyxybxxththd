@@ -59,7 +59,8 @@ public class AdminServlet {
                               @RequestParam(value = "shy1",required = false) String shy1, @RequestParam(value = "shy2",required = false) String shy2,
                               @RequestParam(value = "pj",required = false) String pj, @RequestParam(value = "startime",required = false) String startime,
                               @RequestParam(value = "endtime",required = false) String endtime, @RequestParam(value = "pjnr",required = false) String pjnr,
-                              @RequestParam(value = "hc",required = false) String hc, @RequestParam(value = "gs",required = false) String gs) throws  ParseException {
+                              @RequestParam(value = "hc",required = false) String hc, @RequestParam(value = "gs",required = false) String gs,
+                              @RequestParam(value = "bxlb",required = false) String bxlb) throws  ParseException {
         Map<String,Object> shymap = new HashMap<>();
         shymap.put("slist",ss.selallqy());
         if(StringUtils.isWhitespace(op) || StringUtils.isEmpty(op) || StringUtils.isBlank(op))
@@ -80,6 +81,7 @@ public class AdminServlet {
             case "upewm" : return upewm(eid, qid, xxdd);
             case "bxnum" : return bxnum(state);
             case "adminindex" : return adminindex();
+            case "selOptimaljdrPC" : return selOptimaljdrPC(bxlb);
             case "selbxdbyadminpc" : return selbxdbyadminpc(bid, startime, endtime, xq, qid, jid, state, pj);
             default: return new ResponseData(false);
         }
@@ -282,6 +284,12 @@ public class AdminServlet {
         return new ResponseData(map);
     }
 
+    private ResponseData selOptimaljdrPC(String bxlb) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("jlist", js.selOptimaljdrPC(bxlb));
+        return new ResponseData(map);
+    }
+
     private ResponseData selallqy(String xq) {
         if(xq==null){
             Map<String,Object> map = new HashMap<>();
@@ -340,6 +348,8 @@ public class AdminServlet {
         List<Bxd> blist = bs.selbxdbyadmin(b);
         for (Bxd bxd : blist) {
             bxd.setBxlb(parse.paraseBxlb(bxd.getBxlb()));
+            bxd.setS1(ss.selOneShy(bxd.getShy1()));
+            bxd.setS2(ss.selOneShy(bxd.getShy2()));
         }
         Map<String,Object> map = new HashMap<>();
         map.put("blist", blist);

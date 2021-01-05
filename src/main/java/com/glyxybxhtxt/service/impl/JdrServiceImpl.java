@@ -46,4 +46,9 @@ public class JdrServiceImpl implements JdrService {
     public List<Jdr> selOptimaljdr(String bxlb, Integer eid) {
         return jdrMapper.selOptimalJdr(bxlb,eid);
     }
+
+    @Override
+    public List<Jdr> selOptimaljdrPC(String bxlb) {
+        return jdrMapper.selOptimalJdrPC(bxlb);
+    }
 }

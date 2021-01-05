@@ -28,8 +28,8 @@
     LEFT JOIN
     (
     select * from
-    (select count(b.id) dqds,j.ybid did from bxd b,jdr j where b.jid = j.ybid and (b.state = 1 or b.state = 2) GROUP BY j.ybid) d,
-    (select count(b.id) zjds,j.ybid zid from bxd b,jdr j where b.jid = j.ybid and b.state != 4 GROUP BY j.ybid) z,
+    (select count(b.id) dqds,j.ybid did from bxd b,jdr j where b.jid = j.ybid and (b.state = 1 or b.state = 2 or b.state = 5) GROUP BY j.ybid) d,
+    (select count(b.id) zjds,j.ybid zid from bxd b,jdr j where b.jid = j.ybid GROUP BY j.ybid) z,
     (select floor(AVG(b.pj))  pjpj,j.ybid aid from bxd b,jdr j where b.jid = j.ybid GROUP BY j.ybid) a
     ) x
     on j.ybid = x.did and j.ybid = x.zid and j.ybid = x.aid
@@ -43,6 +43,19 @@
     from  bxqy qy, ewm e, qdb qd, jdr j
           where e.qid = qy.id and qd.shyid = j.ybid and qd.state = 1 and qd.xq = qy.xq
           and j.state = 1 and j.ywfw like "%"#{bxlb}"%" and e.id = #{eid}
+  </select>
+
+  <select id="selOptimalJdrPC" resultMap="BaseResultMap" >
+    SELECT jd.* from
+(select j.*,dqds,zjds,pjpj from jdr j
+    LEFT JOIN
+    (
+    select * from
+    (select count(b.id) dqds,j.ybid did from bxd b,jdr j where b.jid = j.ybid and (b.state = 1 or b.state = 5) GROUP BY j.ybid) d,
+    (select count(b.id) zjds,j.ybid zid from bxd b,jdr j where b.jid = j.ybid GROUP BY j.ybid) z,
+    (select floor(AVG(b.pj))  pjpj,j.ybid aid from bxd b,jdr j where b.jid = j.ybid GROUP BY j.ybid) a
+    ) x
+on j.ybid = x.did and j.ybid = x.zid and j.ybid = x.aid ) jd where jd.ywfw like "%"#{bxlb}"%"
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select

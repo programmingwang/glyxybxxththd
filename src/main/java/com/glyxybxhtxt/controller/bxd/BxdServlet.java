@@ -170,6 +170,7 @@ public class BxdServlet {
             bxd.setShy2(collect.get(1).getYbid());
             String zdpdResult = zdpd.zdpd(eid, bxlb);
             if(StringUtils.startsWith(zdpdResult, "6U@U6WX2^&nb6YIILV")){
+                bxd.setState(0);
                 bs.newbxdbysbr(bxd);
                 return new ResponseData(StringUtils.substringAfter(zdpdResult, "6U@U6WX2^&nb6YIILV"));
             }
