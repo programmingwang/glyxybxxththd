@@ -91,7 +91,7 @@ public class AdminServlet {
         //验收单+完成单才是完成的订单
         int zwxd = bs.selnumforstate(2) + bs.selnumforstate(4);
         //正在维修的单
-        int zzwx = bs.selnumforstate(1);
+        int zzwx = bs.selnumforstate(1) + bs.selnumforstate(5);
         //撤销的单
         int zcxd = bs.selnumforstate(3);
         map.put("tj", bs.tj());
