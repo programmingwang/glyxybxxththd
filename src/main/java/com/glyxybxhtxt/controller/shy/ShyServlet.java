@@ -169,7 +169,8 @@ public class ShyServlet {
         if(shyid.equals(t.getShy1())){
             b.setState(state);
             Boolean fsxx = state == 4 ? ybmsg.msgpush(t.getJid(),"您在"+es.selxxwz(t.getEid())+"维修的订单验收通过了！")
-                    : ybmsg.msgpush(t.getJid(),"您有订单验收不通过，请及时处理！报修单地点："+es.selxxwz(t.getEid())) ;
+//                    : ybmsg.msgpush(t.getJid(),"您有订单验收不通过，请及时处理！链接：http://yiban.glmc.edu.cn/bx?eid="+t.getEid()+"\n报修单地点："+es.selxxwz(t.getEid()));
+                    : ybmsg.msgpush(t.getJid(),"您有订单验收不通过，请及时处理！报修单地点："+es.selxxwz(t.getEid()));
             bs.upbxdbyysr(b);
         }else{
             return new ResponseData("验收员id无效");

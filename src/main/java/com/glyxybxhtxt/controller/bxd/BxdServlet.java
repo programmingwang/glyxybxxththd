@@ -217,6 +217,10 @@ public class BxdServlet {
         b.setPjzj(pjzj);
         b.setCxsy(cxsy);
         bs.upbxdbysbr(b);
+        if(cxsy != null){
+            Bxd currentBxd = bs.selonebxd(Integer.parseInt(bid));
+            if(currentBxd.getJid() != null) ybmsg.msgpush(currentBxd.getJid(),"二维码地址：http://yiban.glmc.edu.cn/bx?eid="+currentBxd.getEid()+"\n您在"+es.selxxwz(currentBxd.getEid())+"申报人已经撤销了，请注意！");
+        }
         return new ResponseData(true);
     }
 
