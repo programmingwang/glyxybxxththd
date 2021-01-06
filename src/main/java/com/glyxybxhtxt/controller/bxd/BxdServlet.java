@@ -184,7 +184,7 @@ public class BxdServlet {
             //返工
             Bxd fgbxd = new Bxd();
             fgbxd.setId(Integer.parseInt(bid));
-            fgbxd.setTp(tp);
+            fgbxd.setTp(filename);
             fgbxd.setSp(sp);
             //预约时间
             fgbxd.setYysj(yysj);
