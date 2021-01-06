@@ -174,6 +174,7 @@ public class BxdServlet {
                 bs.newbxdbysbr(bxd);
                 return new ResponseData(StringUtils.substringAfter(zdpdResult, "6U@U6WX2^&nb6YIILV"));
             }
+            bxd.setState(1);
             bxd.setJid(zdpdResult);
 
             return bs.newbxdbysbr(bxd) == 1
