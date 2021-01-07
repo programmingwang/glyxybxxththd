@@ -249,11 +249,19 @@ public class AdminServlet {
             bs.del(id);
             responseData =  new ResponseData("success","删除成功");
         }else{
+            String bxdxxdd = es.selxxwz(currentBxd.getEid());
             b.setJid(jid);
             if(!StringUtils.equals(jid,currentBxd.getJid())) ybmsg.msgpush(jid,
-                    "您有新的维修订单了，请及时处理！详细地点："+es.selxxwz(currentBxd.getEid()));
+                    "管理员为您分配新的维修订单了，请及时处理！详细地点："+ bxdxxdd);
+
             b.setShy1(shy1);
+            if(!StringUtils.equals(shy1,currentBxd.getShy1()) && !StringUtils.equals(shy1,currentBxd.getShy2())) ybmsg.msgpush(shy1,
+                    "管理员为您分配新的订单审核了，请及时处理！详细地点："+ bxdxxdd);
+
             b.setShy2(shy2);
+            if(!StringUtils.equals(shy2,currentBxd.getShy2()) && !StringUtils.equals(shy2,currentBxd.getShy1())) ybmsg.msgpush(shy2,
+                    "管理员为您分配新的订单审核了，请及时处理！详细地点："+ bxdxxdd);
+
             b.setPj(pj);
             b.setPjnr(pjnr);
 //            b.setHc(hc);
