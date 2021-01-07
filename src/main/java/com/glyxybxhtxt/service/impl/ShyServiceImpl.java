@@ -49,6 +49,11 @@ public class ShyServiceImpl implements ShyService{
     }
 
     @Override
+    public List<Shy> selqtShy(Integer eid) {
+        return shyMapper.selqtshy(eid);
+    }
+
+    @Override
     public Shy selOneShy(String ybid) {
         return shyMapper.selectByPrimaryKey(ybid);
     }

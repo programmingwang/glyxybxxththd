@@ -1,31 +1,25 @@
 package com.glyxybxhtxt.util;
 
 import com.glyxybxhtxt.dataObject.Bxd;
-import com.glyxybxhtxt.dataObject.Jdr;
-import com.glyxybxhtxt.service.BxdService;
-import com.glyxybxhtxt.service.EwmService;
-import com.glyxybxhtxt.service.JdrService;
-import com.glyxybxhtxt.service.MsgPushService;
-import lombok.extern.slf4j.Slf4j;
+import com.glyxybxhtxt.dataObject.Shy;
+import com.glyxybxhtxt.service.*;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Author:wangzh
- * Date: 2020/12/12 11:54
+ * Date: 2021/1/7 17:38
  * Version: 1.0
- * Description : 此类用来监听订单派单给总工时已经超过2的接单人，将这些单重新派给其他接单人
+ * description: 这个定时任务用来检查昨天下午5.30---今天早上9.00的订单的审核员状态
+ * （也就是夜班的情况，因为只有一个审核员上班）
  */
-@Slf4j
-public class OrderListener implements Job {
+public class ShyCheck implements Job {
 
     private BxdService bs = (BxdService) SpringContextUtil.getBean("bxdServiceImpl");
 
@@ -33,55 +27,44 @@ public class OrderListener implements Job {
 
     private JdrService js = (JdrService) SpringContextUtil.getBean("jdrServiceImpl");
 
+    private ShyService ss = (ShyService) SpringContextUtil.getBean("shyServiceImpl");
+
     private AutoOrder zdpd = (AutoOrder) SpringContextUtil.getBean("autoOrder");
 
     private MsgPushService ybmsg = (MsgPushService) SpringContextUtil.getBean("msgPushServiceImpl");
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        //查找工时超过2的接单人的订单
-        //1、查找状态为1，2,3的接单人
-        List<Jdr> allJdr1and2 = new ArrayList<>();
-        allJdr1and2.addAll(js.selalljdr("1"));
-        allJdr1and2.addAll(js.selalljdr("2"));
-        allJdr1and2.addAll(js.selalljdr("3"));
-        //今天工时>=2的接单人
-        List<Jdr> gsgt2 = new ArrayList<>();
-        //当前接单人工时超过2的且状态为已派单（state=1）的工单
-        List<Bxd> state1gd = new ArrayList<>();
-
-        //查找今天总工时已经>=2的接单人
-        for (Jdr jdr : allJdr1and2) {
-            Double gs = bs.selgs(jdr.getYbid());
-            gs = ObjectUtils.isEmpty(gs) ? 0 : gs ;
-            if(gs >= Double.parseDouble("2")){
-                //当前jdr总工时>=2，找到他还未完成的订单，重新派单给其他接单人
-                Bxd b = new Bxd();
-                b.setState(1);
-                b.setJid(jdr.getYbid());
-                //找到了所有未维修的订单
-                state1gd.addAll(bs.selbxdbyjdr(b));
+        //查询昨天的，下班时间申报的并且只有一个审核员审核的订单，也就是休息时间申报的报修单
+        List<Bxd> xxsjbxd = bs.xxsjBxd();
+        xxsjbxd.forEach(bxd -> {
+            //查询一下今天已经在这个订单区域签到了的审核员
+            List<Shy> alreadyQdShy = ss.selOptimalShy(bxd.getEid());
+            int alreadyQdShyNum = alreadyQdShy.size();
+            if(alreadyQdShyNum > 0) {
+                Random sjfpshy = new Random();
+                Bxd t = new Bxd();
+                //随机分配审核员
+                String chosenShy = alreadyQdShy.get(sjfpshy.nextInt(alreadyQdShyNum)).getYbid();
+                t.setShy2(chosenShy);
+                t.setId(bxd.getId());
+                //修改审核员2
+                bs.upbxdbyadmin(t);
+                //易班推送
+                ybmsg.msgpush(chosenShy,es.selxxwz(bxd.getEid())+"的报修单较紧急，请您及时到现场审核处理！");
+                ybmsg.msgpush(bxd.getShy2(), "您需要去" + es.selxxwz(bxd.getEid()) + "审核的订单已经分配给了其他审核员，请注意！");
             }
-        }
-
-        //给这些单重新派单
-        for (Bxd bxd : state1gd) {
-            ybmsg.msgpush(bxd.getJid(),"由于您今日工时已达标，您在"+es.selxxwz(bxd.getEid())+"的报修单已经分配给其他接单人，请注意！");
-            bxd.setJid(zdpd.zdpd(String.valueOf(bxd.getEid()), bxd.getBxlb()));
-            bs.upbxdbyadmin(bxd);
-        }
-
+        });
     }
-
 
     /**
      * @Description 调度器（Simple Triggers）
      * @param
      * @Return void
      * @Author wzh
-     * @Date 2020/12/12 11:54
+     * @Date 2020/1/7 20:54
      */
-    private void mySchedule() {
+    void mySchedule() {
         try {
             //创建scheduler（调度器）实例
 //            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
@@ -90,12 +73,12 @@ public class OrderListener implements Job {
 
             //创建JobDetail实例，创建要执行的job
             JobDetail jobDetail = JobBuilder.newJob(OrderListener.class)
-                    .withIdentity("监听接单人超工时的工单", "group1")
+                    .withIdentity("监听下班时间订单的审核员2重新分配", "group2")
                     .build();
 
-            //构建CronTrigger（触发器）实例,每天九点-十八点执行每隔20分钟执行一次
+            //构建CronTrigger（触发器）实例,早上8点-早上10点每隔15分钟执行一次
             Trigger trigger = TriggerBuilder.newTrigger()
-                    .withIdentity("trigger1", "监听接单人超工时的工单重新分配")
+                    .withIdentity("trigger2", "监听接单人超工时的工单重新分配")
 //                    .startAt(DateBuilder.evenMinuteDate(new Date()))
                     .startNow()
 //                    .endAt(new Date(System.currentTimeMillis() + 60 * 1000))
@@ -104,7 +87,7 @@ public class OrderListener implements Job {
 //                            .withIntervalInMinutes(30)
 //                            //一直执行
 //                            .repeatForever())
-                    .withSchedule(CronScheduleBuilder.cronSchedule("0 0/20 9-18 * * ?"))
+                    .withSchedule(CronScheduleBuilder.cronSchedule("0 0/15 8-10 * * ?"))
                     .forJob(jobDetail)
                     .build();
 
@@ -130,7 +113,7 @@ public class OrderListener implements Job {
 
         @Override
         public void run(ApplicationArguments args) throws Exception {
-            new OrderListener().mySchedule();
+            new ShyCheck().mySchedule();
         }
     }
 }

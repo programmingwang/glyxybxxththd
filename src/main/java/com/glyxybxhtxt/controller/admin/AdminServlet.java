@@ -81,7 +81,7 @@ public class AdminServlet {
             case "upewm" : return upewm(eid, qid, xxdd);
             case "bxnum" : return bxnum(state);
             case "adminindex" : return adminindex();
-            case "selOptimaljdrPC" : return selOptimaljdrPC(bxlb);
+            case "selOptimaljdrPC" : return selOptimaljdrPC(bid);
             case "selbxdbyadminpc" : return selbxdbyadminpc(bid, startime, endtime, xq, qid, jid, state, pj);
             default: return new ResponseData(false);
         }
@@ -284,8 +284,12 @@ public class AdminServlet {
         return new ResponseData(map);
     }
 
-    private ResponseData selOptimaljdrPC(String bxlb) {
+    private ResponseData selOptimaljdrPC(String bid) {
+        Integer bxdid = Integer.parseInt(bid);
+        Bxd selonebxd = bs.selonebxd(bxdid);
+        String bxlb = selonebxd.getBxlb();
         Map<String,Object> map = new HashMap<>();
+        //查询适合的接单人
         map.put("jlist", js.selOptimaljdrPC(bxlb));
         return new ResponseData(map);
     }

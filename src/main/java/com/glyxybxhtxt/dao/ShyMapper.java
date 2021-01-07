@@ -20,6 +20,7 @@ public interface ShyMapper {
     
     List<Shy> selallshy();
     List<Shy> selOptimalshy(Integer eid);
+    List<Shy> selqtshy(Integer eid);
 
 
 }

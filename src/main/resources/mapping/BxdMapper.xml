@@ -102,15 +102,12 @@
     from bxd
     where wxsj &lt;= DATE_FORMAT( NOW() ,'%Y-12-31 23:59:59') and sbsj &gt;= DATE_FORMAT( NOW() ,'%Y-01-01 00:00:00')
   </select>
-
-
     <select id="selnumforpj" resultType="Integer">
   	select count(id) from bxd where pj = #{pj,jdbcType=INTEGER}
   </select>
     <select id="selnumforstate" resultType="Integer">
   	select count(id) from bxd where state = #{state,jdbcType=INTEGER}
   </select>
-
     <select id="selforsbr" resultMap="BaseResultMap" parameterType="com.glyxybxhtxt.dataObject.Bxd" >
         select b.*,e.id eid,e.xxdd ewmdd,q.qy,q.qylb,q.xq,j.sj,j.xm,b.fgts from bxqy q,ewm e,bxd b
         left join jdr j
@@ -126,11 +123,9 @@
   where eid = #{eid,jdbcType=INTEGER} and state=1
    order by sbsj desc
   </select>
-
     <select id="getsbrbxdnewid" resultType="java.lang.Integer" parameterType="String">
   	select max(id) from bxd where sbrxh = #{xh,jdbcType=VARCHAR}
   </select>
-
     <select id="selbxdbyshy" resultMap="BaseResultMap" parameterType="com.glyxybxhtxt.dataObject.Bxd">
         select b.*,q.qy,q.qylb,q.xq,e.xxdd ewmdd,j.sj,j.xm from bxqy q,ewm e,bxd b
         left join jdr j on b.jid = j.ybid
@@ -198,7 +193,6 @@
         </if>
         ORDER BY b.sbsj desc
     </select>
-
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
         select
         <include refid="Base_Column_List" />
@@ -624,7 +618,7 @@
        shy1 = #{shy1,jdbcType=VARCHAR}
     where shy1 = #{shy1,jdbcType=VARCHAR}
   </update>
-  <update id="upbxdbyysr" parameterType="com.glyxybxhtxt.dataObject.Bxd">
+    <update id="upbxdbyysr" parameterType="com.glyxybxhtxt.dataObject.Bxd">
   update bxd
   set state = #{state,jdbcType=INTEGER}
   where id = #{id,jdbcType=INTEGER}
@@ -678,4 +672,22 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
+    <!--查看休息时间的报修单，主要就是有一个审核员审核，另一个审核员未审核的-->
+    <select id="xxsjbxd" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM
+        bxd b
+        WHERE
+        b.sbsj &lt;= DATE_FORMAT(
+        DATE_SUB(curdate(), INTERVAL 0 DAY),
+        '%Y-%m-%d 09:59:59'
+        )
+        AND b.sbsj >= DATE_FORMAT(
+        DATE_SUB(curdate(), INTERVAL 1 DAY),
+        '%Y-%m-%d 17:59:59'
+        )
+        AND b.shy1state = 1
+        AND b.shy2state = 0
+    </select>
 </mapper>

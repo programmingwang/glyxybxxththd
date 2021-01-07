@@ -36,4 +36,6 @@ public interface BxdService {
     int upbxdbyysr(Bxd b);
     String selishc(Integer id);
     Bxd selonebxd(Integer id);
+    //未上班时间申报的报修单
+    List<Bxd> xxsjBxd();
 }

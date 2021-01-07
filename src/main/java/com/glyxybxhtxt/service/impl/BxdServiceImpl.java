@@ -167,4 +167,9 @@ public class BxdServiceImpl implements BxdService {
     public Bxd selonebxd(Integer id) {
         return bxdMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public List<Bxd> xxsjBxd() {
+        return bxdMapper.xxsjbxd();
+    }
 }

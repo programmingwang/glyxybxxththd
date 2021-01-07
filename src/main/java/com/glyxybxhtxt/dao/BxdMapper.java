@@ -43,4 +43,6 @@ public interface BxdMapper {
     Double selgs(String jid);
     int upbxdbyysr(Bxd b);
     String selishc(Integer id);
+    //未上班时间申报的报修单
+    List<Bxd> xxsjbxd();
 }
