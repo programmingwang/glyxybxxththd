@@ -251,8 +251,12 @@ public class AdminServlet {
         }else{
             String bxdxxdd = es.selxxwz(currentBxd.getEid());
             b.setJid(jid);
-            if(!StringUtils.equals(jid,currentBxd.getJid())) ybmsg.msgpush(jid,
-                    "管理员为您分配新的维修订单了，请及时处理！详细地点："+ bxdxxdd);
+            if(!StringUtils.equals(jid,currentBxd.getJid())){
+                ybmsg.msgpush(jid,
+                        "管理员为您分配新的维修订单了，请及时处理！详细地点："+ bxdxxdd);
+
+                b.setJdsj(new Date());
+            }
 
             b.setShy1(shy1);
             if(!StringUtils.equals(shy1,currentBxd.getShy1()) && !StringUtils.equals(shy1,currentBxd.getShy2())) ybmsg.msgpush(shy1,

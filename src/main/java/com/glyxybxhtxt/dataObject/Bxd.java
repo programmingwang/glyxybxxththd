@@ -60,6 +60,25 @@ public class Bxd {
     private String xq;
     private String ewmdd;
     private Integer fgts;
+    private Date jdsj;
+    private Date yssj;
+
+    public Date getJdsj() {
+        return jdsj;
+    }
+
+    public void setJdsj(Date jdsj) {
+        this.jdsj = jdsj;
+    }
+
+    public Date getYssj() {
+        return yssj;
+    }
+
+    public void setYssj(Date yssj) {
+        this.yssj = yssj;
+    }
+
     public String getEwmdd() {
 		return ewmdd;
 	}

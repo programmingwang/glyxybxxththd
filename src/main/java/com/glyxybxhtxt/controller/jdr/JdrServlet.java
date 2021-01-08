@@ -103,8 +103,10 @@ public class JdrServlet{
                 b.setGs(gs);
                 bs.upbxdbyjdr(b);
                 responseData = new ResponseData("success","设置耗材、工时成功");
-                ybmsg.msgpush(t.getShy1(),"您有报修单需要审核，请及时处理！链接：http://yiban.glmc.edu.cn/bx?eid="+t.getEid()+"\n单号"+t.getId());
-                ybmsg.msgpush(t.getShy2(),"您有报修单需要审核，请及时处理！链接：http://yiban.glmc.edu.cn/bx?eid="+t.getEid()+"\n单号"+t.getId());
+//                ybmsg.msgpush(t.getShy1(),"您有报修单需要审核，请及时处理！链接：http://yiban.glmc.edu.cn/bx?eid="+t.getEid()+"\n单号"+t.getId());
+                ybmsg.msgpush(t.getShy1(),"您有报修单需要审核，请及时处理！详细地点："+es.selxxwz(t.getEid()));
+//                ybmsg.msgpush(t.getShy2(),"您有报修单需要审核，请及时处理！链接：http://yiban.glmc.edu.cn/bx?eid="+t.getEid()+"\n单号"+t.getId());
+                ybmsg.msgpush(t.getShy2(),"您有报修单需要审核，请及时处理！详细地点："+es.selxxwz(t.getEid()));
             }
         }
         return responseData;

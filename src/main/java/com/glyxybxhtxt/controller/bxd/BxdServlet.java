@@ -191,7 +191,7 @@ public class BxdServlet {
             }
             bxd.setState(1);
             bxd.setJid(zdpdResult);
-
+            bxd.setJdsj(new Date());
             return bs.newbxdbysbr(bxd) == 1
                     ? new ResponseData(true)
                     : new ResponseData(false);
@@ -215,6 +215,7 @@ public class BxdServlet {
             fgbxd.setGs("");
             fgbxd.setShy1state(0);
             fgbxd.setShy2state(0);
+            fgbxd.setJdsj(new Date());
             bs.fg(fgbxd);
             ybmsg.msgpush(jid,"您有报修单需要返工，请及时处理！详细地点："+es.selxxwz(Integer.parseInt(eid)));
             return new ResponseData(true);

@@ -32,6 +32,8 @@
         <result column="state" property="state" jdbcType="INTEGER" />
         <result column="sp" property="sp" jdbcType="VARCHAR" />
         <result column="fgts" property="fgts" jdbcType="INTEGER" />
+        <result column="jdsj" property="jdsj" jdbcType="TIMESTAMP" />
+        <result column="yssj" property="yssj" jdbcType="TIMESTAMP" />
         <association property="j" javaType="com.glyxybxhtxt.dataObject.Jdr">
             <result column="jgh" property="gh" jdbcType="VARCHAR" />
             <result column="xm" property="xm" jdbcType="VARCHAR" />
@@ -51,7 +53,7 @@
     </resultMap>
     <sql id="Base_Column_List" >
     id, sbsj, eid, xxdd, yysj, bxlb, bxnr, tp, sbr, sbrsj, sbrxh, hc, gs, jid, shy1,
-    shy1state, shy2, shy2state, wxsj, cxsy, pj, pjnr, pjzj, state, sp, fgts
+    shy1state, shy2, shy2state, wxsj, cxsy, pj, pjnr, pjzj, state, sp, fgts, jdsj, yssj
   </sql>
     <sql id="Jdr_Column_List" >
     b.id, b.sbsj, b.eid, b.xxdd, b.yysj, b.bxlb, b.bxnr, b.tp, b.sbr, b.sbrsj, b.hc, b.gs, b.jid,
@@ -212,12 +214,12 @@
     <insert id="insert" parameterType="com.glyxybxhtxt.dataObject.Bxd" >
     insert into bxd (eid,
       xxdd, yysj, bxlb, bxnr,
-      tp, sbr, sbrsj, sbrxh, jid, sp, shy1, shy2, state
+      tp, sbr, sbrsj, sbrxh, jid, sp, shy1, shy2, state, jdsj
       )
     values ( #{eid,jdbcType=INTEGER},
       #{xxdd,jdbcType=VARCHAR}, #{yysj,jdbcType=VARCHAR}, #{bxlb,jdbcType=VARCHAR}, #{bxnr,jdbcType=VARCHAR},
       #{tp,jdbcType=VARCHAR}, #{sbr,jdbcType=VARCHAR}, #{sbrsj,jdbcType=VARCHAR}, #{sbrxh,jdbcType=VARCHAR},
-      #{jid,jdbcType=VARCHAR}, #{sp}, #{shy1,jdbcType=VARCHAR}, #{shy2,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}
+      #{jid,jdbcType=VARCHAR}, #{sp}, #{shy1,jdbcType=VARCHAR}, #{shy2,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{jdsj,jdbcType=TIMESTAMP}
        )
   </insert>
     <insert id="insertSelective" parameterType="com.glyxybxhtxt.dataObject.Bxd" >
@@ -510,6 +512,9 @@
             <if test="state != null" >
                 state = #{state,jdbcType=INTEGER},
             </if>
+            <if test="jdsj != null" >
+                jdsj = CURRENT_TIMESTAMP ,
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -620,7 +625,12 @@
   </update>
     <update id="upbxdbyysr" parameterType="com.glyxybxhtxt.dataObject.Bxd">
   update bxd
-  set state = #{state,jdbcType=INTEGER}
+      <set>
+          <if test="yssj != null">
+              yssj = CURRENT_TIMESTAMP ,
+          </if>
+          state = #{state,jdbcType=INTEGER}
+      </set>
   where id = #{id,jdbcType=INTEGER}
 </update>
     <update id="fg" parameterType="com.glyxybxhtxt.dataObject.Bxd" >
@@ -659,16 +669,15 @@
             <if test="fgts != null" >
                 fgts = #{fgts,jdbcType=VARCHAR},
             </if>
-            <if test="sbsj != null" >
-                sbsj = CURRENT_TIMESTAMP ,
-            </if>
             <if test="bxnr != null" >
                 bxnr = #{bxnr,jdbcType=VARCHAR},
             </if>
             <if test="state != null" >
                 state = #{state,jdbcType=INTEGER},
             </if>
-
+            sbsj = CURRENT_TIMESTAMP ,
+            jdsj = CURRENT_TIMESTAMP,
+            yssj = null,
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
