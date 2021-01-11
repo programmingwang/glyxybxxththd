@@ -177,11 +177,19 @@ public class BxdServlet {
                 List<Shy> qtshies = ss.selqtShy(Integer.parseInt(eid));
                 //随机分配的签退的审核员
                 bxd.setShy2(qtshies.get(sjfpshy.nextInt(qtshies.size())).getYbid());
-            }else{
+            }else {
                 //没有在职的审核员了，只能分配签退的审核员（这种情况应该不会发生，貌似每天都有审核员值班）
                 List<Shy> qtshies = ss.selqtShy(Integer.parseInt(eid));
-                bxd.setShy1(qtshies.get(sjfpshy.nextInt(qtshies.size())).getYbid());
-                bxd.setShy2(qtshies.get(sjfpshy.nextInt(qtshies.size())).getYbid());
+                if(qtshies.size() < 2){
+                    //否则就分配历史签到或签退的审核员，这种情况应该更不会发生，测试情况下需要这个
+                    List<Shy> lsqdshy = ss.sellsqdshy(Integer.parseInt(eid));
+                    List<Shy> collect = lsqdshy.stream().distinct().collect(Collectors.toList());
+                    bxd.setShy1(collect.get(0).getYbid());
+                    bxd.setShy2(collect.get(1).getYbid());
+                }else{
+                    bxd.setShy1(qtshies.get(sjfpshy.nextInt(qtshies.size())).getYbid());
+                    bxd.setShy2(qtshies.get(sjfpshy.nextInt(qtshies.size())).getYbid());
+                }
             }
             String zdpdResult = zdpd.zdpd(eid, bxlb);
             if(StringUtils.startsWith(zdpdResult, "6U@U6WX2^&nb6YIILV")){

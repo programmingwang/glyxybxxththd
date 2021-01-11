@@ -48,6 +48,17 @@
     and qd.shyid in (select shyid from qdb where state=2)
     group by s.ybid
   </select>
+  <!--查询历史签到以及签退的审核员，也有可能是今天的-->
+  <select id="sellsqdshy" resultMap="BaseResultMap">
+ 	select
+    s.ybid as ybid, gh, xm, zw,s.xq as xq, s.x, s.y
+    from  bxqy qy, ewm e, qdb qd, shy s
+    where e.qid = qy.id
+    and qd.shyid = s.ybid
+    and qd.xq = qy.xq
+    and e.id = #{eid}
+    order by qd.qdsj DESC
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
