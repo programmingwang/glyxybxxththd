@@ -39,6 +39,7 @@ public class OrderListener implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        log.warn("监听工时超时工人中。。。。。");
         //查找工时超过2的接单人的订单
         //1、查找状态为1，2,3的接单人
         List<Jdr> allJdr1and2 = new ArrayList<>();

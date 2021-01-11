@@ -3,6 +3,7 @@ package com.glyxybxhtxt.util;
 import com.glyxybxhtxt.dataObject.Bxd;
 import com.glyxybxhtxt.dataObject.Shy;
 import com.glyxybxhtxt.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -19,6 +20,7 @@ import java.util.Random;
  * description: 这个定时任务用来检查昨天下午5.30---今天早上9.00的订单的审核员状态
  * （也就是夜班的情况，因为只有一个审核员上班）
  */
+@Slf4j
 public class ShyCheck implements Job {
 
     private BxdService bs = (BxdService) SpringContextUtil.getBean("bxdServiceImpl");
@@ -35,6 +37,7 @@ public class ShyCheck implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        log.warn("监听审核员分配中。。。。。。");
         //查询昨天的，下班时间申报的并且只有一个审核员审核的订单，也就是休息时间申报的报修单
         List<Bxd> xxsjbxd = bs.xxsjBxd();
         xxsjbxd.forEach(bxd -> {
