@@ -21,15 +21,6 @@ import java.util.List;
 @Slf4j
 @Component
 public class OrderListener {
-//    private BxdService bs = (BxdService) SpringContextUtil.getBean("bxdServiceImpl");
-//
-//    private EwmService es = (EwmService) SpringContextUtil.getBean("ewmServiceImpl");
-//
-//    private JdrService js = (JdrService) SpringContextUtil.getBean("jdrServiceImpl");
-//
-//    private AutoOrder zdpd = (AutoOrder) SpringContextUtil.getBean("autoOrder");
-//
-//    private MsgPushService ybmsg = (MsgPushService) SpringContextUtil.getBean("msgPushServiceImpl");
 
     @Autowired
     private BxdServiceImpl bs;

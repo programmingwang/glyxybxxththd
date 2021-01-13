@@ -20,15 +20,6 @@ import java.util.Random;
 @Slf4j
 @Component
 public class ShyCheck{
-//    private BxdService bs = (BxdService) SpringContextUtil.getBean("bxdServiceImpl");
-//
-//    private EwmService es = (EwmService) SpringContextUtil.getBean("ewmServiceImpl");
-//
-//    private JdrService js = (JdrService) SpringContextUtil.getBean("jdrServiceImpl");
-//
-//    private ShyService ss = (ShyService) SpringContextUtil.getBean("shyServiceImpl");
-//
-//    private MsgPushService ybmsg = (MsgPushService) SpringContextUtil.getBean("msgPushServiceImpl");
     @Autowired
     private BxdServiceImpl bs;
     @Autowired
