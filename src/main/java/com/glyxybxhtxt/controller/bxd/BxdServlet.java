@@ -169,7 +169,10 @@ public class BxdServlet {
             //如果符合条件的有多个,则随机分配
             Random sjfpshy = new Random();
             if(shySize > 1) {
-                bxd.setShy1(optimalShy.get(sjfpshy.nextInt(shySize)).getYbid());
+                Shy shy1 = optimalShy.get(sjfpshy.nextInt(shySize));
+                bxd.setShy1(shy1.getYbid());
+                optimalShy.remove(shy1);
+                shySize = optimalShy.size();
                 bxd.setShy2(optimalShy.get(sjfpshy.nextInt(shySize)).getYbid());
             }else if(shySize == 1){
                 //此时只找到一个在职审核员，另一个审核员职位就找今天已经签退的审核员
@@ -187,7 +190,9 @@ public class BxdServlet {
                     bxd.setShy1(collect.get(0).getYbid());
                     bxd.setShy2(collect.get(1).getYbid());
                 }else{
-                    bxd.setShy1(qtshies.get(sjfpshy.nextInt(qtshies.size())).getYbid());
+                    Shy qtShy1 = qtshies.get(sjfpshy.nextInt(qtshies.size()));
+                    bxd.setShy1(qtShy1.getYbid());
+                    qtshies.remove(qtShy1);
                     bxd.setShy2(qtshies.get(sjfpshy.nextInt(qtshies.size())).getYbid());
                 }
             }
