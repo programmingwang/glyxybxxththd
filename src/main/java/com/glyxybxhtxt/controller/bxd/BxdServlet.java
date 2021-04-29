@@ -197,10 +197,10 @@ public class BxdServlet {
                 }
             }
             String zdpdResult = zdpd.zdpd(eid, bxlb);
-            if(StringUtils.startsWith(zdpdResult, "6U@U6WX2^&nb6YIILV")){
+            if(StringUtils.startsWith(zdpdResult, "wjdr")){
                 bxd.setState(0);
                 bs.newbxdbysbr(bxd);
-                return new ResponseData(StringUtils.substringAfter(zdpdResult, "6U@U6WX2^&nb6YIILV"));
+                return new ResponseData("true",zdpdResult);
             }
             bxd.setState(1);
             bxd.setJid(zdpdResult);

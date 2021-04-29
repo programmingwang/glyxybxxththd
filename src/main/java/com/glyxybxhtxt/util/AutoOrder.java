@@ -54,7 +54,8 @@ public class AutoOrder {
             }
 
             if(gscanjd.size() == 0){
-                return "6U@U6WX2^&nb6YIILV当前没有可以接单的接单人了！请尽快电话联系后勤处为您安排接单人！";
+//                return "6U@U6WX2^&nb6YIILV当前没有可以接单的接单人了！请尽快电话联系后勤处为您安排接单人！";
+                return "wjdr";
             }
             //gscanjd里就是符合要求的接单人  可以理解成热点数据，
             //随机派单
