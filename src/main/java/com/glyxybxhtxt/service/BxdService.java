@@ -12,30 +12,55 @@ import java.util.List;
  */
 public interface BxdService {
     List<Bxd> selforsbr(Bxd b);
+
     Bxd selbxdforshyid(Integer id);
+
     List<Bxd> selbxdbyadmin(Bxd b);
+
     List<Bxd> selbxdforeid(Integer eid);
+
     List<Bxd> selbxdbyjdr(Bxd b);
+
     List<Bxd> selbxdbyshy(Bxd b);
+
     void upbxdbysbr(Bxd b);
+
     void upbxd1byshy(Bxd b);
+
     void upbxd2byshy(Bxd b);
+
     int upbxdhcbyshy(Bxd b);
+
     void upbxdbyadmin(Bxd b);
+
     void fg(Bxd b);
+
     void upbxdbyjdr(Bxd b);
+
     void del(Integer id);
+
     int newbxdbysbr(Bxd b);
+
     int selnumforstate(int b);
+
     int selnumforpj(int b);
+
     int allcount();
+
     Double selgs(String jid);
+
     String tj();
+
     int getsbrbxdnewid(String xh);
+
     List<Jdr> seljdrforpd();
+
     int upbxdbyysr(Bxd b);
+
     String selishc(Integer id);
+
     Bxd selonebxd(Integer id);
+
     //未上班时间申报的报修单
     List<Bxd> xxsjBxd();
 }

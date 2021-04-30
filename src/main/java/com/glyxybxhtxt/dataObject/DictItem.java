@@ -2,6 +2,8 @@ package com.glyxybxhtxt.dataObject;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 
 /**
  * @Author lrt
@@ -9,7 +11,7 @@ import lombok.Data;
  * @Version 1.0
  **/
 @Data
-public class DictItem {
+public class DictItem implements Serializable {
     private String value;
     private String label;
 }

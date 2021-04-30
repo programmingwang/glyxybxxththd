@@ -1,9 +1,8 @@
 package com.glyxybxhtxt.util;
 
-import com.glyxybxhtxt.dataObject.Ewm;
+import com.glyxybxhtxt.constant.GlmcConstants;
 import com.glyxybxhtxt.dataObject.Jdr;
 import com.glyxybxhtxt.service.*;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
@@ -32,7 +31,7 @@ public class AutoOrder {
         /**
          * 查找符合接单条件的接单人直接派单
          * 1、筛选state=1的
-         * 2、工时<2的
+         * 2、工时<12的
          * 3、查到符合条件(业务范围符合，在bxd区域内的)的接单人的ybid,jdrybid
          * 4、bxd.setJid(jdrybid)
          */
@@ -45,10 +44,10 @@ public class AutoOrder {
             //工时满足要求的接单人，只有这些接单人才能被自动派单
             List<Jdr> gscanjd = new ArrayList<>();
             for (Jdr jdr : canjd) {
-                //接单人总工时小于2 并且 接单人的业务范围包括报修类别 并且 bxd的xq和最近一次签到在一个xq的（！！！业务范围改成具体能干啥了！！！）
+                //接单人总工时小于12 并且 接单人的业务范围包括报修类别 并且 bxd的xq和最近一次签到在一个xq的（！！！业务范围改成具体能干啥了！！！）
                 Double gs = bs.selgs(jdr.getYbid());
                 gs = ObjectUtils.isEmpty(gs) ? 0 : gs ;
-                if( gs < Double.parseDouble("2")){
+                if( gs < GlmcConstants.GS){
                     gscanjd.add(jdr);
                 }
             }

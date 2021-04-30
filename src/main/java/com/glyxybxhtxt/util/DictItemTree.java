@@ -3,6 +3,7 @@ package com.glyxybxhtxt.util;
 import com.glyxybxhtxt.dataObject.DictItem;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * Version: 1.0
  */
 @Data
-public class DictItemTree {
+public class DictItemTree implements Serializable {
     private String value;
     private String label;
     List<DictItem> children = new ArrayList<>();

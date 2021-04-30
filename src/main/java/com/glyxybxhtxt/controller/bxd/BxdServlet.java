@@ -198,6 +198,7 @@ public class BxdServlet {
             }
             String zdpdResult = zdpd.zdpd(eid, bxlb);
             if(StringUtils.startsWith(zdpdResult, "wjdr")){
+                //wjdr = 无接单人
                 bxd.setState(0);
                 bs.newbxdbysbr(bxd);
                 return new ResponseData("true",zdpdResult);

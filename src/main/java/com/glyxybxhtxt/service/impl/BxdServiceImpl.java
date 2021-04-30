@@ -1,5 +1,6 @@
 package com.glyxybxhtxt.service.impl;
 
+import com.glyxybxhtxt.constant.GlmcConstants;
 import com.glyxybxhtxt.dao.BxdMapper;
 import com.glyxybxhtxt.dao.JdrMapper;
 import com.glyxybxhtxt.dataObject.Bxd;
@@ -11,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Author:wangzh
@@ -128,7 +128,7 @@ public class BxdServiceImpl implements BxdService {
 
     @Override
     public Double selgs(String jid) {
-        return bxdMapper.selgs(jid);
+        return bxdMapper.selgs(GlmcConstants.GS, jid);
     }
 
     @Override
