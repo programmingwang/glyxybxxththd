@@ -65,7 +65,7 @@
   </select>
     <select id="selgs" resultType="Double">
   	<!--select round(sum(gs),2) from bxd where sbsj &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59') and sbsj &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:00') and jid = #{jid,jdbcType=VARCHAR} -->
-  	select round(sum(gs),#{totalGs,jdbcType=DOUBLE}) from bxd where sbsj &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59') and sbsj &gt;= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),'%Y-%m-%d 23:59:59') and jid = #{jid,jdbcType=VARCHAR} and state in(2,4)
+  	select round(sum(gs),#{totalGs,jdbcType=DOUBLE}) from bxd where jdsj &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59') and jdsj &gt;= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),'%Y-%m-%d 23:59:59') and jid = #{jid,jdbcType=VARCHAR} and state in(2,4)
   	<!--select round(sum(gs),2) from bxd where sbsj &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59') and jid = #{jid,jdbcType=VARCHAR}-->
   </select>
     <select id="daybx" resultType="Integer">
