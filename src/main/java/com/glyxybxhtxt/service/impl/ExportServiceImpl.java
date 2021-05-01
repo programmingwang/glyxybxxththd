@@ -153,8 +153,8 @@ public class ExportServiceImpl implements ExportService {
                 xuhao++;
             }
             sheet.getRow(hcRow).getCell(1).setCellValue(bxd.getGs());
-            sheet.getRow(hcRow).getCell(3).setCellValue(Double.parseDouble(bxd.getGs())*300);
-            double sum = hcPrice + Double.parseDouble(bxd.getGs())*300;
+            sheet.getRow(hcRow).getCell(3).setCellValue(Double.parseDouble(bxd.getGs())*31.25);
+            double sum = hcPrice + Double.parseDouble(bxd.getGs())*31.25;
             sheet.getRow(hcRow).getCell(8).setCellValue(sum);
             //转下一行
             hcRow++;
