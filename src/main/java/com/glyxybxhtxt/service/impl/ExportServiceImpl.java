@@ -118,7 +118,7 @@ public class ExportServiceImpl implements ExportService {
             sheet.getRow(5).getCell(3).setCellValue(jdr.getGh());
             sheet.getRow(5).getCell(5).setCellValue("桂林医学院后勤处");
             sheet.getRow(6).getCell(1).setCellValue(jdr.getSj());
-            sheet.getRow(6).getCell(3).setCellValue(dateFormat.format(bxd.getJdsj())+" 至 "+dateFormat.format(bxd.getYssj()));
+            sheet.getRow(6).getCell(3).setCellValue(dateFormat.format(bxd.getJdsj())+" 至 "+dateFormat.format(bxd.getWxsj()));
             sheet.getRow(7).getCell(1).setCellValue(String.valueOf(pjStar));
             sheet.getRow(8).getCell(1).setCellValue(pjnr);
             int xuhao = 1;
