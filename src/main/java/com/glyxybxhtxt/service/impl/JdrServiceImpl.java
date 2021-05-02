@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Author:wangzh
@@ -48,7 +50,17 @@ public class JdrServiceImpl implements JdrService {
     }
 
     @Override
-    public List<Jdr> selOptimaljdrPC(String bxlb) {
-        return jdrMapper.selOptimalJdrPC(bxlb);
+    public List<Jdr> selOptimaljdrPC(String bxlb, Integer eid) {
+        List<Jdr> jdrs = jdrMapper.selOptimalJdrPC(bxlb, eid);
+        List<String> ybids = new ArrayList<>();
+        List<Jdr> pcJdrs = jdrs.stream().filter(jdr -> {
+            if (ybids.contains(jdr.getYbid())) {
+                return false;
+            } else {
+                ybids.add(jdr.getYbid());
+                return true;
+            }
+        }).collect(Collectors.toList());
+        return pcJdrs;
     }
 }

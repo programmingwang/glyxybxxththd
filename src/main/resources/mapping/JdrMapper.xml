@@ -43,19 +43,14 @@
     from  bxqy qy, ewm e, qdb qd, jdr j
           where e.qid = qy.id and qd.shyid = j.ybid and qd.state = 1 and qd.xq = qy.xq
           and j.state = 1 and j.ywfw like "%"#{bxlb}"%" and e.id = #{eid}
+          and qd.qdsj &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59') and qd.qdsj >= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),'%Y-%m-%d 23:59:59')
   </select>
 
   <select id="selOptimalJdrPC" resultMap="BaseResultMap" >
-    SELECT jd.* from
-(select j.*,dqds,zjds,pjpj from jdr j
-    LEFT JOIN
-    (
-    select * from
-    (select count(b.id) dqds,j.ybid did from bxd b,jdr j where b.jid = j.ybid and (b.state = 1 or b.state = 5) GROUP BY j.ybid) d,
-    (select count(b.id) zjds,j.ybid zid from bxd b,jdr j where b.jid = j.ybid GROUP BY j.ybid) z,
-    (select floor(AVG(b.pj))  pjpj,j.ybid aid from bxd b,jdr j where b.jid = j.ybid GROUP BY j.ybid) a
-    ) x
-on j.ybid = x.did and j.ybid = x.zid and j.ybid = x.aid ) jd where jd.ywfw like "%"#{bxlb}"%"
+    select j.ybid, j.gh, j.xm, j.sj, j.yx, j.state,j.ywfw from jdr j, qdb qd, ewm e, bxqy bx
+    where j.state =1 and e.qid = bx.id
+      and j.ybid = qd.shyid and j.ywfw like "%"#{bxlb}"%" and e.id = #{eid}
+    order by qd.qdsj desc
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select

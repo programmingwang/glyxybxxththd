@@ -21,6 +21,6 @@ public interface JdrMapper {
 
     List<Jdr> seljdrforpd();
     List<Jdr> selallJdr(String state);
-    List<Jdr> selOptimalJdrPC(@Param("bxlb") String bxlb);
+    List<Jdr> selOptimalJdrPC(@Param("bxlb") String bxlb, @Param("eid")Integer eid);
     List<Jdr> selOptimalJdr(@Param("bxlb") String bxlb, @Param("eid")Integer eid);
 }

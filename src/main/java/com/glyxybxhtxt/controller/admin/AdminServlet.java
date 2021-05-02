@@ -300,9 +300,10 @@ public class AdminServlet {
         Integer bxdid = Integer.parseInt(bid);
         Bxd selonebxd = bs.selonebxd(bxdid);
         String bxlb = selonebxd.getBxlb();
+        Integer eid = selonebxd.getEid();
         Map<String,Object> map = new HashMap<>();
         //查询适合的接单人
-        map.put("jlist", js.selOptimaljdrPC(bxlb));
+        map.put("jlist", js.selOptimaljdrPC(bxlb, eid));
         return new ResponseData(map);
     }
 
