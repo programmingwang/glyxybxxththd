@@ -22,7 +22,7 @@ public class JdrServiceImpl implements JdrService {
     private JdrMapper jdrMapper;
 
     @Override
-    public List<Jdr> selalljdr(String state) {
+    public List<Jdr> selalljdr(List state) {
         return jdrMapper.selallJdr(state);
     }
 

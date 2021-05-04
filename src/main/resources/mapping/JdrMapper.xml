@@ -23,7 +23,7 @@
 	on x.ybid = y.ybid
 	order by state
   </select>
-  <select id="selallJdr" resultMap="BaseResultMap" parameterType="java.lang.String">
+  <select id="selallJdr" resultMap="BaseResultMap" parameterType="java.util.List">
     select j.*,dqds,zjds,pjpj from jdr j
     LEFT JOIN
     (
@@ -33,8 +33,14 @@
     (select floor(AVG(b.pj))  pjpj,j.ybid aid from bxd b,jdr j where b.jid = j.ybid GROUP BY j.ybid) a
     ) x
     on j.ybid = x.did and j.ybid = x.zid and j.ybid = x.aid
-    <if test="state != null">
-      where j.state = #{state,jdbcType=VARCHAR}
+    <if test="states != null">
+    <where>
+      j.state in
+      <foreach collection="states" open="(" close=")" item="state" separator="," index="">
+        (#{state})
+      </foreach>
+
+    </where>
     </if>
   </select>
   <select id="selOptimalJdr" resultMap="BaseResultMap" >

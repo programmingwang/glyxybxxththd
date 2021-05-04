@@ -292,7 +292,12 @@ public class AdminServlet {
 
     private ResponseData selalljdr(String state) {
         Map<String,Object> map = new HashMap<>();
-        map.put("jlist", js.selalljdr(state));
+        List<String> states = null;
+        if(state == null){
+            map.put("jlist", js.selalljdr(null));
+        }else {
+            map.put("jlist", js.selalljdr(Arrays.asList(state)));
+        }
         return new ResponseData(map);
     }
 

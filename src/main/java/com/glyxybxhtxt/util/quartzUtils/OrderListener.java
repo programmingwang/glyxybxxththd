@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,9 +44,8 @@ public class OrderListener {
         //查找工时超过12的接单人的订单
         //1、查找状态为1，2,3的接单人
         List<Jdr> allJdr1and2 = new ArrayList<>();
-        allJdr1and2.addAll(js.selalljdr("1"));
-        allJdr1and2.addAll(js.selalljdr("2"));
-        allJdr1and2.addAll(js.selalljdr("3"));
+
+        allJdr1and2.addAll(js.selalljdr(Collections.singletonList("1,2,3")));
         //今天工时>=12的接单人
         List<Jdr> gsgt2 = new ArrayList<>();
         //当前接单人工时超过12的且状态为已派单（state=1）的工单
