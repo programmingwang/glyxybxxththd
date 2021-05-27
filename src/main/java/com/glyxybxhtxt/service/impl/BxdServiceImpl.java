@@ -172,4 +172,9 @@ public class BxdServiceImpl implements BxdService {
     public List<Bxd> xxsjBxd() {
         return bxdMapper.xxsjbxd();
     }
+
+    @Override
+    public List<Bxd> selwpdbxd() {
+        return bxdMapper.selwpdbxd();
+    }
 }

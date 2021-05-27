@@ -72,4 +72,7 @@ public interface BxdMapper {
 
     //未上班时间申报的报修单
     List<Bxd> xxsjbxd();
+
+    //查询未派单的报修单 wpd=未派单
+    List<Bxd> selwpdbxd();
 }

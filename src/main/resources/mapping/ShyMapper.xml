@@ -42,7 +42,7 @@
     and qd.shyid = s.ybid
     and qd.xq = qy.xq
     and e.id = #{eid}
-    and qd.state = 1
+    and qd.state = 2
     and qd.qdsj &lt;= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 0 DAY),'%Y-%m-%d 23:59:59')
     and qd.qdsj >= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),'%Y-%m-%d 23:59:59')
     and qd.shyid in (select shyid from qdb where state=2)

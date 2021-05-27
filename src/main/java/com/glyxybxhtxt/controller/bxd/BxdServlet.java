@@ -187,8 +187,10 @@ public class BxdServlet {
                     //否则就分配历史签到或签退的审核员，这种情况应该更不会发生，测试情况下需要这个
                     List<Shy> lsqdshy = ss.sellsqdshy(Integer.parseInt(eid));
                     List<Shy> collect = lsqdshy.stream().distinct().collect(Collectors.toList());
-                    bxd.setShy1(collect.get(0).getYbid());
-                    bxd.setShy2(collect.get(1).getYbid());
+                    Shy shy1 = collect.get(sjfpshy.nextInt(collect.size()));
+                    bxd.setShy1(shy1.getYbid());
+                    collect.remove(shy1);
+                    bxd.setShy2(collect.get(sjfpshy.nextInt(collect.size())).getYbid());
                 }else{
                     Shy qtShy1 = qtshies.get(sjfpshy.nextInt(qtshies.size()));
                     bxd.setShy1(qtShy1.getYbid());

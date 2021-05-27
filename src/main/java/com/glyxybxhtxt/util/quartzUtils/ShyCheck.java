@@ -32,7 +32,7 @@ public class ShyCheck{
     private MsgPushServiceImpl ybmsg;
 
     public void executeShyCheck() {
-        log.warn("监听审核员分配中。。。。。。");
+        log.info("监听审核员分配中。。。。。。");
         //查询昨天的，下班时间申报的并且只有一个审核员审核的订单，也就是休息时间申报的报修单
         List<Bxd> xxsjbxd = bs.xxsjBxd();
         xxsjbxd.forEach(bxd -> {
@@ -53,7 +53,7 @@ public class ShyCheck{
                 ybmsg.msgpush(bxd.getShy2(), "您需要去" + es.selxxwz(bxd.getEid()) + "审核的订单已经分配给了其他审核员，请注意！");
             }
         });
-        log.warn("ShyCheck结束。。。。。");
+        log.info("ShyCheck结束。。。。。");
     }
 
 

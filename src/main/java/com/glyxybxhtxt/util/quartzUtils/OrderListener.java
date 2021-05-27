@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Author:wangzh
@@ -40,7 +37,7 @@ public class OrderListener {
 
 
     public void executeGsCheck() {
-        log.warn("监听工时超时工人中。。。。。");
+        log.info("监听工时超时工人中。。。。。");
         //查找工时超过12的接单人的订单
         //1、查找状态为1，2,3的接单人
         List<Jdr> allJdr1and2 = new ArrayList<>();
@@ -69,9 +66,10 @@ public class OrderListener {
         for (Bxd bxd : state1gd) {
             ybmsg.msgpush(bxd.getJid(), "由于您今日工时已达标，您在" + es.selxxwz(bxd.getEid()) + "的报修单已经分配给其他接单人，请注意！");
             bxd.setJid(zdpd.zdpd(String.valueOf(bxd.getEid()), bxd.getBxlb()));
+            bxd.setJdsj(new Date());
             bs.upbxdbyadmin(bxd);
         }
-        log.warn("OrderListener结束。。。。。");
+        log.info("OrderListener结束。。。。。");
     }
 
 

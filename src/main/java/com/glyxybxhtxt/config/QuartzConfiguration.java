@@ -1,5 +1,6 @@
 package com.glyxybxhtxt.config;
 
+import com.glyxybxhtxt.util.quartzUtils.BxdCheckTask;
 import com.glyxybxhtxt.util.quartzUtils.OrderListener;
 import com.glyxybxhtxt.util.quartzUtils.ShyCheck;
 import org.quartz.JobDetail;
@@ -99,15 +100,44 @@ public class QuartzConfiguration {
         return trigger;
     }
 
+    /**
+     * 定时任务 3
+     *
+     */
+    // 配置定时任务3的任务实例 未派单报修单定时任务
+    @Bean(name = "thirdJobDetail")
+    public MethodInvokingJobDetailFactoryBean thirdJobDetail(BxdCheckTask bxdCheckTask) {
+        MethodInvokingJobDetailFactoryBean jobDetail = new MethodInvokingJobDetailFactoryBean();
+        // 是否并发执行
+        jobDetail.setConcurrent(true);
+        // 为需要执行的实体类对应的对象
+        jobDetail.setTargetObject(bxdCheckTask);
+        // 需要执行的方法
+        jobDetail.setTargetMethod("executeBxdCheck");
+        return jobDetail;
+    }
+
+    // 配置触发器3
+    @Bean(name = "thirdTrigger")
+    public CronTriggerFactoryBean thirdTrigger(JobDetail thirdJobDetail) {
+        CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
+        trigger.setJobDetail(thirdJobDetail);
+        // 设置定时任务启动时间
+        trigger.setStartTime(new Date());
+        //构建CronTrigger（触发器）实例,早上9点-早上18点每隔20分钟执行一次未派单报修单轮寻派单
+        // cron表达式
+        trigger.setCronExpression("0 0/5 9-18 * * ?");
+        return trigger;
+    }
 
     // 配置Scheduler
     @Bean(name = "scheduler")
-    public SchedulerFactoryBean schedulerFactory(Trigger firstTrigger, Trigger secondTrigger) {
+    public SchedulerFactoryBean schedulerFactory(Trigger firstTrigger, Trigger secondTrigger, Trigger thirdTrigger) {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
         // 延时启动，应用启动1秒后
         bean.setStartupDelay(1);
         // 注册触发器
-        bean.setTriggers(firstTrigger, secondTrigger);
+        bean.setTriggers(firstTrigger, secondTrigger, thirdTrigger);
         return bean;
     }
 

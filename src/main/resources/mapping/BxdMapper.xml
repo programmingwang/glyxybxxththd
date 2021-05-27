@@ -504,7 +504,7 @@
                 fgts = #{fgts,jdbcType=VARCHAR},
             </if>
             <if test="sbsj != null" >
-                sbsj = CURRENT_TIMESTAMP ,
+                sbsj = CURRENT_TIMESTAMP,
             </if>
             <if test="bxnr != null" >
                 bxnr = #{bxnr,jdbcType=VARCHAR},
@@ -513,7 +513,7 @@
                 state = #{state,jdbcType=INTEGER},
             </if>
             <if test="jdsj != null" >
-                jdsj = CURRENT_TIMESTAMP ,
+                jdsj = CURRENT_TIMESTAMP,
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
@@ -698,5 +698,14 @@
         )
         AND b.shy1state = 1
         AND b.shy2state = 0
+    </select>
+    <!--查询未派单的报修单-->
+    <select id="selwpdbxd" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Jdr_Column_List" />
+        FROM
+        bxd b inner join(
+            select id from bxd b1 where state = 0 order by sbsj asc limit 0,20
+        ) b1 on b.id = b1.id
     </select>
 </mapper>
