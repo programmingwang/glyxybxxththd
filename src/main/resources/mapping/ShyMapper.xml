@@ -18,9 +18,9 @@
     <include refid="Base_Column_List" />
     from shy
   </select>
-  <!--查询是今日签到的并且没有签退的审核员-->
+  <!--查询是今日到第二天早上9点前签到的并且没有签退的审核员-->
   <select id="selOptimalshy" resultMap="BaseResultMap">
-    select
+    select distinct
     s.ybid as ybid, gh, xm, zw,s.xq as xq, s.x, s.y
     from  bxqy qy, ewm e, qdb qd, shy s
     where e.qid = qy.id
@@ -28,14 +28,14 @@
     and qd.xq = qy.xq
     and e.id = #{eid}
     and qd.state = 1
-    and qd.qdsj &lt;= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 0 DAY),'%Y-%m-%d 23:59:59')
+    and not exists (select shyid from qdb where state=2)
+    and qd.qdsj &lt;= DATE_FORMAT(DATE_ADD(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 09:00:00')
     and qd.qdsj >= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),'%Y-%m-%d 23:59:59')
-    and qd.shyid not in (select shyid from qdb where state=2)
     group by s.ybid
   </select>
   <!--查询是今日签退的审核员-->
   <select id="selqtshy" resultMap="BaseResultMap">
-    select
+    select distinct
     s.ybid as ybid, gh, xm, zw,s.xq as xq, s.x, s.y
     from  bxqy qy, ewm e, qdb qd, shy s
     where e.qid = qy.id
@@ -43,9 +43,9 @@
     and qd.xq = qy.xq
     and e.id = #{eid}
     and qd.state = 2
+    and exists (select shyid from qdb where state=2)
     and qd.qdsj &lt;= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 0 DAY),'%Y-%m-%d 23:59:59')
     and qd.qdsj >= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),'%Y-%m-%d 23:59:59')
-    and qd.shyid in (select shyid from qdb where state=2)
     group by s.ybid
   </select>
   <!--查询历史签到以及签退的审核员，也有可能是今天的-->
