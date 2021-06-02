@@ -8,6 +8,9 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/glmc?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
   devtools:
     restart:
       enabled: false
@@ -36,3 +39,7 @@ http_pool:
   connection_request_timeout: 1000
   socket_timeout: 65000
   validate_after_inactivity: 2000
+
+my:
+  config:
+    uploadpath: E:/bxdimg/
