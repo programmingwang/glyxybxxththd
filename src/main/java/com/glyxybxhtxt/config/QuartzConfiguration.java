@@ -126,7 +126,7 @@ public class QuartzConfiguration {
         trigger.setStartTime(new Date());
         //构建CronTrigger（触发器）实例,早上9点-早上18点每隔20分钟执行一次未派单报修单轮寻派单
         // cron表达式
-        trigger.setCronExpression("0 0/5 9-18 * * ?");
+        trigger.setCronExpression("0 0/5 9-21 * * ?");
         return trigger;
     }
 
