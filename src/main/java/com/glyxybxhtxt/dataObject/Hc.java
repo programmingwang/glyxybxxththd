@@ -1,5 +1,8 @@
 package com.glyxybxhtxt.dataObject;
 
+import lombok.ToString;
+
+@ToString
 public class Hc {
     private Integer id;
 

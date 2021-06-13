@@ -25,6 +25,11 @@ public class HcServiceImpl implements HcService {
     }
 
     @Override
+    public List<Hc> selHcByLb(String yjlb, String ejlb) {
+        return hcMapper.selHcByLb(yjlb, ejlb);
+    }
+
+    @Override
     public Hc selOneHc(Integer id) {
         return hcMapper.selectByPrimaryKey(id);
     }

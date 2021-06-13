@@ -11,6 +11,7 @@ import java.util.List;
  */
 public interface HcService {
     List<Hc> selall();
+    List<Hc> selHcByLb(String yjlb, String ejlb);
     Hc selOneHc(Integer id);
     int delhc(int id);
     int newhc(Hc h);

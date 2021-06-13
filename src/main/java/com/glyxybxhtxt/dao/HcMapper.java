@@ -1,6 +1,7 @@
 package com.glyxybxhtxt.dao;
 
 import com.glyxybxhtxt.dataObject.Hc;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface HcMapper {
 
     int updateByPrimaryKey(Hc record);
     List<Hc> selall();
+    List<Hc> selHcByLb(@Param("yjlb")String yjlb, @Param("ejlb")String ejlb);
 }

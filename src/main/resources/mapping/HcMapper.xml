@@ -103,4 +103,12 @@
       kc = #{kc,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--为了减少之前的设计改动（因为甲方后续的材料换了格式，后面的开发者看到这里可以考虑改表也可以不改，建议不改，因为涉及的类太多容易遗漏），
+  这里hc表里lb=yjlb(一级类别),xh=ejlb(二级类别)来查找具体耗材，这个也是给jdr准备的接口  -->
+  <select id="selHcByLb" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from hc
+    where lb = #{yjlb, jdbcType=VARCHAR} and xh = #{ejlb, jdbcType=VARCHAR}
+  </select>
 </mapper>
