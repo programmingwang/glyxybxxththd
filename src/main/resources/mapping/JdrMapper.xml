@@ -54,7 +54,9 @@
           and j.state = 1
           and j.ywfw like "%"#{bxlb}"%"
           and e.id = #{eid}
-          and not exists (select shyid from qdb where state=2 and qdsj &lt;= DATE_FORMAT(DATE_ADD(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 09:00:00') and qdsj >= DATE_FORMAT(DATE_SUB(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 23:59:59'))
+          and not exists (select shyid from qdb where state=2
+          and qdsj &lt;= DATE_FORMAT(DATE_ADD(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 09:00:00')
+          and qdsj >= DATE_FORMAT(DATE_SUB(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 23:59:59'))
           and qd.qdsj &lt;= DATE_FORMAT(DATE_ADD(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 09:00:00')
           and qd.qdsj >= DATE_FORMAT(DATE_SUB(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 23:59:59')
   </select>
@@ -62,7 +64,13 @@
   <select id="selOptimalJdrPC" resultMap="BaseResultMap" >
     select j.ybid, j.gh, j.xm, j.sj, j.yx, j.state,j.ywfw from jdr j, qdb qd, ewm e, bxqy bx
     where j.state =1 and e.qid = bx.id
+      and qd.state = 1
       and j.ybid = qd.shyid and j.ywfw like "%"#{bxlb}"%" and e.id = #{eid}
+      and not exists (select shyid from qdb where state=2
+      and qdsj &lt;= DATE_FORMAT(DATE_ADD(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 09:00:00')
+      and qdsj >= DATE_FORMAT(DATE_SUB(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 23:59:59'))
+      and qd.qdsj &lt;= DATE_FORMAT(DATE_ADD(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 09:00:00')
+      and qd.qdsj >= DATE_FORMAT(DATE_SUB(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 23:59:59')
     order by qd.qdsj desc
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
