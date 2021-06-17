@@ -10,4 +10,6 @@ public class GlmcConstants {
      * 总工时，单位：小时
      */
     public static final double GS = 12.0;
+
+    public static final String HC_APPEND_SYMBOL = "=";
 }

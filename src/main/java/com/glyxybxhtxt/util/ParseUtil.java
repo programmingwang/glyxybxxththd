@@ -1,5 +1,6 @@
 package com.glyxybxhtxt.util;
 
+import com.glyxybxhtxt.constant.GlmcConstants;
 import com.glyxybxhtxt.dataObject.DictItem;
 import com.glyxybxhtxt.dataObject.Hc;
 import com.glyxybxhtxt.service.HcService;
@@ -66,18 +67,15 @@ public class ParseUtil {
         List<String> hcfl = Arrays.asList(beforeHc.split("\\|返工耗材:"));
         int i = 0;
         for (String allhc : hcfl) {
-
             //将多个耗材分割出来，例如2-1|3-2 分割成 2-1，3-2；做hc表的查询
             List<String> hcs = Arrays.asList(allhc.split("\\|"));
             for (String hc : hcs) {
                 //提取第一个做查询例如1-2，提取1，这个1是hc表的id,查询到的是具体的耗材类
                 Hc xxhc = hs.selOneHc(Integer.parseInt(hc.split("-")[0]));
                 if(i == 0){
-                    afterHc.append(xxhc.getMc()).append("(型号:")
-                            .append(xxhc.getXh()).append(")").append("¥");
+                    afterHc.append(xxhc.getMc()).append(GlmcConstants.HC_APPEND_SYMBOL);
                 }else{
-                    afterHc.append(fghczd).append(xxhc.getMc()).append("(型号:")
-                            .append(xxhc.getXh()).append(")").append("¥");
+                    afterHc.append(fghczd).append(xxhc.getMc()).append(GlmcConstants.HC_APPEND_SYMBOL);
                 }
 
             }
@@ -106,11 +104,9 @@ public class ParseUtil {
                 //提取第一个做查询例如1-2，提取1，这个1是hc表的id,查询到的是具体的耗材类
                 Hc xxhc = hs.selOneHc(Integer.parseInt(hc.split("-")[0]));
                 if(i == 0){
-                    afterHc.append(xxhc.getMc()).append("(型号:")
-                            .append(xxhc.getXh()).append(";数量:").append(hc.split("-")[1]).append(xxhc.getDw()).append(")").append("¥");
+                    afterHc.append(xxhc.getMc()).append("(数量:").append(hc.split("-")[1]).append(xxhc.getDw()).append(")").append(GlmcConstants.HC_APPEND_SYMBOL);
                 }else{
-                    afterHc.append(fghczd).append(xxhc.getMc()).append("(型号:")
-                            .append(xxhc.getXh()).append(";数量:").append(hc.split("-")[1]).append(xxhc.getDw()).append(")").append("¥");
+                    afterHc.append(fghczd).append(xxhc.getMc()).append("(数量:").append(hc.split("-")[1]).append(xxhc.getDw()).append(")").append(GlmcConstants.HC_APPEND_SYMBOL);
                 }
 
             }
