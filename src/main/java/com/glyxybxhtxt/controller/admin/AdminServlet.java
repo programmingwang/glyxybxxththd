@@ -254,7 +254,7 @@ public class AdminServlet {
             if(!StringUtils.equals(jid,currentBxd.getJid())){
                 ybmsg.msgpush(jid,
                         "管理员为您分配新的维修订单了，请及时处理！详细地点："+ bxdxxdd);
-
+                b.setState(1);
                 b.setJdsj(new Date());
             }
 
