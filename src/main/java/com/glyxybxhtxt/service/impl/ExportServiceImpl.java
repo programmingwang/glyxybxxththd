@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +53,8 @@ public class ExportServiceImpl implements ExportService {
     private static String exportpath = "src/main/resources/static/export.xls";
     @Override
     public void exportXlsx(String id) {
+        //保留两位小数
+        DecimalFormat df = new DecimalFormat("#.00");
         //耗材填写开始行
         int hcRow = 11;
         OutputStream out = null;
@@ -138,14 +141,17 @@ public class ExportServiceImpl implements ExportService {
                 //填写名称
                 row.createCell(1).setCellValue(thc.getMc());
                 //填写价格
-                row.createCell(6).setCellValue(thc.getJg());
+                String jg = df.format(thc.getJg());
+                row.createCell(6).setCellValue(jg);
                 //填写单位
                 row.createCell(7).setCellValue(thc.getDw());
                 //填写数量
                 row.createCell(8).setCellValue(item.split("-")[1]);
                 //填写小计
-                row.createCell(9).setCellValue(thc.getJg()*Double.parseDouble(item.split("-")[1]));
-                hcPrice += thc.getJg()*Double.parseDouble(item.split("-")[1]);
+                row.createCell(9).setCellValue(df.format(thc.getJg()*Double.parseDouble(item.split("-")[1])));
+//                hcPrice += thc.getJg()*Double.parseDouble(item.split("-")[1]);
+                hcPrice += Double.parseDouble(jg)*Double.parseDouble(item.split("-")[1]);
+
                 row.iterator().forEachRemaining(cell -> {
                     cell.setCellStyle(style);
                 });
@@ -155,7 +161,7 @@ public class ExportServiceImpl implements ExportService {
             sheet.getRow(hcRow).getCell(1).setCellValue(bxd.getGs());
             sheet.getRow(hcRow).getCell(3).setCellValue(Double.parseDouble(bxd.getGs())*31.25);
             double sum = hcPrice + Double.parseDouble(bxd.getGs())*31.25;
-            sheet.getRow(hcRow).getCell(8).setCellValue(sum);
+            sheet.getRow(hcRow).getCell(8).setCellValue(df.format(sum));
             //转下一行
             hcRow++;
             sheet.getRow(hcRow).getCell(1).setCellValue(shy1.getXm());
