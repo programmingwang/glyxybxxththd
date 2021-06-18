@@ -137,7 +137,6 @@ public class ExportServiceImpl implements ExportService {
 
                 //序号
                 row.createCell(0).setCellValue(xuhao);
-                System.out.println(item.split("-")[0]);
                 Hc thc = hcMapper.selectByPrimaryKey(Integer.parseInt(item.split("-")[0]));
                 //填写名称
                 row.createCell(1).setCellValue(thc.getMc());
