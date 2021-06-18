@@ -142,14 +142,17 @@ public class ExportServiceImpl implements ExportService {
                 //填写名称
                 row.createCell(1).setCellValue(thc.getMc());
                 //填写价格
-                row.createCell(6).setCellValue(thc.getJg());
+                String jg = df.format(thc.getJg());
+                row.createCell(6).setCellValue(jg);
                 //填写单位
                 row.createCell(7).setCellValue(thc.getDw());
                 //填写数量
                 row.createCell(8).setCellValue(item.split("-")[1]);
                 //填写小计
                 row.createCell(9).setCellValue(df.format(thc.getJg()*Double.parseDouble(item.split("-")[1])));
-                hcPrice += thc.getJg()*Double.parseDouble(item.split("-")[1]);
+//                hcPrice += thc.getJg()*Double.parseDouble(item.split("-")[1]);
+                hcPrice += Double.parseDouble(jg)*Double.parseDouble(item.split("-")[1]);
+
                 row.iterator().forEachRemaining(cell -> {
                     cell.setCellStyle(style);
                 });
