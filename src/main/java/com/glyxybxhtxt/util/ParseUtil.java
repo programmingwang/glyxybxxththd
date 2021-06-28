@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Author:wangzh
@@ -72,6 +73,11 @@ public class ParseUtil {
             for (String hc : hcs) {
                 //提取第一个做查询例如1-2，提取1，这个1是hc表的id,查询到的是具体的耗材类
                 Hc xxhc = hs.selOneHc(Integer.parseInt(hc.split("-")[0]));
+                xxhc = Optional.ofNullable(xxhc).orElse(
+                        Hc.builder()
+                                .mc("已被删除的耗材")
+                                .dw(" --").build()
+                );
                 if(i == 0){
                     afterHc.append(xxhc.getMc()).append(GlmcConstants.HC_APPEND_SYMBOL);
                 }else{
@@ -103,6 +109,11 @@ public class ParseUtil {
             for (String hc : hcs) {
                 //提取第一个做查询例如1-2，提取1，这个1是hc表的id,查询到的是具体的耗材类
                 Hc xxhc = hs.selOneHc(Integer.parseInt(hc.split("-")[0]));
+                xxhc = Optional.ofNullable(xxhc).orElse(
+                        Hc.builder()
+                                .mc("已被删除的耗材")
+                                .dw(" --").build()
+                );
                 if(i == 0){
                     afterHc.append(xxhc.getMc()).append("(数量:").append(hc.split("-")[1]).append(xxhc.getDw()).append(")").append(GlmcConstants.HC_APPEND_SYMBOL);
                 }else{

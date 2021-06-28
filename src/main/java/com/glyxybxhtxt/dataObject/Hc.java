@@ -1,8 +1,14 @@
 package com.glyxybxhtxt.dataObject;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Hc {
     private Integer id;
 
