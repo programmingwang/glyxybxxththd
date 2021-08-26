@@ -46,11 +46,18 @@ public class EwmServiceImpl implements EwmService {
         return ewmMapper.updateByPrimaryKeySelective(ew) == 1;
     }
 
+
+
     @Override
     public String selxxwz(int eid) {
         StringBuffer ewmxxdd = new StringBuffer();
         Ewm ewm = ewmMapper.selxxwz(eid);
         ewmxxdd.append(ewm.getQy().getXq()).append(",").append(ewm.getQy().getQy()).append(",").append(ewm.getXxdd()).append(".");
         return ewmxxdd.toString();
+    }
+
+    @Override
+    public Ewm selById(Integer eid) {
+        return ewmMapper.selectByPrimaryKey(eid);
     }
 }
