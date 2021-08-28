@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author:wangzh
@@ -176,5 +177,16 @@ public class BxdServiceImpl implements BxdService {
     @Override
     public List<Bxd> selwpdbxd() {
         return bxdMapper.selwpdbxd();
+    }
+
+    @Override
+    public List<Bxd>  selBxdByMap(Map<String, Object> params) {
+        return bxdMapper.selBxdByMap(params);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int updateBatch(Map<String, Object> params) {
+        return bxdMapper.updateBatch(params);
     }
 }

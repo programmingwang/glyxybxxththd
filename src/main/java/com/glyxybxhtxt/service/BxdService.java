@@ -4,6 +4,7 @@ import com.glyxybxhtxt.dataObject.Bxd;
 import com.glyxybxhtxt.dataObject.Jdr;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author:wangzh
@@ -66,4 +67,9 @@ public interface BxdService {
 
     //查询未派单的报修单 wpd=未派单
     List<Bxd> selwpdbxd();
+
+    List<Bxd>  selBxdByMap(Map<String, Object> params);
+
+    int updateBatch(Map<String, Object> params);
+
 }

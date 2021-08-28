@@ -4,6 +4,7 @@ import com.glyxybxhtxt.dataObject.Bxd;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BxdMapper {
     int deleteByPrimaryKey(Integer id);
@@ -75,4 +76,8 @@ public interface BxdMapper {
 
     //查询未派单的报修单 wpd=未派单
     List<Bxd> selwpdbxd();
+
+    List<Bxd>  selBxdByMap(Map<String, Object> params);
+
+    int updateBatch(Map<String, Object> params);
 }

@@ -54,11 +54,55 @@
     <sql id="Base_Column_List" >
     id, sbsj, eid, xxdd, yysj, bxlb, bxnr, tp, sbr, sbrsj, sbrxh, hc, gs, jid, shy1,
     shy1state, shy2, shy2state, wxsj, cxsy, pj, pjnr, pjzj, state, sp, fgts, jdsj, yssj
-  </sql>
+    </sql>
+    <sql id="Base_Column_List_Ext" >
+    b.id, b.sbsj, b.eid, b.xxdd, b.yysj, b.bxlb, b.bxnr, b.tp, b.sbr, b.sbrsj, b.sbrxh, b.hc, b.gs, b.jid, b.shy1,
+    b.shy1state, b.shy2, b.shy2state, b.wxsj, b.cxsy, b.pj, b.pjnr, b.pjzj, b.state, b.sp, b.fgts, b.jdsj, b.yssj
+    </sql>
+
     <sql id="Jdr_Column_List" >
     b.id, b.sbsj, b.eid, b.xxdd, b.yysj, b.bxlb, b.bxnr, b.tp, b.sbr, b.sbrsj, b.hc, b.gs, b.jid,
     b.shy1state,  b.shy2state, b.wxsj, b.cxsy, b.pj, b.pjnr, b.pjzj, b.state, b.sbrxh, b.fgts
   </sql>
+
+
+    <update id="updateBatch" parameterType="Map">
+        UPDATE bxd
+        <trim prefix="set" suffixOverrides=",">
+        <if test="taskFgts != null">
+                fgts = fgts - 1,
+            </if>
+            <if test="taskPjnr != null">
+                pj = 5,
+                pjnr = #{taskPjnr},
+            </if>
+        </trim>
+        WHERE id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="selBxdByMap" resultMap="BaseResultMap" parameterType="Map">
+        select
+        <include refid="Base_Column_List"/>
+        from bxd
+        where 1=1
+          <if test="states != null">
+              and `state` in
+              <foreach collection="states" item="state" separator="," open="(" close=")">
+                 #{state}
+              </foreach>
+          </if>
+          <if test="taskFgts != null">
+              and fgts > 0
+          </if>
+          <if test="taskPjnr != null">
+              and pjnr is null
+              and pj is null
+              and fgts = 0
+          </if>
+    </select>
 
     <select id="allcount" resultType="Integer">
   	select count(id) from bxd
@@ -111,7 +155,7 @@
   	select count(id) from bxd where state = #{state,jdbcType=INTEGER}
   </select>
     <select id="selforsbr" resultMap="BaseResultMap" parameterType="com.glyxybxhtxt.dataObject.Bxd" >
-        select b.*,e.id eid,e.xxdd ewmdd,q.qy,q.qylb,q.xq,j.sj,j.xm,b.fgts from bxqy q,ewm e,bxd b
+        select <include refid="Base_Column_List_Ext"/>,e.id eid,e.xxdd ewmdd,q.qy,q.qylb,q.xq,j.sj,j.xm,b.fgts from bxqy q,ewm e,bxd b
         left join jdr j
         on b.jid = j.ybid
         where 1=1 and e.id = b.eid and e.qid=q.id and b.sbrxh = #{sbrxh,jdbcType=VARCHAR}
@@ -129,7 +173,7 @@
   	select max(id) from bxd where sbrxh = #{xh,jdbcType=VARCHAR}
   </select>
     <select id="selbxdbyshy" resultMap="BaseResultMap" parameterType="com.glyxybxhtxt.dataObject.Bxd">
-        select b.*,q.qy,q.qylb,q.xq,e.xxdd ewmdd,j.sj,j.xm from bxqy q,ewm e,bxd b
+        select b.<include refid="Base_Column_List_Ext"/>,q.qy,q.qylb,q.xq,e.xxdd ewmdd,j.sj,j.xm from bxqy q,ewm e,bxd b
         left join jdr j on b.jid = j.ybid
         where e.id = b.eid and  b.state != 3 and (b.hc is not null or b.gs is not null) and e.qid=q.id
         and ( (b.shy1 = #{shy1,jdbcType=VARCHAR} <if test="shy1state!=null">and b.shy1state=#{shy1state,jdbcType=INTEGER}</if> )
@@ -153,7 +197,7 @@
         </if>
     </select>
     <select id="selbxdbyadmin" resultMap="BaseResultMap" parameterType="com.glyxybxhtxt.dataObject.Bxd">
-        select  b.*,q.qy,q.qylb,q.xq,e.xxdd ewmdd,j.xm,j.sj,j.yx,j.state jstate,j.gh jgh,j.ywfw,s1.gh s1gh,s1.xm s1xm,s2.gh s2gh,s2.xm s2xm,b.fgts
+        select  <include refid="Base_Column_List_Ext"/>,q.qy,q.qylb,q.xq,e.xxdd ewmdd,j.xm,j.sj,j.yx,j.state jstate,j.gh jgh,j.ywfw,s1.gh s1gh,s1.xm s1xm,s2.gh s2gh,s2.xm s2xm,b.fgts
         from bxqy q,ewm e,bxd b
         left join jdr j on b.jid = j.ybid
         LEFT JOIN shy s1 on s1.xm = b.shy1

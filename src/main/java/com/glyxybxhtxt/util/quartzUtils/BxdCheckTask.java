@@ -5,6 +5,7 @@ import com.glyxybxhtxt.dataObject.Bxd;
 import com.glyxybxhtxt.response.ResponseData;
 import com.glyxybxhtxt.service.EwmService;
 import com.glyxybxhtxt.service.impl.BxdServiceImpl;
+import com.glyxybxhtxt.service.impl.EwmServiceImpl;
 import com.glyxybxhtxt.service.impl.MsgPushServiceImpl;
 import com.glyxybxhtxt.util.AutoOrder;
 import com.google.common.collect.Lists;
@@ -29,7 +30,7 @@ public class BxdCheckTask {
     @Autowired
     private BxdServiceImpl bs;
     @Autowired
-    private EwmService es;
+    private EwmServiceImpl es;
     @Autowired
     private MsgPushServiceImpl ybmsg;
     @Autowired

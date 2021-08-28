@@ -1,6 +1,7 @@
 package com.glyxybxhtxt.config;
 
 import com.glyxybxhtxt.util.quartzUtils.BxdCheckTask;
+import com.glyxybxhtxt.util.quartzUtils.FgAndPjTask;
 import com.glyxybxhtxt.util.quartzUtils.OrderListener;
 import com.glyxybxhtxt.util.quartzUtils.ShyCheck;
 import org.quartz.JobDetail;
@@ -130,14 +131,44 @@ public class QuartzConfiguration {
         return trigger;
     }
 
+    /**
+     * 定时任务 4
+     *
+     */
+    // 配置定时任务4的任务实例 返工天数减一，默认评价定时任务
+    @Bean(name = "forthJobDetail")
+    public MethodInvokingJobDetailFactoryBean ForthJobDetail(FgAndPjTask fgAndPjTask) {
+        MethodInvokingJobDetailFactoryBean jobDetail = new MethodInvokingJobDetailFactoryBean();
+        // 是否并发执行
+        jobDetail.setConcurrent(true);
+        // 为需要执行的实体类对应的对象
+        jobDetail.setTargetObject(fgAndPjTask);
+        // 需要执行的方法
+        jobDetail.setTargetMethod("executeFgAndPjTask");
+        return jobDetail;
+    }
+
+    // 配置触发器4
+    @Bean(name = "forthTrigger")
+    public CronTriggerFactoryBean ForthTrigger(JobDetail forthJobDetail) {
+        CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
+        trigger.setJobDetail(forthJobDetail);
+        // 设置定时任务启动时间
+        trigger.setStartTime(new Date());
+        //构建CronTrigger（触发器）实例,每天凌晨3.30触发一次
+        // cron表达式
+        trigger.setCronExpression("0 30 3 * * ?");
+        return trigger;
+    }
+
     // 配置Scheduler
     @Bean(name = "scheduler")
-    public SchedulerFactoryBean schedulerFactory(Trigger firstTrigger, Trigger secondTrigger, Trigger thirdTrigger) {
+    public SchedulerFactoryBean schedulerFactory(Trigger firstTrigger, Trigger secondTrigger, Trigger thirdTrigger, Trigger forthTrigger) {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
         // 延时启动，应用启动1秒后
         bean.setStartupDelay(1);
         // 注册触发器
-        bean.setTriggers(firstTrigger, secondTrigger, thirdTrigger);
+        bean.setTriggers(firstTrigger, secondTrigger, thirdTrigger, forthTrigger);
         return bean;
     }
 
