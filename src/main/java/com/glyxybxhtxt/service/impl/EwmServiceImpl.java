@@ -62,6 +62,7 @@ public class EwmServiceImpl implements EwmService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int updQidyAdmin(Integer qid, Integer startId, Integer endId) {
         return ewmMapper.updateQidByAdmin(qid, startId, endId);
     }
