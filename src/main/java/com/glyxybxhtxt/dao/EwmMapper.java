@@ -1,6 +1,7 @@
 package com.glyxybxhtxt.dao;
 
 import com.glyxybxhtxt.dataObject.Ewm;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,4 +24,5 @@ public interface EwmMapper {
     List<Ewm> selewm(int qid);
     Ewm selqyid(int eid);
     Ewm selqybysbr(int eid);
+    int updateQidByAdmin(@Param("qid") Integer qid, @Param("startId") Integer startId, @Param("endId") Integer endId);
 }

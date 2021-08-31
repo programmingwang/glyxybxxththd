@@ -60,4 +60,9 @@ public class EwmServiceImpl implements EwmService {
     public Ewm selById(Integer eid) {
         return ewmMapper.selectByPrimaryKey(eid);
     }
+
+    @Override
+    public int updQidyAdmin(Integer qid, Integer startId, Integer endId) {
+        return ewmMapper.updateQidByAdmin(qid, startId, endId);
+    }
 }

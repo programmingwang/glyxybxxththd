@@ -15,11 +15,15 @@
     id, qid, xxdd
   </sql>
 
+  <update id="updateQidByAdmin">
+    update ewm set qid = #{qid} where id between #{startId} and #{endId}
+  </update>
+
   <select id="selxxwz" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select qy.xq, qy.qy, e.xxdd
       from ewm e,bxqy qy
       where qy.id = e.qid
-      and e.id = #{id,jdbcType=INTEGER};
+      and e.id = #{id,jdbcType=INTEGER}
   </select>
   
   <select id="selewm" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

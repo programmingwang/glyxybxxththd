@@ -18,4 +18,5 @@ public interface EwmService {
     //获得二维码的详细地点信息
     String selxxwz(int eid);
     Ewm selById(Integer eid);
+    int updQidyAdmin(Integer qid, Integer startId, Integer endId);
 }

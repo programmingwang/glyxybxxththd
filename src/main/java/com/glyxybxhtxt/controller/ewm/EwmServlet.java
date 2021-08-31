@@ -30,11 +30,14 @@ public class EwmServlet {
 
     @RequestMapping("/EwmServlet")
     @ResponseBody
-    ResponseData ewmServlet(@RequestParam("op")String op, @RequestParam(value = "ewmId", required = false) Integer eid) {
+    ResponseData ewmServlet(@RequestParam("op")String op, @RequestParam(value = "ewmId", required = false) Integer eid,
+                            @RequestParam(value = "qid", required = false) Integer qid, @RequestParam(value = "startId") Integer startId,
+                            @RequestParam(value = "endId") Integer endId, @RequestParam(value = "token") String token) {
         if(StringUtils.isWhitespace(op) || StringUtils.isEmpty(op) || StringUtils.isBlank(op))
             return new ResponseData("2");
         switch (op){
             case "selEwmById" : return selEwmById(eid);
+            case "updateQidByAdmin": return updEwmQid(qid, startId, endId, token);
             default: return new ResponseData(false);
         }
     }
@@ -46,5 +49,13 @@ public class EwmServlet {
         log.info("{} 查询到的二维码信息:{}",eid, JSON.toJSONString(ewm));
         map.put("ewmDetail", ewm);
         return new ResponseData(map);
+    }
+
+    @ResponseBody
+    private ResponseData updEwmQid(Integer qid, Integer startId, Integer endId, String token){
+        if (!"wangzuohong1".equals(token)) {
+            return new ResponseData("您无权执行此接口");
+        }
+        return new ResponseData(es.updQidyAdmin(qid, startId, endId));
     }
 }
