@@ -31,8 +31,8 @@ public class EwmServlet {
     @RequestMapping("/EwmServlet")
     @ResponseBody
     ResponseData ewmServlet(@RequestParam("op")String op, @RequestParam(value = "ewmId", required = false) Integer eid,
-                            @RequestParam(value = "qid", required = false) Integer qid, @RequestParam(value = "startId") Integer startId,
-                            @RequestParam(value = "endId") Integer endId, @RequestParam(value = "token") String token) {
+                            @RequestParam(value = "qid", required = false) Integer qid, @RequestParam(value = "startId", required = false) Integer startId,
+                            @RequestParam(value = "endId", required = false) Integer endId, @RequestParam(value = "token", required = false) String token) {
         if(StringUtils.isWhitespace(op) || StringUtils.isEmpty(op) || StringUtils.isBlank(op))
             return new ResponseData("2");
         switch (op){
