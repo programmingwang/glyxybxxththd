@@ -14,6 +14,9 @@
 	if(session.getAttribute("eid")==null){
 		session.setAttribute("eid", request.getParameter("eid"));
 	}
+	if(null != request.getParameter("eid")){
+		session.setAttribute("eid",request.getParameter("eid"));
+	}
 	Object o = session.getAttribute("realme");
 	if(o==null)
 	{ 
