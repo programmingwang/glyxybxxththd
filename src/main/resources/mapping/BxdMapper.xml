@@ -173,7 +173,7 @@
   	select max(id) from bxd where sbrxh = #{xh,jdbcType=VARCHAR}
   </select>
     <select id="selbxdbyshy" resultMap="BaseResultMap" parameterType="com.glyxybxhtxt.dataObject.Bxd">
-        select b.<include refid="Base_Column_List_Ext"/>,q.qy,q.qylb,q.xq,e.xxdd ewmdd,j.sj,j.xm from bxqy q,ewm e,bxd b
+        select <include refid="Base_Column_List_Ext"/>,q.qy,q.qylb,q.xq,e.xxdd ewmdd,j.sj,j.xm from bxqy q,ewm e,bxd b
         left join jdr j on b.jid = j.ybid
         where e.id = b.eid and  b.state != 3 and (b.hc is not null or b.gs is not null) and e.qid=q.id
         and ( (b.shy1 = #{shy1,jdbcType=VARCHAR} <if test="shy1state!=null">and b.shy1state=#{shy1state,jdbcType=INTEGER}</if> )
