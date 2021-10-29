@@ -20,7 +20,7 @@ public class BxqyServiceImpl implements BxqyService {
     private BxqyMapper bxqyMapper;
 
     @Override
-    public Bxqy selbxqy(int id) {
+    public Bxqy selbxqy(Integer id) {
         return bxqyMapper.selectByPrimaryKey(id);
     }
 
@@ -44,5 +44,10 @@ public class BxqyServiceImpl implements BxqyService {
     @Transactional(rollbackFor = Exception.class)
     public boolean upqy(Bxqy q) {
         return bxqyMapper.updateByPrimaryKeySelective(q) == 1;
+    }
+
+    @Override
+    public Bxqy selByEwmId(Integer eid) {
+        return bxqyMapper.selByEwmId(eid);
     }
 }

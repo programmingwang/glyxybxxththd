@@ -176,10 +176,19 @@ public class BxdServlet {
                 bxd.setShy2(optimalShy.get(sjfpshy.nextInt(shySize)).getYbid());
             }else if(shySize == 1){
                 //此时只找到一个在职审核员，另一个审核员职位就找今天已经签退的审核员
-                bxd.setShy1(optimalShy.get(0).getYbid());
+                Shy shy1 = optimalShy.get(0);
+                bxd.setShy1(shy1.getYbid());
+                //今天已经签退的审核员
                 List<Shy> qtshies = ss.selqtShy(Integer.parseInt(eid));
-                //随机分配的签退的审核员
-                bxd.setShy2(qtshies.get(sjfpshy.nextInt(qtshies.size())).getYbid());
+                if(!qtshies.isEmpty()) {
+                    //随机分配的签退的审核员
+                    bxd.setShy2(qtshies.get(sjfpshy.nextInt(qtshies.size())).getYbid());
+                } else {
+                    List<Shy> lsqdshy = ss.sellsqdshy(Integer.parseInt(eid));
+                    List<Shy> shyList = lsqdshy.stream().filter(lsqdqt -> !shy1.getYbid().equals(lsqdqt.getYbid())).distinct().collect(Collectors.toList());
+                    bxd.setShy2(shyList.get(sjfpshy.nextInt(shyList.size())).getYbid());
+                }
+
             }else {
                 //没有在职的审核员了，只能分配签退的审核员（这种情况应该不会发生，貌似每天都有审核员值班）
                 List<Shy> qtshies = ss.selqtShy(Integer.parseInt(eid));

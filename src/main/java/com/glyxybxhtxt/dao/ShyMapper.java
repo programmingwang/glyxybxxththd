@@ -19,8 +19,8 @@ public interface ShyMapper {
     int updateByPrimaryKey(Shy record);
     
     List<Shy> selallshy();
-    List<Shy> selOptimalshy(Integer eid);
-    List<Shy> selqtshy(Integer eid);
+    List<Shy> selOptimalshy(String xq);
+    List<Shy> selqtshy(String xq);
     List<Shy> sellsqdshy(Integer eid);
 
 

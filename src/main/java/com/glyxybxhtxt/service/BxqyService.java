@@ -10,9 +10,10 @@ import java.util.List;
  * Version: 1.0
  */
 public interface BxqyService {
-    Bxqy selbxqy(int id);
+    Bxqy selbxqy(Integer id);
     List<Bxqy> selallqy();
     List<Bxqy> ditu(String xq);
     boolean newqy(Bxqy q);
     boolean upqy(Bxqy q);
+    Bxqy selByEwmId(Integer eid);
 }

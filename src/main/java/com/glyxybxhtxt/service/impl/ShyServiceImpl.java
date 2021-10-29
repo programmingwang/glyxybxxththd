@@ -1,8 +1,14 @@
 package com.glyxybxhtxt.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.glyxybxhtxt.dao.ShyMapper;
+import com.glyxybxhtxt.dataObject.Bxqy;
 import com.glyxybxhtxt.dataObject.Shy;
+import com.glyxybxhtxt.service.BxqyService;
+import com.glyxybxhtxt.service.EwmService;
 import com.glyxybxhtxt.service.ShyService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +21,14 @@ import java.util.List;
  * Version: 1.0
  */
 @Service
+@Slf4j
 public class ShyServiceImpl implements ShyService{
     @Resource
     private ShyMapper shyMapper;
+
+    @Autowired
+    private BxqyService bxqyService;
+
 
 
     @Override
@@ -45,16 +56,27 @@ public class ShyServiceImpl implements ShyService{
 
     @Override
     public List<Shy> selOptimalShy(Integer eid) {
-        return shyMapper.selOptimalshy(eid);
+        //根据ewmId线查询当前校区
+        Bxqy bxqy = bxqyService.selByEwmId(eid);
+        log.info("二维码id是{}的报修区域是{}", eid, JSON.toJSONString(bxqy));
+        String xq = bxqy.getXq();
+        return shyMapper.selOptimalshy(xq);
     }
 
     @Override
     public List<Shy> selqtShy(Integer eid) {
-        return shyMapper.selqtshy(eid);
+        //根据ewmId线查询当前校区
+        Bxqy bxqy = bxqyService.selByEwmId(eid);
+        log.info("二维码id是{}的报修区域是{}", eid, JSON.toJSONString(bxqy));
+        String xq = bxqy.getXq();
+        return shyMapper.selqtshy(xq);
     }
 
     @Override
     public List<Shy> sellsqdshy(Integer eid) {
+        //根据ewmId线查询当前校区
+        Bxqy bxqy = bxqyService.selByEwmId(eid);
+        log.info("二维码id是{}的报修区域是{}", eid, JSON.toJSONString(bxqy));
         return shyMapper.sellsqdshy(eid);
     }
 

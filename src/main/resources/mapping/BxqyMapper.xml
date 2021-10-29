@@ -25,6 +25,11 @@
     <include refid="Base_Column_List" /> 
     from bxqy 
   </select>
+
+  <select id="selByEwmId" resultMap="BaseResultMap">
+    select qy.id, qy.qy, qy.qylb, qy.xq, qy.x, qy.y from bxqy qy
+                       inner join ewm e on e.qid = qy.id where e.id = #{eid};
+  </select>
   
   <select id="ditu" resultMap="BaseResultMap" parameterType="String">
   	select q.*,b.id bid,b.xxdd from bxqy q 

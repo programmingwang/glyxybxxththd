@@ -20,4 +20,6 @@ public interface BxqyMapper {
     
     List<Bxqy> selallqy();
     List<Bxqy> ditu(String xq);
+
+    Bxqy selByEwmId(Integer ewmId);
 }

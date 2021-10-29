@@ -22,11 +22,8 @@
   <select id="selOptimalshy" resultMap="BaseResultMap">
     select distinct
     s.ybid as ybid, gh, xm, zw,s.xq as xq, s.x, s.y
-    from  bxqy qy, ewm e, qdb qd, shy s
-    where e.qid = qy.id
-    and qd.shyid = s.ybid
-    and qd.xq = qy.xq
-    and e.id = #{eid}
+    from shy s inner join qdb qd on qd.shyid = s.ybid
+    where qd.xq = #{xq}
     and qd.state = 1
     and not exists (select shyid from qdb where state=2 and qdsj &lt;= DATE_FORMAT(DATE_ADD(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 09:00:00') and qdsj >= DATE_FORMAT(DATE_SUB(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 23:59:59'))
     and qd.qdsj &lt;= DATE_FORMAT(DATE_ADD(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 09:00:00')
@@ -37,26 +34,20 @@
   <select id="selqtshy" resultMap="BaseResultMap">
     select distinct
     s.ybid as ybid, gh, xm, zw,s.xq as xq, s.x, s.y
-    from  bxqy qy, ewm e, qdb qd, shy s
-    where e.qid = qy.id
-    and qd.shyid = s.ybid
-    and qd.xq = qy.xq
-    and e.id = #{eid}
+    from shy s inner join qdb qd on qd.shyid = s.ybid
+    where qd.xq = #{xq}
     and qd.state = 2
-    and exists (select shyid from qdb where state=2 and qdsj &lt;= DATE_FORMAT(DATE_ADD(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 09:00:00') and qdsj >= DATE_FORMAT(DATE_SUB(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 23:59:59'))
-    and qd.qdsj &lt;= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 0 DAY),'%Y-%m-%d 23:59:59')
-    and qd.qdsj >= DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 1 DAY),'%Y-%m-%d 23:59:59')
+    and not exists (select shyid from qdb where state=2 and qdsj &lt;= DATE_FORMAT(DATE_ADD(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 09:00:00') and qdsj >= DATE_FORMAT(DATE_SUB(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 23:59:59'))
+    and qd.qdsj &lt;= DATE_FORMAT(DATE_ADD(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 09:00:00')
+    and qd.qdsj >= DATE_FORMAT(DATE_SUB(curdate(), INTERVAL 1 DAY),'%Y-%m-%d 23:59:59')
     group by s.ybid
   </select>
   <!--查询历史签到以及签退的审核员，也有可能是今天的-->
   <select id="sellsqdshy" resultMap="BaseResultMap">
  	select
     s.ybid as ybid, gh, xm, zw,s.xq as xq, s.x, s.y
-    from  bxqy qy, ewm e, qdb qd, shy s
-    where e.qid = qy.id
-    and qd.shyid = s.ybid
-    and qd.xq = qy.xq
-    and e.id = #{eid}
+    from  shy s inner join qdb qd on qd.shyid = s.ybid
+    where qd.xq = #{xq}
     order by qd.qdsj DESC
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
