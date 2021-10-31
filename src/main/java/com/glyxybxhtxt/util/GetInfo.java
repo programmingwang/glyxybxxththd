@@ -12,6 +12,10 @@ import cn.yiban.open.Authorize;
 import cn.yiban.open.common.User;
 import cn.yiban.util.AESDecoder;
 
+/**
+ * 与易班进行授权，并获取登录用户的隐私信息（token）和普通信息（用户名，头像）和真实信息（真实姓名）
+ * 存入session中
+ */
 public class GetInfo {
 	private String appkey;//appID
 	private String appsecret;//appSecret
@@ -41,7 +45,7 @@ public class GetInfo {
 	{
 		Authorize au = new Authorize(appkey, appsecret);
 		String verify_request = request.getParameter("verify_request");
-		if(verify_request!=null&&!verify_request.isEmpty())
+		if(verify_request != null && !verify_request.isEmpty())
 		{
 			try {
 				String code = AESDecoder.dec(verify_request, appsecret, appkey);
@@ -126,7 +130,9 @@ public class GetInfo {
 		HttpSession session = request.getSession();
 		String realme = u.realme();
 		JSONObject mejson = JSONObject.fromObject(realme);
+		// 获取状态
 		String status = mejson.getString("status");
+		// 个人信息存在 key为info里
 		JSONObject info = (JSONObject)mejson.get("info");
 		if("error".equals(status))
 		{
@@ -143,6 +149,8 @@ public class GetInfo {
 		m.setNike(info.getString("yb_usernick"));
 		m.setSchool(info.getString("yb_schoolname"));
 		m.setSex(info.getString("yb_sex"));
+		// 上方代码就是getMe方法的内容，获取用户的基本信息
+		// 下方代码就是多出一个实体类RealMe，封装了Me，又多出了yb_identity等真实信息，存入session
 		rm.setM(m);
 		rm.setIdentity(info.getString("yb_identity"));
 		rm.setRealName(info.getString("yb_realname"));

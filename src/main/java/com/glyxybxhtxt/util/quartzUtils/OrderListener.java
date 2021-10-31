@@ -16,7 +16,7 @@ import java.util.*;
  * Author:wangzh
  * Date: 2020/12/12 11:54
  * Version: 1.0
- * Description : 此类用来监听订单派单给总工时已经超过12的接单人，将这些单重新派给其他接单人
+ * Description : 此类用来监听给总订单派单工时已经超过12的接单人，将这些单重新派给其他接单人
  */
 @Slf4j
 @Component
@@ -44,7 +44,7 @@ public class OrderListener {
 
         allJdr1and2.addAll(js.selalljdr(Collections.singletonList("1,2,3")));
         //今天工时>=12的接单人
-        List<Jdr> gsgt2 = new ArrayList<>();
+        // List<Jdr> gsgt2 = new ArrayList<>();
         //当前接单人工时超过12的且状态为已派单（state=1）的工单
         List<Bxd> state1gd = new ArrayList<>();
 

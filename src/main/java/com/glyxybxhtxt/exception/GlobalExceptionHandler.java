@@ -3,12 +3,13 @@ package com.glyxybxhtxt.exception;
 import com.glyxybxhtxt.response.ResponseData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Book;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -16,6 +17,7 @@ import java.text.ParseException;
  * Date: 2020/11/1 14:54
  * Version: 1.0
  */
+// 指定：只有使用了RestController的类才会使用这些异常处理方法
 @ControllerAdvice(annotations = {RestController.class})
 public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
@@ -32,6 +34,7 @@ public class GlobalExceptionHandler {
         return new ResponseData("1");
     }
 
+ 
     /**
      * 处理转换异常
      * @param e

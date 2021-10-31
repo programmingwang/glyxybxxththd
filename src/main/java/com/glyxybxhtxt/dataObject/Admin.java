@@ -1,10 +1,11 @@
 package com.glyxybxhtxt.dataObject;
 
 public class Admin {
+    // id
     private Integer id;
-
+    // 用户名
     private String account;
-
+    // 密码
     private String password;
 
     public Integer getId() {

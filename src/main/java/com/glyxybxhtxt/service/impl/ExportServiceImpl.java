@@ -24,31 +24,50 @@ import java.util.List;
  * @Author lrt
  * @Date 2021/1/7 19:33
  * @Version 1.0
+ * describe：将数据以xls文件形式导出
  **/
 @Service
 public class ExportServiceImpl implements ExportService {
-
+    /**
+     * 解析数字成为中文
+     */
     @Resource
     private ParseUtil parseUtil;
-
+    /**
+     * 报修单 Mapper
+     */
     @Resource
     private BxdMapper bxdMapper;
-
+    /**
+     * 接单人 Mapper
+     */
     @Resource
     private JdrMapper jdrMapper;
-
+    /**
+     * 二维码 Mapper
+     */
     @Resource
     private EwmMapper ewmMapper;
-
+    /**
+     * 报修区域 Mapper
+     */
     @Resource
     private BxqyMapper bxqyMapper;
-
+    /**
+     * 耗材 Mapper
+     */
     @Resource
     private HcMapper hcMapper;
-
+    /**
+     * 审核员 Mapper
+     */
     @Resource
     private ShyMapper shyMapper;
-
+    /**
+     * 表格数据地址
+     * 第一个为文件模板
+     * 第二个才是导出的文件
+     */
     private static String filepath = "src/main/resources/static/repairProof.xls";
     private static String exportpath = "src/main/resources/static/export.xls";
     @Override
@@ -59,34 +78,49 @@ public class ExportServiceImpl implements ExportService {
         int hcRow = 11;
         OutputStream out = null;
         InputStream file;
+        // 耗材价格
         double hcPrice = 0.0;
+        // 根据报修单id，查询该报修单的全部数据
+        // 注意，下面基本都是基于报修单表的外键字段，获取其他表数据
         Bxd bxd = bxdMapper.selectByPrimaryKey(Integer.parseInt(id));
+        // 根据接单人易班id，查询该接单人的全部数据
         Jdr jdr = jdrMapper.selectByPrimaryKey(bxd.getJid());
+        // 根据二维码id，查询该二维码的全部数据
         Ewm ewm = ewmMapper.selqyid(bxd.getEid());
+        // 根据二维码所在地id，查询该报修区域的全部数据。其实二维码所在地id就是一个报修区域
         Bxqy bxqy = bxqyMapper.selectByPrimaryKey(ewm.getQid());
+        // 根据审核人1 id，查询该审核人1的全部数据
         Shy shy1 = shyMapper.selectByPrimaryKey(bxd.getShy1());
+        // 根据审核人2 id，查询该审核人2的全部数据
         Shy shy2 = shyMapper.selectByPrimaryKey(bxd.getShy2());
         List<String> hcList;
         String hc = bxd.getHc();
+        // 一个例子：原来hc：228-1|252-1|返工耗材:388-1|383-1，去掉返工耗材:后为：228-1|252-1|388-1|383-1
         hc = hc.replace("返工耗材:","");
+        // hcList存有 228-1，252-1，388-1，383-1
         hcList = Arrays.asList(hc.split("\\|"));
         String emptyStar = "☆";
         String fullStar = "★";
+        // 获取申报时间
         Date sbsj = bxd.getSbsj();
+        // 日期时间的格式化对象， 将日期格式化为如：2021年10月3日 21:09:14
         DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
+        // 评价星级缓存区
         StringBuilder pjStar = new StringBuilder();
-        //评价内容
+        // 获取评价内容
         String pjnr = bxd.getPjnr();
+        // 获取追加的评价内容
         if (bxd.getPjzj() != null&& !bxd.getPjzj().equals("")){
             pjnr += " 追加:" + bxd.getPjzj();
         }
+        // 评价星级
         int pj = Integer.parseInt(bxd.getPj());
         try {
             file = new FileInputStream(filepath);
             HSSFWorkbook wb = new HSSFWorkbook(file);
             HSSFSheet sheet = wb.getSheetAt(0);
 
-            //二维码处理
+            // 对二维码字节流处理
             ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
             BufferedImage image = EwmUtil.generateQRCodeImage("https://yiban.glmc.edu.cn/bxqt/#/declare-details/"+id,125,125);
             assert image != null;
@@ -96,7 +130,7 @@ public class ExportServiceImpl implements ExportService {
                     (short) 8, 0, (short) 10, 4);
             patriarch.createPicture(anchor,wb.addPicture(byteArrayOut.toByteArray(),HSSFWorkbook.PICTURE_TYPE_PNG));
 
-            //评星处理
+            // 评星处理
             for (int i = 0; i < 5; i++){
                 if (pj >= 1){
                     pjStar.append(fullStar);
@@ -106,7 +140,7 @@ public class ExportServiceImpl implements ExportService {
                 pj = pj - 1;
             }
             HSSFCellStyle style = sheet.getRow(1).getCell(1).getCellStyle();
-
+            // 建议 对着xls文件看更好理解
             sheet.getRow(1).getCell(1).setCellValue(bxd.getId());
             sheet.getRow(1).getCell(3).setCellValue(bxqy.getXq());
             sheet.getRow(1).getCell(5).setCellValue(bxqy.getQy());
@@ -128,6 +162,7 @@ public class ExportServiceImpl implements ExportService {
             for (String item : hcList){
                 HSSFRow row;
                 if (hcRow != 11){
+                    // 创建一行
                     sheet.shiftRows(hcRow, sheet.getLastRowNum(), 1,true,false);
                     row = sheet.createRow(hcRow);
                     copyRows(11,11,hcRow,sheet);
