@@ -4,18 +4,19 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
 public class Shy {
+    // 易班id
     private String ybid;
-
+    // 工号
     private String gh;
-
+    // 姓名
     private String xm;
-
+    // 1普通职员，2高级职员
     private Integer zw;
-
+    // 当前校区
     private String xq;
-
+    // X坐标
     private String x;
-
+    // Y坐标
     private String y;
 
     public String getYbid() {

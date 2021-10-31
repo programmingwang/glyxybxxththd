@@ -10,18 +10,19 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Hc {
+    // id
     private Integer id;
-
+    // 材料名称
     private String mc;
-
+    // 价格
     private Double jg;
-
+    // 单位
     private String dw;
-
+    // 库存
     private Integer kc;
-
+    // 耗材类别
     private String lb;
-
+    // 耗材型号
     private String xh;
 
     public String getLb() {
