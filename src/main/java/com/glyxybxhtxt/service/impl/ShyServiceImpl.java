@@ -77,7 +77,8 @@ public class ShyServiceImpl implements ShyService{
         //根据ewmId线查询当前校区
         Bxqy bxqy = bxqyService.selByEwmId(eid);
         log.info("二维码id是{}的报修区域是{}", eid, JSON.toJSONString(bxqy));
-        return shyMapper.sellsqdshy(eid);
+        String xq = bxqy.getXq();
+        return shyMapper.sellsqdshy(xq);
     }
 
     @Override
