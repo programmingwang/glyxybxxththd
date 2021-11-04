@@ -89,6 +89,9 @@ public class BxdServlet {
         }
     }
 
+    /**
+     * 根据二维码id，获取由该二维码扫描出的没有完成的报修单
+     */
     @ResponseBody
     private ResponseData selbxdforeid(String eid) {
         Map<String, Object> map = new HashMap<>();
@@ -101,6 +104,9 @@ public class BxdServlet {
         return new ResponseData(map);
     }
 
+    /**
+     * 提供二维码id，查询该二维码和所在的报修区域的数据
+     */
     @ResponseBody
     private ResponseData selqybysbr(String eid) {
         Map<String, Object> map = new HashMap<>();
@@ -109,6 +115,9 @@ public class BxdServlet {
         return new ResponseData(map);
     }
 
+    /**
+     * 整合返工和新增工单，返工要传jdr的jid和本单的id
+     */
     @ResponseBody
     //整合返工和新增工单，返工要传jdr的jid和本单的id
     private ResponseData filebase64(String eid, String xxdd, String yysj, String bxlb, String bxnr, String sbrsj, String sbrxh, String sbr, String tp, String sp, String jid, String bid, String hc) throws IOException {
@@ -247,7 +256,11 @@ public class BxdServlet {
         }
     }
 
-
+    /**
+     * 根据申报人学号、报修单id，来更新该报修单
+     * 其实就是 更新申报人申报的报修单
+     * 如果报修单已被接单人接到，就提供易班告诉接单人：报修单的更新
+     */
     @ResponseBody
     private ResponseData upbxdbysbr(String cxsy, String pj, String pjnr, String pjzj, String xh, String bid) {
         Bxd b = new Bxd();
@@ -265,6 +278,9 @@ public class BxdServlet {
         return new ResponseData(true);
     }
 
+    /**
+     * 根据申报人学号，获取该申报人申报的报修单
+     */
     @ResponseBody
     private ResponseData sbr(String eid, String xh) {
         Map<String, Object> map = new HashMap<>();

@@ -60,6 +60,12 @@ public class ShyServlet {
         }
     }
 
+    /**
+     * 当审核员1或者审核员2处理报修单，则根据该报修单id，来进行更新处理结果
+     * 其他更新条件：
+     * 1.如果耗材了，则在报修单表加上耗材内容
+     * 2.如果接单人消耗工时了，则在报修单表加上消耗的工时
+     */
     private ResponseData upbxdhcbyshy(String bid, String hc, String gs, String ybid) {
         Bxd b = new Bxd();
         if(bid==null||ybid==null){
@@ -76,6 +82,9 @@ public class ShyServlet {
                 : new ResponseData("该审核员无法修改此报修单") ;
     }
 
+    /**
+     * 根据审核员id，查询该审核员的所有签到表
+     */
     private ResponseData selqdb(String num, String page, String ybid) {
         Qdb q = new Qdb();
         int num2=30;
@@ -98,6 +107,9 @@ public class ShyServlet {
         return new ResponseData(map);
     }
 
+    /**
+     * 插入一条审核员的签到数据到签到表
+     */
     private ResponseData qd(String ybid, String xq, String state) {
         if("0".equals(xq))
         {
@@ -112,6 +124,10 @@ public class ShyServlet {
         return qs.qd(q) ? new ResponseData(true) : new ResponseData("db error") ;
     }
 
+    /**
+     * 当审核员1或者审核员2处理报修单，则根据该报修单id，来进行更新处理结果
+     * 并查询该报修单是否已经真正处理，然后推送结果给接单人
+     */
     private ResponseData upbxdbyshy(String shyid, String bid, String shystate) {
         if(shyid==null||bid==null||shystate==null){
             return new ResponseData("3");
@@ -153,6 +169,9 @@ public class ShyServlet {
         return new ResponseData(true);
     }
 
+    /**
+     * 更新报修单的状态，并通知处理该报修单的接单人
+     */
     private ResponseData upbxdbyysr(String shyid, String bid, String tstate) {
         if(shyid==null||bid==null||tstate==null){
             return new ResponseData("3");
@@ -183,6 +202,11 @@ public class ShyServlet {
         return new ResponseData(true);
     }
 
+    /**
+     * 根据审核员id，获得该审核员  处理  过的报修单。报修单不包括已撤回的
+     * 处理 = 审核通过 | 审核不通过
+     * 如果二维码id不为空，获得的报修单是该二维码区域的
+     */
     private ResponseData selbxdbyshy(String shyid, String eid, String shystate) {
         String ybid = shyid;
         if(ybid==null){

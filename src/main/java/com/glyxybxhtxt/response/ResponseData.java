@@ -33,10 +33,10 @@ public class ResponseData implements Serializable {
 
     /**
      * 返回错误信息info统一为：
-     * 0未登录授权请登录，
-     * 1程序错误请刷新，
-     * 2无效参数，
-     * 3缺少传递必要参数
+     * 0：未登录授权请登录，
+     * 1：程序错误请刷新，
+     * 2：无效参数，
+     * 3：缺少传递必要参数
      * 其余的info就自己定义
      * @param info
      */

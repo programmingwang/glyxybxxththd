@@ -35,6 +35,9 @@ public class BxqyServlet {
         }
     }
 
+    /**
+     * 根据报修区域id，获取该报修区域的数据
+     */
     @ResponseBody
     private ResponseData selqybyid(String qid){
         Map<String,Object> map = new HashMap<>();

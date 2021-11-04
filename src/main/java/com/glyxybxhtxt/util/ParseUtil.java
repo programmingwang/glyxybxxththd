@@ -28,7 +28,7 @@ public class ParseUtil {
     private HcService hs;
 
     /**
-     * 解析bxlb参数，把数字转为中文，返回给前端
+     * 解析报修类别参数，把数字转为中文，返回给前端
      * @param beforeBxlb 数字-数字。如2-2，3-1
      * @return
      */

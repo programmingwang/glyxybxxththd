@@ -20,6 +20,9 @@ public class VideoController {
 
     private static String PATH_FOLDER = PathUtil.getUploadPath();
 
+    /**
+     * 视频上传处理
+     */
     @PostMapping(value = "/video-upload")
     public ResponseData uploadVideo(@RequestParam("file") MultipartFile file){
         if (file.isEmpty()) {
@@ -39,6 +42,9 @@ public class VideoController {
         return new ResponseData("上传失败！");
     }
 
+    /**
+     * 视频删除处理
+     */
     @DeleteMapping(value = "delvideo")
     public ResponseData delVideo(@RequestParam String fileName){
         String reg = "(mp4|flv|avi|rm|rmvb|wmv)";

@@ -25,6 +25,10 @@ public class DictController {
     @Resource
     IDictService dictService;
 
+    /**
+     * 获取维修类别
+     * 根据字符串解析为中文
+     */
     @RequestMapping(value = "/getAllWxlb",method = RequestMethod.GET)
     public ResponseData getAllWxlb(){
         //所有的大类别 dict表中
