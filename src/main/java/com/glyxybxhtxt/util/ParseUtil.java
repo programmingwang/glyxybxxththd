@@ -27,13 +27,18 @@ public class ParseUtil {
     @Resource
     private HcService hs;
 
-    //解析bxlb参数为正常显示给前端用户的值
+    /**
+     * 解析bxlb参数，把数字转为中文，返回给前端
+     * @param beforeBxlb 数字-数字。如2-2，3-1
+     * @return
+     */
     public String paraseBxlb(String beforeBxlb){
         //bxlb12[0]是dict表中的数据，第一级，大类别，例如：物业维修，热水维修。。。
         //bxlb12[1]是第二级数据，bxlb12[1]才是真正要给前台用户展示的
         String[] bxlb12 = beforeBxlb.split("-");
         String bxlb1 = bxlb12[0];
         String bxlb2 = bxlb12[1];
+        // 可进行重构
         switch (bxlb1){
             case "1" : bxlb1 = "wywx"; break;
             case "2" : bxlb1 = "sdwx"; break;
@@ -42,9 +47,12 @@ public class ParseUtil {
             case "5" : bxlb1 = "ktwx"; break;
             case "6" : bxlb1 = "qt"; break;
         }
+        // 数据库获取报修的内容：报修码和报修内容
         List<DictItem> xxbxlb = dict.getDictListByCode(bxlb1);
         for (DictItem dictItem : xxbxlb) {
+            // 如果第二个数字符合数据库的要求
             if(dictItem.getValue().equals(bxlb2)){
+                // 格式：报修类型-具体类型。如 物业报修-家具
                 return getzlb(bxlb1)+"-"+dictItem.getLabel();
             }
         }
@@ -53,6 +61,13 @@ public class ParseUtil {
 
     /**
      *
+     * beforeHc参数内容：
+     * 1.539-0.231|578-0.31
+     * 2.1-0.0000
+     * 3.123-1.01
+     * 4.228-1|252-1|返工耗材:388-1|383-1
+     * 5.294-1|320-1
+     * 
      * @param beforeHc 是数据库里的耗材表达
      * @return 解析hc为显示给用户的正常值
      */
@@ -103,7 +118,6 @@ public class ParseUtil {
         List<String> hcfl = Arrays.asList(beforeHc.split("\\|返工耗材:"));
         int i = 0;
         for (String allhc : hcfl) {
-
             //将多个耗材分割出来，例如2-1|3-2 分割成 2-1，3-2；做hc表的查询
             List<String> hcs = Arrays.asList(allhc.split("\\|"));
             for (String hc : hcs) {

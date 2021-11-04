@@ -19,7 +19,7 @@ public class EwmUtil {
 
     public static BufferedImage generateQRCodeImage(String text, int width, int height) throws WriterException, IOException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
-
+        // BarcodeFormat.QR_CODE：就是QR Code 2D barcode format。是二维码的条纹格式
         BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
 
 //        Path path = FileSystems.getDefault().getPath(QR_CODE_IMAGE_PATH);

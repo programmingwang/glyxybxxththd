@@ -3,13 +3,15 @@ package com.glyxybxhtxt.dataObject;
 import java.util.Date;
 
 public class Qdb {
+    // id ：
     private Integer id;
-
+    // 签到时间
     private Date qdsj;
-
+    // 审核员id
     private String shyid;
-
+    // 校区
     private String xq;
+    // 1签到，2签退
     private Integer state;
     
     public Integer getState() {

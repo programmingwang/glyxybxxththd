@@ -4,20 +4,25 @@ import lombok.ToString;
 
 @ToString
 public class Jdr {
+    // 易班id
     private String ybid;
-
+    // 工号
     private String gh;
-
+    // 姓名
     private String xm;
-
+    // 手机
     private String sj;
-
+    // 邮箱
     private String yx;
-
+    // 1在职，2休假，3离职
     private String state;
+    // （业务范围）1,2,4,8,16,32,64
     private String ywfw;
+    // 
     private int zjds;
+    
     private int dqds;
+    
     private int pjpj;
     
 	public int getZjds() {
