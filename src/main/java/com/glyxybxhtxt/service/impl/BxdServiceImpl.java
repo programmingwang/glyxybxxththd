@@ -163,7 +163,7 @@ public class BxdServiceImpl implements BxdService {
     }
 
     /**
-     * 根绝报修单id，删除该报修单
+     * 根据报修单id，删除该报修单
      */
     @Override
     @Transactional(rollbackFor = Exception.class)

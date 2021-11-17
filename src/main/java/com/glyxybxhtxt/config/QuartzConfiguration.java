@@ -1,9 +1,6 @@
 package com.glyxybxhtxt.config;
 
-import com.glyxybxhtxt.util.quartzUtils.BxdCheckTask;
-import com.glyxybxhtxt.util.quartzUtils.FgAndPjTask;
-import com.glyxybxhtxt.util.quartzUtils.OrderListener;
-import com.glyxybxhtxt.util.quartzUtils.ShyCheck;
+import com.glyxybxhtxt.util.quartzUtils.*;
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
 import org.springframework.context.annotation.Bean;
@@ -161,16 +158,42 @@ public class QuartzConfiguration {
         return trigger;
     }
 
+    // 定时任务，早上六点自动签到
+    @Bean("autoAck")
+    public MethodInvokingJobDetailFactoryBean autoAck(AutoSignInTask autoAckTask) {
+        MethodInvokingJobDetailFactoryBean jobDetail = new MethodInvokingJobDetailFactoryBean();
+        // 是否并发执行
+        jobDetail.setConcurrent(true);
+        // 为需要执行的实体类对应的对象
+        jobDetail.setTargetObject(autoAckTask);
+        // 需要执行的方法
+        jobDetail.setTargetMethod("autoAck");
+        return jobDetail;
+    }
+    // 配置触发器5
+    @Bean(name = "autoAckTrigger")
+    public CronTriggerFactoryBean autoAckTrigger(JobDetail autoAck) {
+        CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
+        trigger.setJobDetail(autoAck);
+        // 设置定时任务启动时间
+        trigger.setStartTime(new Date());
+        //构建CronTrigger（触发器）实例,每天凌晨 6.00 触发一次
+        // cron表达式
+        trigger.setCronExpression("0 00 06 * * ?");
+        return trigger;
+    }
+
     // 配置Scheduler
     @Bean(name = "scheduler")
-    public SchedulerFactoryBean schedulerFactory(Trigger firstTrigger, Trigger secondTrigger, Trigger thirdTrigger, Trigger forthTrigger) {
+    public SchedulerFactoryBean schedulerFactory(Trigger firstTrigger, Trigger secondTrigger, Trigger thirdTrigger, Trigger forthTrigger, Trigger autoAckTrigger) {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
         // 延时启动，应用启动1秒后
         bean.setStartupDelay(1);
         // 注册触发器
-        bean.setTriggers(firstTrigger, secondTrigger, thirdTrigger, forthTrigger);
+        bean.setTriggers(firstTrigger, secondTrigger, thirdTrigger, forthTrigger, autoAckTrigger);
         return bean;
     }
+    
 
 
 }

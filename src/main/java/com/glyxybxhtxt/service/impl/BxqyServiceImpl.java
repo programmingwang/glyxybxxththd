@@ -63,6 +63,9 @@ public class BxqyServiceImpl implements BxqyService {
         return bxqyMapper.updateByPrimaryKeySelective(q) == 1;
     }
 
+    /**
+     * 根据二维码id，查询该二维码数据
+     */
     @Override
     public Bxqy selByEwmId(Integer eid) {
         return bxqyMapper.selByEwmId(eid);

@@ -86,7 +86,10 @@ public class AdminServlet {
             default: return new ResponseData(false);
         }
     }
-    
+
+    /**
+     * 获得首页数据
+     */
     private ResponseData adminindex() {
         Map<String,Object> map = new HashMap<>();
         int zbxd = bs.allcount();

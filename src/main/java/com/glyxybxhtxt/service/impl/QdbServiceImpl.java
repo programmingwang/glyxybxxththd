@@ -29,6 +29,8 @@ public class QdbServiceImpl implements QdbService {
 
     /**
      * 插入一条审核员的签到数据到签到表
+     * 数据库的字段是 shyid，其实也包括了接单人的易班 id
+     * 也就是这个方法是审核员和接单人共用的 签到接口
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
