@@ -13,6 +13,7 @@ import java.util.List;
  * Version: 1.0
  */
 @Data
+// 维修类别，存储如物业维修、热随维修、家电维修、空调维修等信息
 public class DictItemTree implements Serializable {
     private String value;
     private String label;

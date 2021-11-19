@@ -18,6 +18,12 @@ public class Service {
     @Autowired
     private JdrMapper mapper2;
 
+    /**
+     * 通过易班id，获取该id的个人信息，并通过工号判断属于哪类人
+     * 1：申报人
+     * 2：接单人
+     * 3：审核员
+     */
     public int getsf(String ybid){
         Shy s = mapper.selectByPrimaryKey(ybid);
         Jdr j = mapper2.selectByPrimaryKey(ybid);

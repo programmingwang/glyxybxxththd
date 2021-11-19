@@ -4,17 +4,21 @@ import java.util.List;
 
 
 public class Bxqy {
+    // id ：
     private Integer id;
-
+    // 区域名称
     private String qy;
-
+    // 区域类别
     private String qylb;
-
+    // 校区
     private String xq;
-
+    // 后台管理x坐标
     private String x;
+    // 后台管理Y坐标
     private String y;
+    // 二维码集合
     private List<Ewm> ewm;
+    // 保修单集合
     private List<Bxd> b;
     private int countb;
 

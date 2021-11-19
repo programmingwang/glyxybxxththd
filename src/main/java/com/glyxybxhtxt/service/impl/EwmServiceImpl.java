@@ -19,35 +19,51 @@ public class EwmServiceImpl implements EwmService {
     @Resource
     private EwmMapper ewmMapper;
 
+    /**
+     * 根据区域id，查询该区域的二维码数据
+     */
     @Override
     public List<Ewm> selewm(int qid) {
         return ewmMapper.selewm(qid);
     }
 
+    /**
+     * 根据二维码id，查询该二维码的数据
+     */
     @Override
     public Ewm selqyidbyewm(int eid) {
         return ewmMapper.selqyid(eid);
     }
 
+    /**
+     * 根据二维码id，查询该二维码和所在的报修区域的数据
+     */
     @Override
     public Ewm selqybysbr(int eid) {
         return ewmMapper.selqybysbr(eid);
     }
 
+    /**
+     * 插入一个二维码
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean newewm(Ewm ew) {
         return ewmMapper.insert(ew) == 1;
     }
 
+    /**
+     * 更新一个二维码
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean upewm(Ewm ew) {
         return ewmMapper.updateByPrimaryKeySelective(ew) == 1;
     }
 
-
-
+    /**
+     * 获得二维码的详细地点信息
+     */
     @Override
     public String selxxwz(int eid) {
         StringBuffer ewmxxdd = new StringBuffer();
@@ -55,12 +71,17 @@ public class EwmServiceImpl implements EwmService {
         ewmxxdd.append(ewm.getQy().getXq()).append(",").append(ewm.getQy().getQy()).append(",").append(ewm.getXxdd()).append(".");
         return ewmxxdd.toString();
     }
-
+    /**
+     * 根据二维码id，获取该二维码的数据
+     */
     @Override
     public Ewm selById(Integer eid) {
         return ewmMapper.selectByPrimaryKey(eid);
     }
 
+    /**
+     * 根据二维码id范围，更新范围内的二维码所处的区域
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int updQidyAdmin(Integer qid, Integer startId, Integer endId) {

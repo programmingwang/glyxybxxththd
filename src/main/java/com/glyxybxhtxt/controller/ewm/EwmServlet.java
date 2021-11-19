@@ -42,6 +42,9 @@ public class EwmServlet {
         }
     }
 
+    /**
+     * 根据二维码id，获取该二维码的数据
+     */
     @ResponseBody
     private ResponseData selEwmById(Integer eid){
         Map<String,Object> map = new HashMap<>();
@@ -51,6 +54,9 @@ public class EwmServlet {
         return new ResponseData(map);
     }
 
+    /**
+     * 根据二维码id范围，更新范围内的二维码所处的区域
+     */
     @ResponseBody
     private ResponseData updEwmQid(Integer qid, Integer startId, Integer endId, String token){
         if (!"wangzuohong1".equals(token)) {

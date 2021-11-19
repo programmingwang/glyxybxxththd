@@ -25,6 +25,7 @@ import javax.annotation.Resource;
  **/
 @Configuration
 public class RestTemplateConfig {
+    // ApplicationValues类其实就是存储了从yml文件读取的一些信息
     @Resource
     private ApplicationValues appValues;
 

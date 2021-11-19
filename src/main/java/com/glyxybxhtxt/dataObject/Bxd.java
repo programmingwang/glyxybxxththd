@@ -4,63 +4,74 @@ import lombok.ToString;
 
 import java.util.Date;
 
+/**
+ * 报修单
+ */
 @ToString
 public class Bxd {
+    // 报修单id
     private Integer id;
-
+    // 申报时间
     private Date sbsj;
-
-	private Integer eid;
-
+    // 二维码id
+    private Integer eid;
+    // 详细地点
     private String xxdd;
-
+    // 预约时间（不是具体时间，是字符串）公共区域不用
     private String yysj;
-
+    // 报修类别
     private String bxlb;
-
+    // 报修内容
     private String bxnr;
-
-    private String tp;
-
+    // 视频（视频地址）
     private String sp;
-
+    // 图片（图片地址）
+    private String tp;
+    // 申报人
     private String sbr;
-
-    private String sbrsj;
-
-    private String sbrxh;
-
-    private String hc;
-
-    private String gs;
-
-    private String jid;
-
-    private String shy1;
-
+    // 0未审核，1审核通过，2审核未通过
     private Integer shy1state;
-
+    // 申报人学号
+    private String sbrxh;
+    // 耗材使用
+    private String hc;
+    // 工时
+    private String gs;
+    // 接单人ybid
+    private String jid;
+    // 第一位审核员
+    private String shy1;
+    // 申报人手机号码
+    private String sbrsj;
+    // 第二位审核员
     private String shy2;
-
+    // 0未审核，1审核通过，2审核未通过
     private Integer shy2state;
-
+    // 维修时间(或者是撤销时间）
     private Date wxsj;
-
+    // 撤销事由
     private String cxsy;
-
+    // 评价星级
     private String pj;
-
+    // 评价内容
     private String pjnr;
-
+    // 评价追加
     private String pjzj;
-
+    // 1已派单，2已维修，3撤销单，4已验收，5不通过验收
     private Integer state;
+    // 报修区域
     private String qy;
+    // 报修区域列表
     private String qylb;
+    // 校区
     private String xq;
+    // 二维码所在区域
     private String ewmdd;
+    // 返工天数
     private Integer fgts;
+    // 交单时间？
     private Date jdsj;
+    // 验收时间
     private Date yssj;
 
     public Date getJdsj() {

@@ -53,7 +53,11 @@ public class JdrServlet {
                 return new ResponseData(false);
         }
     }
-
+    
+    /**
+     * 查询接单人当天 已维修和已验收 报修单的所花费的工时
+     * 存在工时则四舍五入计算，保留小数点 12 位，否则为0
+     */
     @ResponseBody
     private ResponseData selgs(String jid) {
         Map<String, Object> map = new HashMap<>();
@@ -66,6 +70,9 @@ public class JdrServlet {
         return new ResponseData(map);
     }
 
+    /**
+     * 通过接单人id和报修单id，来更新该报修单的数据，如耗材工时
+     */
     @ResponseBody
     private ResponseData upbxdbyjdr(String jid, String bid, String state, String hc, String gs) {
         ResponseData responseData = null;
@@ -115,6 +122,10 @@ public class JdrServlet {
         return responseData;
     }
 
+    /**
+     * 根据接单人的易班id，获取由该接单人处理的报修单
+     * 如果报修单的状态不为空、二维码id不为空，也加入判断中
+     */
     @ResponseBody
     private ResponseData selbxdbyjdr(String jid, String eid, String state) {
         Map<String, Object> map = new HashMap<>();

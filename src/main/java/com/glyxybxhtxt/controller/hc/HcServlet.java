@@ -53,6 +53,9 @@ public class HcServlet {
         }
     }
 
+    /**
+     * 根据一级类别和二级类别获取耗材表的数据
+     */
     @ResponseBody
     private ResponseData selHcByLb(String yjlb, String ejlb) {
         if (org.apache.commons.lang3.StringUtils.isAllBlank(yjlb, ejlb)) {
@@ -67,6 +70,9 @@ public class HcServlet {
         return new ResponseData(hcs);
     }
 
+    /**
+     * 插入一条耗材数据
+     */
     @ResponseBody
     private ResponseData newhc(String mc, String dw, String jg, String lb, String xh) {
         Hc h = new Hc();
@@ -79,6 +85,9 @@ public class HcServlet {
 
     }
 
+    /**
+     * 更新一条耗材数据
+     */
     @ResponseBody
     private ResponseData uphc(String id, String mc, String dw, String jg, String lb, String xh) {
         Hc h = new Hc();
@@ -91,10 +100,16 @@ public class HcServlet {
         return hs.uphc(h) == 1 ? new ResponseData(true) : new ResponseData("db error");
     }
 
+    /**
+     * 删除一条耗材数据
+     */
     private ResponseData delhc(String id) {
         return hs.delhc(Integer.parseInt(id)) == 1 ? new ResponseData(true) : new ResponseData("db error");
     }
 
+    /**
+     * 查询所有耗材表的数据
+     */
     private ResponseData selhc() {
         Map<String, List> map = new HashMap<>();
         map.put("hlist", hs.selall());

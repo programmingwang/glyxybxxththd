@@ -53,6 +53,7 @@ public class BxdCheckTask {
             bxd.setJdsj(new Date());
             bxd.setId(wpdbxd.getId());
             bs.upbxdbyadmin(bxd);
+            // 易班推送
             ybmsg.msgpush(jid,"您有新的维修订单了，请及时处理！详细地点："+es.selxxwz(wpdbxd.getEid()) + "报修内容："+ wpdbxd.getBxnr());
         });
         log.info("未派单工单轮询结束");

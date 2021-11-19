@@ -87,6 +87,9 @@ public class AdminServlet {
         }
     }
 
+    /**
+     * 获得首页数据
+     */
     private ResponseData adminindex() {
         Map<String,Object> map = new HashMap<>();
         int zbxd = bs.allcount();
@@ -96,11 +99,13 @@ public class AdminServlet {
         int zzwx = bs.selnumforstate(1) + bs.selnumforstate(5);
         //撤销的单
         int zcxd = bs.selnumforstate(3);
+        // 获取一些不同状态的报修单数量
         map.put("tj", bs.tj());
         map.put("zbxd", zbxd);
         map.put("zwxd", zwxd);
         map.put("zcxd", zcxd);
         map.put("zzwx", zzwx);
+        // 查询不同评价星级的报修单总和
         map.put("pj1", bs.selnumforpj(1));
         map.put("pj2", bs.selnumforpj(2));
         map.put("pj3", bs.selnumforpj(3));
@@ -109,6 +114,9 @@ public class AdminServlet {
         return new ResponseData(map);
     }
 
+    /**
+     * 获取报修单总数
+     */
     private ResponseData bxnum(String state) {
         Map<String,Object> map = new HashMap<>();
         int count = bs.selnumforstate(Integer.parseInt(state));
@@ -117,6 +125,9 @@ public class AdminServlet {
         return new ResponseData(map);
     }
 
+    /**
+     * 插入二维码到数据库
+     */
     private ResponseData newewm(String qid, String xxdd) {
         Ewm e = new Ewm();
         e.setQid(Integer.parseInt(qid));
@@ -124,6 +135,9 @@ public class AdminServlet {
         return es.newewm(e) ? new ResponseData(true) : new ResponseData(false);
     }
 
+    /**
+     * 插入一个报修区域到数据
+     */
     private ResponseData newqy(String qy, String qylb, String xq, String x, String y) {
         if("0".equals(xq))
         {
@@ -140,6 +154,9 @@ public class AdminServlet {
         return qs.newqy(q) ? new ResponseData(true) : new ResponseData(false);
     }
 
+    /**
+     * 更新二维码到数据库
+     */
     private ResponseData upewm(String eid, String qid, String xxdd) {
         Ewm e = new Ewm();
         e.setId(Integer.parseInt(eid));
@@ -148,6 +165,9 @@ public class AdminServlet {
         return es.upewm(e)? new ResponseData(true) : new ResponseData(false);
     }
 
+    /**
+     * 更新报修区域到数据库
+     */
     private ResponseData upqy(String qid, String qy, String qylb, String xq, String x, String y) {
         if("0".equals(xq))
         {
@@ -165,12 +185,22 @@ public class AdminServlet {
         return qs.upqy(q)? new ResponseData(true) : new ResponseData(false);
     }
 
+    /**
+     * 查询一个二维码数据
+     */
     private ResponseData selewm(String qid) {
         Map<String, Object> map = new HashMap<>();
         map.put("ewmlist", es.selewm(Integer.parseInt(qid)));
         return new ResponseData(map);
     }
 
+    /**
+     * 根据条件：
+     * 删除一个审核员
+     * 修改一个审核员
+     * 删除一个接单人
+     * 修改一个接单人
+     */
     private ResponseData uppeople(String jid, String xm, String shyid, String del, String zw, String sj, String yx, String ywfw, String state) {
         ResponseData responseData = null;
         if(jid==null){
@@ -205,6 +235,11 @@ public class AdminServlet {
         return responseData;
     }
 
+    /**
+     * 根据条件：
+     * 添加一个审核员
+     * 添加一个接单人
+     */
     private ResponseData newpeople(String y, String ybid, String gh, String xm, String zw, String sj, String yx) {
         ResponseData responseData = null;
         if(ybid==null||gh==null||xm==null){
@@ -235,6 +270,10 @@ public class AdminServlet {
         return responseData;
     }
 
+    /**
+     * 分配或者审核报修单
+     * 更新该报修单到数据库
+     */
     private ResponseData upbxdbyadmin(String del, String bid, String jid, String shy1, String shy2, String pj, String pjnr, String hc, String gs) {
         ResponseData responseData = null;
         Bxd b = new Bxd();
@@ -279,6 +318,9 @@ public class AdminServlet {
         return responseData;
     }
 
+    /**
+     * 查询某个审核员的签到表数据
+     */
     private ResponseData selqdb(String shyid,String num) {
         if(shyid==null){
             return new ResponseData("3");
@@ -289,10 +331,14 @@ public class AdminServlet {
         }
         q.setShyid(shyid);
         Map<String, Object> map = new HashMap<>();
+        // 查询一个审核员的签到表
         map.put("qdblist", qdbs.selallqy(q));
         return new ResponseData(map);
     }
 
+    /**
+     * 查询接单人的数据
+     */
     private ResponseData selalljdr(String state) {
         Map<String,Object> map = new HashMap<>();
         List<String> states = null;
@@ -304,8 +350,12 @@ public class AdminServlet {
         return new ResponseData(map);
     }
 
+    /**
+     * 查询适合的接单人
+     */
     private ResponseData selOptimaljdrPC(String bid) {
         Integer bxdid = Integer.parseInt(bid);
+        // 据报修单id，查询该报修单的全部信息
         Bxd selonebxd = bs.selonebxd(bxdid);
         String bxlb = selonebxd.getBxlb();
         Integer eid = selonebxd.getEid();
@@ -315,6 +365,9 @@ public class AdminServlet {
         return new ResponseData(map);
     }
 
+    /**
+     * 获取某个报修区域的数据
+     */
     private ResponseData selallqy(String xq) {
         if(xq==null){
             Map<String,Object> map = new HashMap<>();
@@ -342,7 +395,7 @@ public class AdminServlet {
             return new ResponseData(map);
         }
     }
-
+    
     private ResponseData selbxdbyadmin(String bid, String startime, String endtime, String xq, String qy, String jdr, String state, String pj) throws ParseException {
         Bxd b = new Bxd();
         if(bid!=null)b.setId(Integer.parseInt(bid));
@@ -371,6 +424,7 @@ public class AdminServlet {
         if(state!=null)b.setState(Integer.parseInt(state));
         b.setPj(pj);
         List<Bxd> blist = bs.selbxdbyadmin(b);
+        // 为什么遍历一遍呢？
         for (Bxd bxd : blist) {
             bxd.setBxlb(parse.paraseBxlb(bxd.getBxlb()));
             bxd.setS1(ss.selOneShy(bxd.getShy1()));

@@ -15,12 +15,15 @@ import java.util.Map;
 /**
  * Author:wangzh
  * Date: 2020/12/4 16:35
- * Version: 1.0
+ * Version: 1.0 
  */
 @RestController
 public class Info {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 从session获取用户的信息
+     */
     @RequestMapping("/Info")
     @ResponseBody
     public ResponseData info(HttpServletRequest request) throws UnsupportedEncodingException {
